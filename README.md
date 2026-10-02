@@ -1,2 +1,2 @@
 # ARE-Audio-Renderer
-High-quality ASIO-compatible renderer for MPC-HC
+Highest-quality ASIO-compatible renderer for MPC-HC
