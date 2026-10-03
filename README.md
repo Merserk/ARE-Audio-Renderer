@@ -2,8 +2,6 @@
 
 **ASIO audio output for [MPC-HC](https://github.com/clsid2/mpc-hc), with precise, configurable sample rate conversion.**
 
-Version **0.1.0** · Windows 10 / 11 · x64 / x86 · By **Merserk**
-
 ARE Audio Renderer connects decoded PCM audio to your ASIO device through a
 DirectShow renderer. Choose r8brain or SoX conversion, control the output format,
 and inspect the active audio path from the properties page.
