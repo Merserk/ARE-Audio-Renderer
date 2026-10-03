@@ -1,0 +1,29 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "windows-x64",
+      "displayName": "Windows x64 / Visual Studio 2026",
+      "generator": "Visual Studio 18 2026",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/out/x64",
+      "cacheVariables": { "BUILD_TESTING": "ON" }
+    },
+    {
+      "name": "windows-x86",
+      "displayName": "Windows x86 / Visual Studio 2026",
+      "inherits": "windows-x64",
+      "architecture": "Win32",
+      "binaryDir": "${sourceDir}/out/x86"
+    }
+  ],
+  "buildPresets": [
+    { "name": "release-x64", "configurePreset": "windows-x64", "configuration": "Release" },
+    { "name": "release-x86", "configurePreset": "windows-x86", "configuration": "Release" }
+  ],
+  "testPresets": [
+    { "name": "test-x64", "configurePreset": "windows-x64", "configuration": "Release", "output": { "outputOnFailure": true } },
+    { "name": "test-x86", "configurePreset": "windows-x86", "configuration": "Release", "output": { "outputOnFailure": true } }
+  ]
+}

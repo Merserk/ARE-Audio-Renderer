@@ -1,0 +1,21 @@
+SoX Resampler Library (libsoxr) 0.1.3, latest upstream master as checked 2026-10-02.
+Repository: https://git.code.sf.net/p/soxr/code
+Mirror: https://github.com/chirlu/soxr
+Commit: 945b592b70470e29f917f4de89b4281fbbd540c0
+Required upstream DSP sources, headers, config template, and license notices
+are included unmodified. Build adaptation is in
+../soxr-build, using current CMake, C11, static CRT and runtime-dispatched
+double-precision AVX with a scalar fallback. No single-precision engine,
+variable-rate engine, OpenMP or libsamplerate compatibility layer is built.
+
+Sinc configuration: 33-bit design precision (maximum supported), Float64
+input/output and arithmetic, high-precision clock, linear phase, passband
+end 0.998 Nyquist and stopband start 1.0 Nyquist (minimum supported 0.2%
+transition bandwidth), SOXR_ROLLOFF_NONE for a flat Chebyshev passband,
+no aliasing allowance. Filtering precedes final PCM
+quantization and runs outside the ASIO callback.
+
+LGPL-2.1-or-later. See LICENCE and COPYING.LGPL. FFT notices for binary
+redistribution are collected in ../soxr-build/FFT-NOTICES.txt. The complete
+source and CMake build accompany the renderer so this static library can be
+modified and the renderer rebuilt/relinked with the modified library.

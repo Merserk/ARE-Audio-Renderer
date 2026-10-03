@@ -1,0 +1,160 @@
+diff --git a/src/DSUtil/DSUtil.cpp b/src/DSUtil/DSUtil.cpp
+index 7ddff07..ab2bf7d 100644
+--- a/src/DSUtil/DSUtil.cpp
++++ b/src/DSUtil/DSUtil.cpp
+@@ -129,12 +129,22 @@ bool IsVideoRenderer(IBaseFilter* pBF)
+     return false;
+ }
+ 
+-bool IsAudioWaveRenderer(IBaseFilter* pBF)
+-{
+-    int nIn, nOut, nInC, nOutC;
+-    CountPins(pBF, nIn, nOut, nInC, nOutC);
+-
+-    if (nInC > 0 && nOut == 0 && CComQIPtr<IBasicAudio>(pBF)) {
++bool IsAudioWaveRenderer(IBaseFilter* pBF)
++{
++    int nIn, nOut, nInC, nOutC;
++    CountPins(pBF, nIn, nOut, nInC, nOutC);
++
++    // Recognize third-party renderers before their input pin is connected.
++    // The audio switcher checks this when establishing that connection.
++    if (nIn > 0 && nOut == 0 && CComQIPtr<IBasicAudio>(pBF)) {
++        if (CComQIPtr<IAMFilterMiscFlags> flags = pBF) {
++            if (flags->GetMiscFlags() & AM_FILTER_MISC_FLAGS_IS_RENDERER) {
++                return true;
++            }
++        }
++    }
++
++    if (nInC > 0 && nOut == 0 && CComQIPtr<IBasicAudio>(pBF)) {
+         BeginEnumPins(pBF, pEP, pPin) {
+             AM_MEDIA_TYPE mt;
+             if (S_OK != pPin->ConnectionMediaType(&mt)) {
+diff --git a/src/mpc-hc/MainFrm.cpp b/src/mpc-hc/MainFrm.cpp
+index 4d9d1af..26eee37 100644
+--- a/src/mpc-hc/MainFrm.cpp
++++ b/src/mpc-hc/MainFrm.cpp
+@@ -10595,9 +10595,16 @@ void CMainFrame::OnPlayFiltersCopyToClipboard()
+     VERIFY(clipboard.SetText(filtersList));
+ }
+ 
+-bool CMainFrame::FilterSettingsByClassID(CLSID clsid, CWnd* parent)
+-{
+-    for (int a = 0; a < m_pparray.GetCount(); a++) {
++bool CMainFrame::FilterSettingsByClassID(CLSID clsid, CWnd* parent)
++{
++    // The Filters menu cache may not exist until that menu has been opened.
++    if (m_pGB) {
++        if (CComPtr<IBaseFilter> filter = FindFilter(clsid, m_pGB)) {
++            FilterSettings(CComPtr<IUnknown>(filter), parent);
++            return true;
++        }
++    }
++    for (int a = 0; a < m_pparray.GetCount(); a++) {
+         CComQIPtr<IBaseFilter> pBF2 = m_pparray[a];
+         if (pBF2) {
+             CLSID tclsid;
+@@ -10611,8 +10618,8 @@ bool CMainFrame::FilterSettingsByClassID(CLSID clsid, CWnd* parent)
+     return false;
+ }
+ 
+-void CMainFrame::FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent) {
+-    CComPropertySheet ps(IDS_PROPSHEET_PROPERTIES);
++void CMainFrame::FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent) {
++    CComPropertySheet ps(IDS_PROPSHEET_PROPERTIES, parent);
+ 
+     CComQIPtr<IBaseFilter> pBF = pUnk;
+     CLSID clsid = GetCLSID(pBF);
+diff --git a/src/mpc-hc/PPageOutput.cpp b/src/mpc-hc/PPageOutput.cpp
+index 4adac9d..77d67ec 100644
+--- a/src/mpc-hc/PPageOutput.cpp
++++ b/src/mpc-hc/PPageOutput.cpp
+@@ -466,8 +466,36 @@ void CPPageOutput::OpenVideoRendererSettings() {
+     }
+ }
+ 
+-void CPPageOutput::OnUpdateAudioRendererSettings(CCmdUI* pCmdUI) {
+-    pCmdUI->Enable(m_iAudioRendererType == m_iMPCAudioRendererType || m_iAudioRendererType == m_iSaneAudioRendererType);
++void CPPageOutput::UpdateAudioRendererSettings() {
++    if (m_iAudioRendererSettingsType == m_iAudioRendererType) {
++        return;
++    }
++    m_iAudioRendererSettingsType = m_iAudioRendererType;
++    m_pAudioRendererSettings.Release();
++    if (m_iAudioRendererType < 0 || m_iAudioRendererType >= m_AudioRendererDisplayNames.GetCount()
++            || m_iAudioRendererType == m_iMPCAudioRendererType || m_iAudioRendererType == m_iSaneAudioRendererType
++            || GetAudioRendererDisplayName().IsEmpty()) {
++        return;
++    }
++    CFGFilterRegistry renderer(GetAudioRendererDisplayName());
++    CInterfaceList<IUnknown, &IID_IUnknown> unused;
++    CComPtr<IBaseFilter> filter;
++    if (SUCCEEDED(renderer.Create(&filter, unused))) {
++        if (CComQIPtr<ISpecifyPropertyPages> pages = filter) {
++            CAUUID ids = {};
++            const HRESULT hr = pages->GetPages(&ids);
++            if (SUCCEEDED(hr) && ids.cElems > 0 && ids.pElems) {
++                m_pAudioRendererSettings = filter;
++            }
++            CoTaskMemFree(ids.pElems);
++        }
++    }
++}
++
++void CPPageOutput::OnUpdateAudioRendererSettings(CCmdUI* pCmdUI) {
++    UpdateAudioRendererSettings();
++    pCmdUI->Enable(m_iAudioRendererType == m_iMPCAudioRendererType || m_iAudioRendererType == m_iSaneAudioRendererType
++                  || m_pAudioRendererSettings != nullptr);
+ }
+ 
+ void CPPageOutput::OpenAudioRendererSettings() {
+@@ -477,10 +505,19 @@ void CPPageOutput::OpenAudioRendererSettings() {
+         CPPageAudioRenderer page;
+         CMPCThemePropertySheet dlg(IDS_PPAGE_OUTPUT_AUDIO_RENDERER_SETTINGS, this);
+         dlg.m_psh.dwFlags |= PSH_NOAPPLYNOW;
+-        dlg.AddPage(&page);
+-        dlg.DoModal();
+-    }
+-}
++        dlg.AddPage(&page);
++        dlg.DoModal();
++    } else {
++        UpdateAudioRendererSettings();
++        if (m_pAudioRendererSettings) {
++            auto main = AfxGetMainFrame();
++            // Use the active graph object so status pages reflect actual playback.
++            if (!main->FilterSettingsByClassID(GetCLSID(m_pAudioRendererSettings), this)) {
++                main->FilterSettings(CComPtr<IUnknown>(m_pAudioRendererSettings), this);
++            }
++        }
++    }
++}
+ 
+ void CPPageOutput::OnDSRendererChange()
+ {
+diff --git a/src/mpc-hc/PPageOutput.h b/src/mpc-hc/PPageOutput.h
+index 47e208f..0efd501 100644
+--- a/src/mpc-hc/PPageOutput.h
++++ b/src/mpc-hc/PPageOutput.h
+@@ -34,7 +34,9 @@ class CPPageOutput : public CMPCThemePPageBase
+     DECLARE_DYNAMIC(CPPageOutput)
+ 
+ private:
+-    CStringArray m_AudioRendererDisplayNames;
++    CStringArray m_AudioRendererDisplayNames;
++    int m_iAudioRendererSettingsType = -1;
++    CComPtr<IBaseFilter> m_pAudioRendererSettings;
+     HICON m_tick, m_cross, m_warn;
+ 
+     CMPCThemeComboBox m_iDSVideoRendererTypeCtrl;
+@@ -43,7 +45,8 @@ private:
+ 
+     CStatic m_iDSSupportIcon;
+ 
+-    void UpdateSubtitleRendererList();
++    void UpdateSubtitleRendererList();
++    void UpdateAudioRendererSettings();
+ 
+     UINT GetRendererTooltipID() const;
+     void UpdateStatusIcon();

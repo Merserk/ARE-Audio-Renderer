@@ -1,0 +1,8 @@
+Copyright Takuya OOURA, 1996-2001
+https://www.kurims.kyoto-u.ac.jp/~ooura/fft.html
+
+Ooura permits use, copying, modification and distribution for any purpose,
+including commercial use, without fee; modifications must reference the package.
+
+r8brain's fft/fft4g.h wraps and modifies these double-precision FFT routines.
+Its original copyright, package reference and modification notice are retained.

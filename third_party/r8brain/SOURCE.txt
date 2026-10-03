@@ -1,0 +1,6 @@
+r8brain-free-src 7.6
+https://github.com/avaneev/r8brain-free-src
+Commit: cb2abb9977efe2471979b380ed95daa56ab4fdb9
+MIT license; bundled Ooura double-precision FFT retains its header notice.
+Unmodified headers and Ooura FFT are vendored for offline, reproducible builds.
+Sample rate converter designed by Aleksey Vaneev of Voxengo.

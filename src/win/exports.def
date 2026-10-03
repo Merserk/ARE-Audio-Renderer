@@ -1,0 +1,6 @@
+LIBRARY "ARE-Audio-Renderer"
+EXPORTS
+    DllGetClassObject PRIVATE
+    DllCanUnloadNow PRIVATE
+    DllRegisterServer PRIVATE
+    DllUnregisterServer PRIVATE

@@ -1,0 +1,41 @@
+#include <windows.h>
+#include "resource.h"
+
+IDD_SETTINGS DIALOGEX 0, 0, 330, 342
+STYLE DS_SETFONT | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 9, "Segoe UI"
+BEGIN
+    LTEXT "ASIO device", -1, 10, 10, 95, 12
+    COMBOBOX IDC_DEVICE, 10, 25, 310, 105, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT "First output channel", -1, 10, 49, 156, 12
+    EDITTEXT IDC_CHANNEL, 10, 64, 60, 12, ES_NUMBER | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT "Buffer size", -1, 174, 49, 146, 12
+    COMBOBOX IDC_BUFFER, 174, 64, 146, 105, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT "Output bit depth", -1, 10, 88, 156, 12
+    COMBOBOX IDC_PCM_BITS, 174, 85, 146, 75, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT "Sample rate converter", -1, 10, 108, 156, 12
+    COMBOBOX IDC_SRC_ALGORITHM, 174, 105, 146, 60, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL "Keep device sample rate (resample audio)", IDC_KEEP_RATE,
+        "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 130, 310, 14
+    CONTROL "Smooth playback transitions", IDC_SMOOTH,
+        "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 146, 310, 14
+    LTEXT "Windows audio sharing depends on the ASIO driver.", IDC_NOTE, 10, 166, 310, 18
+    LTEXT "Playback status", -1, 10, 190, 310, 12
+    LTEXT "Playback", -1, 10, 209, 64, 12
+    LTEXT "No playback", IDC_PLAYBACK, 80, 209, 240, 12
+    LTEXT "Volume", -1, 10, 224, 64, 12
+    LTEXT "Inactive", IDC_GAIN, 80, 224, 240, 12
+    LTEXT "Input", -1, 10, 239, 64, 12
+    LTEXT "Inactive", IDC_INPUT_FORMAT, 80, 239, 240, 12
+    LTEXT "Output", -1, 10, 254, 64, 12
+    LTEXT "Inactive", IDC_OUTPUT_FORMAT, 80, 254, 240, 12
+    LTEXT "Sample rate", -1, 10, 269, 64, 12
+    LTEXT "Inactive", IDC_SAMPLE_RATE, 80, 269, 240, 12
+    LTEXT "Buffer / latency", -1, 10, 284, 64, 12
+    LTEXT "Inactive", IDC_BUFFER_STATUS, 80, 284, 240, 12
+    LTEXT "Inactive", IDC_ACTIVITY, 10, 299, 310, 12
+    LTEXT "Start playback to see output details.", IDC_STATUS, 10, 316, 310, 24
+END
+
+#include "version.rc"
