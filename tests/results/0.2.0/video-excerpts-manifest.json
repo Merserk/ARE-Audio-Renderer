@@ -1,0 +1,62 @@
+[
+    {
+        "source":  "1.mkv",
+        "track":  0,
+        "profile":  null,
+        "start_seconds":  60,
+        "layout":  "5.1(side)",
+        "rate":  "48000",
+        "codec":  "eac3",
+        "duration_seconds":  8,
+        "channels":  6,
+        "file":  "1-track0.mka"
+    },
+    {
+        "source":  "1.mkv",
+        "track":  1,
+        "profile":  null,
+        "start_seconds":  60,
+        "layout":  "5.1(side)",
+        "rate":  "48000",
+        "codec":  "eac3",
+        "duration_seconds":  8,
+        "channels":  6,
+        "file":  "1-track1.mka"
+    },
+    {
+        "source":  "2.mkv",
+        "track":  0,
+        "profile":  null,
+        "start_seconds":  60,
+        "layout":  "5.1(side)",
+        "rate":  "48000",
+        "codec":  "ac3",
+        "duration_seconds":  8,
+        "channels":  6,
+        "file":  "2-track0.mka"
+    },
+    {
+        "source":  "2.mkv",
+        "track":  1,
+        "profile":  null,
+        "start_seconds":  60,
+        "layout":  "5.1(side)",
+        "rate":  "48000",
+        "codec":  "ac3",
+        "duration_seconds":  8,
+        "channels":  6,
+        "file":  "2-track1.mka"
+    },
+    {
+        "source":  "2.mkv",
+        "track":  2,
+        "profile":  "Dolby Digital Plus + Dolby Atmos",
+        "start_seconds":  60,
+        "layout":  "5.1(side)",
+        "rate":  "48000",
+        "codec":  "eac3",
+        "duration_seconds":  8,
+        "channels":  6,
+        "file":  "2-track2.mka"
+    }
+]

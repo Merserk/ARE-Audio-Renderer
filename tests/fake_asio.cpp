@@ -43,6 +43,8 @@ ASIOError FakeASIO::getSampleRate(ASIOSampleRate* rate) { check_thread(); *rate 
 ASIOError FakeASIO::setSampleRate(ASIOSampleRate rate) { check_thread(); ++rate_changes; if (!config_.rates_supported) return ASE_NoClock; config_.sample_rate = rate; return ASE_OK; }
 ASIOError FakeASIO::getChannelInfo(ASIOChannelInfo* info) { check_thread(); info->type = config_.type; info->isActive = ASIOTrue; strcpy_s(info->name, "Test output"); return ASE_OK; }
 ASIOError FakeASIO::createBuffers(ASIOBufferInfo* buffers, long channels, long size, ASIOCallbacks* callbacks) {
+    if (channels <= 0 || channels > config_.output_channels) return ASE_InvalidParameter;
+    for (long c = 0; c < channels; ++c) if (buffers[c].isInput || buffers[c].channelNum < 0 || buffers[c].channelNum >= config_.output_channels) return ASE_InvalidParameter;
     for (std::size_t c=0;c<32;++c) { nonzero[c].store(0); peaks[c].store(0); }
     check_thread(); buffer_size_ = size; callbacks_ = callbacks; next_index_ = 0; position_ = 0;
     const auto format = asio_format(config_.type); if (!format) return ASE_InvalidMode;

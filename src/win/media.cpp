@@ -6,10 +6,17 @@
 
 namespace are::win {
 std::optional<SourceFormat> parse_media_type(const AM_MEDIA_TYPE& mt) noexcept {
-    if (mt.majortype != MEDIATYPE_Audio || mt.formattype != FORMAT_WaveFormatEx || !mt.pbFormat || mt.cbFormat < sizeof(WAVEFORMATEX)) return {};
+    constexpr auto pcm_header_size = offsetof(WAVEFORMATEX, cbSize);
+    if (mt.majortype != MEDIATYPE_Audio || mt.formattype != FORMAT_WaveFormatEx || !mt.pbFormat || mt.cbFormat < pcm_header_size) return {};
     WAVEFORMATEX wave{};
-    std::memcpy(&wave, mt.pbFormat, sizeof(wave));
-    if (std::size_t(wave.cbSize) + sizeof(wave) > mt.cbFormat) return {};
+    if (mt.cbFormat < sizeof(wave)) {
+        if (mt.cbFormat != pcm_header_size) return {};
+        std::memcpy(&wave, mt.pbFormat, pcm_header_size);
+        if (wave.wFormatTag != WAVE_FORMAT_PCM) return {};
+    } else {
+        std::memcpy(&wave, mt.pbFormat, sizeof(wave));
+        if (std::size_t(wave.cbSize) + sizeof(wave) > mt.cbFormat) return {};
+    }
     SourceFormat result;
     result.rate = wave.nSamplesPerSec;
     result.channels = wave.nChannels;

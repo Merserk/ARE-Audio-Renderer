@@ -17,6 +17,7 @@ ARE Audio Renderer connects decoded PCM audio to your ASIO device through a
 DirectShow renderer. Choose r8brain or SoX conversion, control the output format,
 and inspect the active audio path from the properties page.
 
+- **Play mono and surround.** Mono feeds both stereo outputs; multichannel PCM is preserved or mixed to the device's available outputs.
 - **Keep the device sample rate.** Resampling is enabled by default for new settings; existing preferences are preserved.
 - **Choose the conversion engine.** r8brain and SoX Sinc both process audio in Float64 with linear phase filters.
 - **Inspect playback.** See input/output formats, sample rates, buffer latency, conversion status and underrun counters.
@@ -26,8 +27,8 @@ and inspect the active audio path from the properties page.
 
 | MPC-HC architecture | Release package |
 | --- | --- |
-| 64-bit | [ARE-Audio-Renderer-0.1.0-x64.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.1.0/ARE-Audio-Renderer-0.1.0-x64.zip) |
-| 32-bit | [ARE-Audio-Renderer-0.1.0-x86.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.1.0/ARE-Audio-Renderer-0.1.0-x86.zip) |
+| 64-bit | [ARE-Audio-Renderer-0.2.0-x64.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.2.0/ARE-Audio-Renderer-0.2.0-x64.zip) |
+| 32-bit | [ARE-Audio-Renderer-0.2.0-x86.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.2.0/ARE-Audio-Renderer-0.2.0-x86.zip) |
 
 Use the package matching **MPC-HC**, and install an ASIO driver of the same
 architecture. Obtain MPC-HC separately from its [official releases](https://github.com/clsid2/mpc-hc/releases).
@@ -46,6 +47,53 @@ Renderer** entry, or use **ARE-Audio-Renderer-Settings.exe**. Windows audio shar
 depends on the ASIO driver. For unregistration, run **Uninstall.bat** from the
 installed or extracted folder.
 
+## Mono, stereo and surround
+
+
+Version 0.2.0 automatically adapts decoded audio to the outputs available from
+the selected ASIO channel. Mono plays through both outputs on a stereo device;
+stereo keeps its exact channel path. A device with enough outputs retains every
+surround channel in WAVE speaker-mask order, starting at the selected first
+channel. A smaller device receives a stereo downmix, or mono when only one
+output remains. Unused extra device outputs are not opened.
+
+The downmix includes center dialogue, rear/side/height speakers and LFE. Center
+and surround contributions use -3 dB; LFE uses -6 dB before a common matrix
+attenuation provides headroom for coherent full-scale channels. This can make
+surround playback quieter than stereo. Mixing runs in Float64 on the producer
+thread, before SRC, playback speed, volume, fades and final PCM quantization.
+Native surround and mono duplication retain the exact sample path when rates,
+volume and output precision allow it. Downmixing changes sample values.
+
+The properties page shows mappings such as **6 channels → Stereo** and
+**Mono → Stereo**, and identifies channel downmixing in the status footer.
+The first ASIO output must exist; an invalid selection still reports an error.
+
+ARE receives PCM from the player's decoder. The LAV integration tests cover:
+
+| Source format | Tested source layouts |
+| --- | --- |
+| WAV: PCM16/24/32, Float32/64 | Mono, stereo, 5.1; PCM24 also quad and 7.1 |
+| AIFF: big-endian PCM16/24/32 | Mono, stereo, 5.1 |
+| ALAC | Mono, stereo, 5.1, 7.1 wide |
+| MP3 | Mono, stereo; MP3 does not encode discrete 5.1/7.1 |
+| AAC: ADTS and M4A/MP4 | Mono, stereo, 5.1; M4A also 7.1 |
+| AC3 / Dolby Digital; E-AC3 / Dolby Digital Plus | Mono, stereo, 5.1 |
+| Dolby TrueHD; DTS | Mono, stereo, 5.1 |
+| Opus; Vorbis; FLAC; WavPack | Mono, stereo, 5.1, 7.1 |
+| WMA | Mono, stereo |
+
+These codecs are decoded upstream; ARE accepts validated interleaved integer
+PCM and Float32/64 with up to 32 channels. Configure LAV Audio to decode to PCM
+and disable compressed bitstream output when using ARE. Atmos-tagged E-AC3
+plays its decoded channel bed; object metadata and encoded Dolby/DTS/DSD/DoP
+passthrough are outside the PCM/ASIO path. TrueHD fixture coverage reaches 5.1;
+7.1 channel handling is tested independently using the other formats above.
+
+Release checks passed 592 codec/video graph cases across x64/x86 and eight clean
+physical ASIO captures. See [validation](VALIDATION.md) for the configurations,
+results and limits.
+
 ## Audio processing
 
 | Component | Configuration in this release |
@@ -62,6 +110,9 @@ compatible, playback is at normal speed and unity volume, and transition process
 is disabled. ARE renders decoded PCM; compressed bitstream passthrough is unsupported.
 
 ## Measured comparison
+
+The measurements below were recorded for version 0.1.0 on a stereo path.
+Version 0.2.0 channel and codec checks are documented in [VALIDATION.md](VALIDATION.md).
 
 <!-- measurement:start -->
 **117 live captures** · 13 signals / formats · three output paths · 3 repetitions per case.
@@ -123,8 +174,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Build.ps1
 ```
 
 The script builds and tests both architectures, then writes the two release ZIPs
-to `dist/0.1.0/`. Use `-Architecture x64` or `-Architecture x86` for one build.
-Release binaries use the static MSVC runtime. Both architectures passed all seven
+to `dist/0.2.0/`. Use `-Architecture x64` or `-Architecture x86` for one build.
+Release binaries use the static MSVC runtime. Both architectures passed all eight
 CTest checks covering PCM precision, conversion, playback rate, transitions,
 the ASIO engine and the DirectShow filter contract.
 

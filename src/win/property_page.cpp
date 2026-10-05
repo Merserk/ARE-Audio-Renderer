@@ -46,14 +46,15 @@ STDMETHODIMP SettingsPage::GetPageInfo(PROPPAGEINFO* info) {
     return S_OK;
 }
 STDMETHODIMP SettingsPage::SetObjects(ULONG count, IUnknown** objects) {
-    if (!count) { settings_.Reset(); live_status_.Reset(); playback_.Reset(); processing_.Reset(); resampling_.Reset(); seeking_.Reset(); return S_OK; }
+    if (!count) { settings_.Reset(); live_status_.Reset(); playback_.Reset(); processing_.Reset(); resampling_.Reset(); channels_.Reset(); seeking_.Reset(); return S_OK; }
     if (count != 1 || !objects || !objects[0]) return E_INVALIDARG;
-    settings_.Reset(); live_status_.Reset(); playback_.Reset(); processing_.Reset(); resampling_.Reset(); seeking_.Reset();
+    settings_.Reset(); live_status_.Reset(); playback_.Reset(); processing_.Reset(); resampling_.Reset(); channels_.Reset(); seeking_.Reset();
     const auto hr = objects[0]->QueryInterface(IID_PPV_ARGS(settings_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(live_status_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(playback_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(processing_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(resampling_.GetAddressOf()));
+    if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(channels_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(seeking_.GetAddressOf()));
     if (SUCCEEDED(hr) && window_) initialize();
     return hr;
@@ -153,7 +154,11 @@ void SettingsPage::refresh_status() {
     status_text(window_, IDC_INPUT_FORMAT, format_text(live.input));
     status_text(window_, IDC_OUTPUT_FORMAT, live.mixed_output ? L"Mixed formats" : conversion.pcm_bits && conversion.pcm_bits!=live.output.valid_bits
         ? std::format(L"{}-bit PCM (ASIO: {})",conversion.pcm_bits,format_text(live.output)) : format_text(live.output));
-    const auto channels=status.channels==1 ? std::wstring(L"Mono") : status.channels==2 ? std::wstring(L"Stereo") : std::format(L"{} channels",status.channels);
+    ChannelStatus routing{};
+    if (channels_) channels_->GetChannelStatus(&routing);
+    auto channels=status.channels==1 ? std::wstring(L"Mono") : status.channels==2 ? std::wstring(L"Stereo") : std::format(L"{} channels",status.channels);
+    if (routing.downmix || routing.mono_duplicate)
+        channels += routing.output_channels == 1 ? L" \u2192 Mono" : L" \u2192 Stereo";
     const auto rate=conversion.input_rate!=conversion.output_rate
         ? std::format(L"{:g} \u2192 {:g} kHz",conversion.input_rate/1000.0,conversion.output_rate/1000.0)
         : std::format(L"{:g} kHz",status.sample_rate/1000.0);
@@ -183,6 +188,8 @@ void SettingsPage::refresh_status() {
         if (speed!=1.0) add(L"playback speed");
         if (conversion.resampling && (speed==1.0 || conversion.input_rate!=conversion.output_rate)) add(std::format(L"{} resampling",src_name));
         if (conversion.precision_reduced) add(L"output conversion");
+        if (routing.downmix) add(L"channel downmix");
+        else if (routing.mono_duplicate) add(L"mono to both outputs");
         if (signal.volume_db100==-10000) add(L"mute");
         else if (signal.volume_db100!=0) add(L"volume adjustment");
         if (signal.transitioning) add(L"transition smoothing");

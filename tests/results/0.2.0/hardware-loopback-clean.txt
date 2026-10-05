@@ -1,0 +1,16 @@
+1-track0.wav
+are: 414720 captured frames at 48000 Hz; ASIO rate 44100; underruns 0
+1-track1.wav
+are: 414720 captured frames at 48000 Hz; ASIO rate 44100; underruns 0
+2-track0.wav
+are: 414720 captured frames at 48000 Hz; ASIO rate 44100; underruns 0
+2-track1.wav
+are: 414240 captured frames at 48000 Hz; ASIO rate 44100; underruns 0
+2-track2.wav
+are: 415680 captured frames at 48000 Hz; ASIO rate 44100; underruns 0
+wav-pcm16-mono.wav
+are: 91200 captured frames at 48000 Hz; ASIO rate 44100; underruns 0
+wav-pcm24-7.1.wav
+are: 90240 captured frames at 48000 Hz; ASIO rate 44100; underruns 0
+wav-pcm24-stereo.wav
+are: 90720 captured frames at 48000 Hz; ASIO rate 44100; underruns 0

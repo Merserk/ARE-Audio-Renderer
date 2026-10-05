@@ -103,7 +103,11 @@ HRESULT Engine::open_impl(const SourceFormat& format, const Settings& settings, 
     auto fail_close = [this](HRESULT code) { close_impl(); return code; };
     long inputs = 0, outputs = 0;
     if (FAILED(check_asio(driver_->getChannels(&inputs, &outputs), L"Read channels"))) return fail_close(error());
-    if (outputs < 0 || std::uint64_t(settings.first_channel) + format.channels > std::uint64_t(outputs)) return fail_close(fail(VFW_E_TYPE_NOT_ACCEPTED, L"The selected output range does not have enough channels. No automatic downmix is performed."));
+    if (outputs <= 0 || settings.first_channel >= UINT(outputs))
+        return fail_close(fail(VFW_E_TYPE_NOT_ACCEPTED, L"The selected first output channel is not available on this ASIO device."));
+    try { channel_mapper_.configure(format, std::uint16_t(std::min<UINT>(32, UINT(outputs) - settings.first_channel))); }
+    catch (const std::exception& exception) { return fail_close(fail(VFW_E_TYPE_NOT_ACCEPTED, widen(exception.what()))); }
+    const auto output_channels = channel_mapper_.output_channels();
     ASIOSampleRate rate = 0;
     if (FAILED(check_asio(driver_->getSampleRate(&rate), L"Read sample rate"))) return fail_close(error());
     if (!settings.keep_device_rate && (!std::isfinite(rate) || std::abs(rate - format.rate) > 0.01)) {
@@ -128,9 +132,9 @@ HRESULT Engine::open_impl(const SourceFormat& format, const Settings& settings, 
     else valid_size = false;
     if (!valid_size) return fail_close(fail(E_INVALIDARG, L"This buffer size is not supported by the driver. Select Driver default or a supported size."));
     buffer_frames_ = UINT(requested);
-    buffers_.resize(format.channels);
-    formats_.clear(); formats_.reserve(format.channels);
-    for (UINT c = 0; c < format.channels; ++c) {
+    buffers_.resize(output_channels);
+    formats_.clear(); formats_.reserve(output_channels);
+    for (UINT c = 0; c < output_channels; ++c) {
         ASIOChannelInfo info{}; info.channel = long(settings.first_channel + c); info.isInput = ASIOFalse;
         if (FAILED(check_asio(driver_->getChannelInfo(&info), L"Read output format"))) return fail_close(error());
         const auto output = asio_format(info.type);
@@ -148,12 +152,12 @@ HRESULT Engine::open_impl(const SourceFormat& format, const Settings& settings, 
     }
     try {
         configure_processing(playback_rate);
-        normalized_.assign(std::size_t(buffer_frames_)*format.channels,0);
+        normalized_.assign(std::size_t(buffer_frames_)*output_channels,0);
     } catch (const std::exception& error) {
         return fail_close(fail(E_FAIL,L"Cannot initialize sample processing: "+widen(error.what())));
     }
     producer_timestamp_=no_timestamp;
-    if (FAILED(check_asio(driver_->createBuffers(buffers_.data(), format.channels, requested, &callbacks_), L"Create ASIO buffers"))) return fail_close(error());
+    if (FAILED(check_asio(driver_->createBuffers(buffers_.data(), output_channels, requested, &callbacks_), L"Create ASIO buffers"))) return fail_close(error());
     buffers_created_ = true;
     for (std::size_t c = 0; c < buffers_.size(); ++c) {
         for (const auto p : buffers_[c].buffers) {
@@ -179,6 +183,8 @@ HRESULT Engine::open_impl(const SourceFormat& format, const Settings& settings, 
         : L"r8brain Float64 linear-phase SRC: 0.5% transition band / 218 dB stop-band target. Conversion is not bit-perfect."
         : precision_reduced_ ? L"Output format conversion. Integer quantization uses TPDF dither; converted audio is not bit-perfect."
         : L"Matching rates: SRC bypassed. Unity gain preserves steady samples; lower volume or smoothing modifies samples.";
+    if (channel_mapper_.downmix()) detail_ = std::format(L"{} channels mixed to {} with clipping headroom. Downmixing changes samples. ", source_.channels, output_channels) + detail_;
+    else if (channel_mapper_.duplicate_mono()) detail_ = L"Mono duplicated to both stereo outputs. " + detail_;
     return S_OK;
 }
 void Engine::disable_consumer() {
@@ -257,10 +263,11 @@ void Engine::reset() {
 void Engine::configure_processing(double rate) {
     // One Float64 conversion handles both playback speed and the device rate.
     // No overlap/time stretching: the pitch follows speed like DirectSound.
-    converter_.configure(source_,output_rate_,resampling_.algorithm,rate);
+    const auto processing_format = channel_mapper_.processing_format();
+    converter_.configure(processing_format,output_rate_,resampling_.algorithm,rate);
     queue_format_=converter_.active()
-        ? SourceFormat{SampleKind::float64,output_rate_,source_.channels,64,64,source_.channel_mask} : source_;
-    quantize_input_=precision_reduced_ || converter_.active();
+        ? SourceFormat{SampleKind::float64,output_rate_,processing_format.channels,64,64,processing_format.channel_mask} : processing_format;
+    quantize_input_=precision_reduced_ || converter_.active() || channel_mapper_.downmix();
     queue_.configure(std::max<std::size_t>(output_rate_ / 4,std::size_t(buffer_frames_)*8),queue_format_.frame_bytes());
     playback_rate_=rate;
 }
@@ -280,20 +287,22 @@ HRESULT Engine::submit(std::span<const std::byte> input, REFERENCE_TIME timestam
     if (input.size() % source_.frame_bytes()) return VFW_E_TYPE_NOT_ACCEPTED;
     if (eos_.load(std::memory_order_acquire)) return VFW_E_SAMPLE_REJECTED_EOS;
     if (producer_timestamp_==no_timestamp) producer_timestamp_=timestamp;
-    if (!converter_.active()) return enqueue(input,timestamp);
+    if (!converter_.active() && !channel_mapper_.downmix()) return enqueue(input,timestamp);
     try {
         while (!input.empty()) {
             if (!accepting_.load(std::memory_order_acquire)) return S_FALSE;
             if (FAILED(error())) return error();
-            const auto bytes=std::min(input.size(),converter_.block_frames()*source_.frame_bytes());
-            const auto output=converter_.process(input.first(bytes));
-            const auto result=enqueue(std::as_bytes(output),producer_timestamp_);
+            const auto frames = converter_.active() ? converter_.block_frames() : ChannelMapper::block_frames;
+            const auto bytes=std::min(input.size(),std::min(frames,ChannelMapper::block_frames)*source_.frame_bytes());
+            const auto mapped = channel_mapper_.downmix() ? std::as_bytes(channel_mapper_.mix(input.first(bytes))) : input.first(bytes);
+            const auto output = converter_.active() ? std::as_bytes(converter_.process(mapped)) : mapped;
+            const auto result=enqueue(output,producer_timestamp_);
             if (result!=S_OK) return result;
             input=input.subspan(bytes);
         }
         return S_OK;
     } catch (const std::exception& exception) {
-        return invoke([this,message=std::string(exception.what())]{return fail(E_FAIL,L"Sample rate conversion failed: "+widen(message.c_str()));});
+        return invoke([this,message=std::string(exception.what())]{return fail(E_FAIL,L"Audio processing failed: "+widen(message.c_str()));});
     }
 }
 HRESULT Engine::end_of_stream() {
@@ -363,6 +372,12 @@ ProcessingStatus Engine::processing_status() {
 ResamplingStatus Engine::resampling_status() {
     return invoke([this]{ return ResamplingStatus{resampling_.algorithm,opened() && converter_.active(),FALSE}; });
 }
+ChannelStatus Engine::channel_status() {
+    return invoke([this] {
+        return opened() ? ChannelStatus{source_.channels, channel_mapper_.output_channels(), source_.channel_mask,
+            channel_mapper_.output_mask(), channel_mapper_.downmix(), channel_mapper_.duplicate_mono()} : ChannelStatus{};
+    });
+}
 void Engine::notifications() {
     const auto flags = notices_.exchange(0);
     if ((flags & notice_latency) && driver_) {
@@ -418,13 +433,14 @@ void Engine::render(long index, const ASIOTime* time) noexcept {
                 if (data.empty()) break;
                 const auto count = data.size() / queue_format_.frame_bytes();
                 for (std::size_t c = 0; c < buffers_.size(); ++c) {
+                    const auto source_channel = channel_mapper_.source_channel(std::uint16_t(c));
                     const auto bytes = formats_[c].sample_bytes();
                     auto* destination = static_cast<std::byte*>(buffers_[c].buffers[index]) + offset * bytes;
                     if (is_lossless(queue_format_,formats_[c]))
-                        convert_channel(queue_format_, formats_[c], data, std::uint16_t(c), {destination, count * bytes});
+                        convert_channel(queue_format_, formats_[c], data, source_channel, {destination, count * bytes});
                     else
                         for (std::size_t i=0; i<count; ++i)
-                            normalized_[c*buffer_frames_+offset+i]=normalized_sample(queue_format_,data.data()+i*queue_format_.frame_bytes()+c*queue_format_.sample_bytes());
+                            normalized_[c*buffer_frames_+offset+i]=normalized_sample(queue_format_,data.data()+i*queue_format_.frame_bytes()+source_channel*queue_format_.sample_bytes());
                 }
                 queue_.consume(count); delivered_.fetch_add(count, std::memory_order_release); offset += count;
             }

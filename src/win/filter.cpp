@@ -96,6 +96,7 @@ STDMETHODIMP Renderer::QueryInterface(REFIID iid, void** out) {
     else if (iid == __uuidof(IASIORenderPlayback)) *out = static_cast<IASIORenderPlayback*>(this);
     else if (iid == __uuidof(IASIORenderProcessing)) *out = static_cast<IASIORenderProcessing*>(this);
     else if (iid == __uuidof(IASIORenderResampling)) *out = static_cast<IASIORenderResampling*>(this);
+    else if (iid == __uuidof(IASIORenderChannels)) *out = static_cast<IASIORenderChannels*>(this);
     else if (iid == IID_IBasicAudio || iid == IID_IDispatch) *out = static_cast<IBasicAudio*>(this);
     else if (iid == IID_IMediaSeeking) *out = static_cast<IMediaSeeking*>(this);
     else if (iid == IID_IQualityControl) *out = static_cast<IQualityControl*>(this);
@@ -278,6 +279,12 @@ REFERENCE_TIME Renderer::graph_now() {
     ComPtr<IReferenceClock> clock;
     { std::lock_guard lock(info_mutex_); clock = sync_clock_; }
     REFERENCE_TIME now = timeline_->now(); if (clock) clock->GetTime(&now); return now;
+}
+STDMETHODIMP Renderer::GetChannelStatus(ChannelStatus* status) {
+    if (!status) return E_POINTER;
+    try {
+        std::lock_guard transition(transition_mutex_); *status = engine_.channel_status(); return S_OK;
+    } catch (...) { return E_OUTOFMEMORY; }
 }
 void Renderer::notify_event(long event, LONG_PTR first, LONG_PTR second) {
     ComPtr<IMediaEventSink> sink;

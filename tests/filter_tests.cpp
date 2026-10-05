@@ -120,6 +120,10 @@ int wmain(int argc, wchar_t** argv) {
             ComPtr<IASIORenderPlayback> playback; success(filter.As(&playback),"missing playback options interface");
             ComPtr<IASIORenderProcessing> processing; success(filter.As(&processing),"missing processing options interface");
             ComPtr<IASIORenderResampling> resampling; success(filter.As(&resampling),"missing SRC options interface");
+            ComPtr<IASIORenderChannels> channels; success(filter.As(&channels),"missing channel status interface");
+            require(channels->GetChannelStatus(nullptr)==E_POINTER,"channel status accepted null pointer");
+            ComPtr<IUnknown> channel_identity; channels.As(&channel_identity);
+            require(channel_identity.Get()==filter_identity.Get(),"channel interface broke COM identity");
             ComPtr<IUnknown> src_identity; resampling.As(&src_identity);
             require(src_identity.Get()==filter_identity.Get(),"SRC interface has a different COM identity");
             require(resampling->GetResamplingOptions(nullptr)==E_POINTER && resampling->SetResamplingOptions(nullptr)==E_POINTER && resampling->GetResamplingStatus(nullptr)==E_POINTER,"SRC interface accepted null pointers");
@@ -169,6 +173,8 @@ int wmain(int argc, wchar_t** argv) {
                 require(live.in_graph && live.connected && live.engine.opened && live.playback == State_Paused && !live.engine.playing,"paused status wrong");
                 require(live.input.valid_bits == 16 && live.input.container_bits == 16 && live.output.valid_bits == 32 && live.output.container_bits == 32,"live input/output depth wrong");
                 require(live.input.type == AudioSampleType::integer && live.output.type == AudioSampleType::integer && live.engine.sample_rate == 48000 && live.engine.channels == 2,"live format wrong");
+                ChannelStatus route{}; success(channels->GetChannelStatus(&route),"live channel status failed");
+                require(route.input_channels==2 && route.output_channels==2 && !route.downmix && !route.mono_duplicate,"native live channels wrong");
                 // Saving identical settings must not interrupt or reopen the active device.
                 success(settings->SetSettings(&stored),"active settings save failed");
                 success(live_status->GetLiveStatus(&live),"unchanged settings status failed");

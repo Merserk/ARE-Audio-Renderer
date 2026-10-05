@@ -9,7 +9,7 @@ inline constexpr CLSID clsid_settings_page{0x78f0f9fd,0x1857,0x45de,{0xb7,0xb1,0
 inline constexpr wchar_t renderer_name[] = L"ARE Audio Renderer";
 struct Settings {
     CLSID driver{};
-    UINT first_channel{}; // zero based; contiguous output routing, no mixing
+    UINT first_channel{}; // zero based; first contiguous ASIO output
     UINT buffer_frames{}; // zero means driver's preferred value
     BOOL keep_device_rate{TRUE};
 };
@@ -95,5 +95,14 @@ IASIORenderResampling : public IUnknown {
     virtual HRESULT STDMETHODCALLTYPE GetResamplingOptions(ResamplingOptions* options) = 0;
     virtual HRESULT STDMETHODCALLTYPE SetResamplingOptions(const ResamplingOptions* options) = 0;
     virtual HRESULT STDMETHODCALLTYPE GetResamplingStatus(ResamplingStatus* status) = 0;
+};
+struct ChannelStatus {
+    UINT input_channels{}, output_channels{}, input_mask{}, output_mask{};
+    BOOL downmix{}, mono_duplicate{};
+};
+// Separate interface keeps every existing settings/status ABI intact.
+MIDL_INTERFACE("9C411DD0-2F46-4385-9D3C-2ED27E91B731")
+IASIORenderChannels : public IUnknown {
+    virtual HRESULT STDMETHODCALLTYPE GetChannelStatus(ChannelStatus* status) = 0;
 };
 } // namespace are::win

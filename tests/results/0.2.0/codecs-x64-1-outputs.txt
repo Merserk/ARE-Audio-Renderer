@@ -1,0 +1,71 @@
+Device: 1 channels, 48000 Hz
+aac-adts-5.1.aac: PASS, 6 -> 1 channels, Float32, 48000 Hz, 61440 frames, peak 0.0369072, nonzero 61440, underruns 0
+aac-adts-mono.aac: PASS, 1 -> 1 channels, Float32, 48000 Hz, 61440 frames, peak 0.0406669, nonzero 61440, underruns 0
+aac-adts-stereo.aac: PASS, 2 -> 1 channels, Float32, 48000 Hz, 61440 frames, peak 0.040613, nonzero 61440, underruns 0
+aac-mp4-5.1.m4a: PASS, 6 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0369072, nonzero 60000, underruns 0
+aac-mp4-7.1.m4a: PASS, 8 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0335711, nonzero 60000, underruns 0
+aac-mp4-mono.m4a: PASS, 1 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0406669, nonzero 60000, underruns 0
+aac-mp4-stereo.m4a: PASS, 2 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.040613, nonzero 60000, underruns 0
+ac3-5.1-side.mka: PASS, 6 -> 1 channels, Float32, 48000 Hz, 58720 frames, peak 0.0368606, nonzero 58720, underruns 0
+ac3-mono.mka: PASS, 1 -> 1 channels, Float32, 48000 Hz, 58720 frames, peak 0.0414671, nonzero 58720, underruns 0
+ac3-stereo.mka: PASS, 2 -> 1 channels, Float32, 48000 Hz, 58720 frames, peak 0.039997, nonzero 58718, underruns 0
+aiff-pcm16-5.1.aiff: PASS, 6 -> 1 channels, PCM16, 48000 Hz, 60000 frames, peak 0.0368633, nonzero 59997, underruns 0
+aiff-pcm16-mono.aiff: PASS, 1 -> 1 channels, PCM16, 48000 Hz, 60000 frames, peak 0.0400085, nonzero 59987, underruns 0
+aiff-pcm16-stereo.aiff: PASS, 2 -> 1 channels, PCM16, 48000 Hz, 60000 frames, peak 0.0400085, nonzero 59945, underruns 0
+aiff-pcm24-5.1.aiff: PASS, 6 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59997, underruns 0
+aiff-pcm24-mono.aiff: PASS, 1 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0400001, nonzero 59997, underruns 0
+aiff-pcm24-stereo.aiff: PASS, 2 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.039996, nonzero 59997, underruns 0
+aiff-pcm32-5.1.aiff: PASS, 6 -> 1 channels, PCM32, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59997, underruns 0
+aiff-pcm32-mono.aiff: PASS, 1 -> 1 channels, PCM32, 48000 Hz, 60000 frames, peak 0.04, nonzero 59997, underruns 0
+aiff-pcm32-stereo.aiff: PASS, 2 -> 1 channels, PCM32, 48000 Hz, 60000 frames, peak 0.0399959, nonzero 59985, underruns 0
+alac-5.1.m4a: PASS, 6 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59997, underruns 0
+alac-7.1-wide.m4a: PASS, 8 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0334023, nonzero 59997, underruns 0
+alac-mono.m4a: PASS, 1 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0400001, nonzero 59997, underruns 0
+alac-stereo.m4a: PASS, 2 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.039996, nonzero 59997, underruns 0
+dts-5.1-side.mka: PASS, 6 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0340601, nonzero 59937, underruns 0
+dts-mono.mka: PASS, 1 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0400017, nonzero 59941, underruns 0
+dts-stereo.mka: PASS, 2 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.039999, nonzero 59938, underruns 0
+eac3-5.1-side.mka: PASS, 6 -> 1 channels, Float32, 48000 Hz, 58720 frames, peak 0.0368616, nonzero 58720, underruns 0
+eac3-mono.mka: PASS, 1 -> 1 channels, Float32, 48000 Hz, 58720 frames, peak 0.041467, nonzero 57952, underruns 0
+eac3-stereo.mka: PASS, 2 -> 1 channels, Float32, 48000 Hz, 58720 frames, peak 0.0399969, nonzero 58717, underruns 0
+flac-44100-5.1.flac: PASS, 6 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0368605, nonzero 60000, underruns 0
+flac-44100-7.1.flac: PASS, 8 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0334029, nonzero 60000, underruns 0
+flac-44100-mono.flac: PASS, 1 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0408287, nonzero 60000, underruns 0
+flac-44100-stereo.flac: PASS, 2 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0399961, nonzero 60000, underruns 0
+mp3-mono.mp3: PASS, 1 -> 1 channels, Float32, 48000 Hz, 58695 frames, peak 0.0417464, nonzero 58695, underruns 0
+mp3-stereo.mp3: PASS, 2 -> 1 channels, Float32, 48000 Hz, 58695 frames, peak 0.0387993, nonzero 58695, underruns 0
+opus-5.1.opus: PASS, 6 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0369681, nonzero 60000, underruns 0
+opus-7.1.opus: PASS, 8 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.033525, nonzero 60000, underruns 0
+opus-mono.opus: PASS, 1 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0414113, nonzero 60000, underruns 0
+opus-stereo.opus: PASS, 2 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0407925, nonzero 60000, underruns 0
+truehd-5.1-side.mka: PASS, 6 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59997, underruns 0
+truehd-mono.mka: PASS, 1 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0400001, nonzero 59997, underruns 0
+truehd-stereo.mka: PASS, 2 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.039996, nonzero 59997, underruns 0
+vorbis-5.1.ogg: PASS, 6 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0389701, nonzero 60000, underruns 0
+vorbis-7.1.ogg: PASS, 8 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0337965, nonzero 60000, underruns 0
+vorbis-mono.ogg: PASS, 1 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0413748, nonzero 60000, underruns 0
+vorbis-stereo.ogg: PASS, 2 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0405184, nonzero 60000, underruns 0
+wav-float32-5.1.wav: PASS, 6 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59998, underruns 0
+wav-float32-mono.wav: PASS, 1 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.04, nonzero 59998, underruns 0
+wav-float32-stereo.wav: PASS, 2 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0399959, nonzero 59985, underruns 0
+wav-float64-5.1.wav: PASS, 6 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59998, underruns 0
+wav-float64-mono.wav: PASS, 1 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.04, nonzero 59998, underruns 0
+wav-float64-stereo.wav: PASS, 2 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0399959, nonzero 59985, underruns 0
+wav-pcm16-5.1.wav: PASS, 6 -> 1 channels, PCM16, 48000 Hz, 60000 frames, peak 0.0368633, nonzero 59997, underruns 0
+wav-pcm16-mono.wav: PASS, 1 -> 1 channels, PCM16, 48000 Hz, 60000 frames, peak 0.0400085, nonzero 59987, underruns 0
+wav-pcm16-stereo.wav: PASS, 2 -> 1 channels, PCM16, 48000 Hz, 60000 frames, peak 0.0400085, nonzero 59945, underruns 0
+wav-pcm24-5.1.wav: PASS, 6 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59997, underruns 0
+wav-pcm24-7.1.wav: PASS, 8 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0334023, nonzero 59997, underruns 0
+wav-pcm24-mono.wav: PASS, 1 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0400001, nonzero 59997, underruns 0
+wav-pcm24-quad.wav: PASS, 4 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.0397538, nonzero 59997, underruns 0
+wav-pcm24-stereo.wav: PASS, 2 -> 1 channels, PCM24, 48000 Hz, 60000 frames, peak 0.039996, nonzero 59997, underruns 0
+wav-pcm32-5.1.wav: PASS, 6 -> 1 channels, PCM32, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59997, underruns 0
+wav-pcm32-mono.wav: PASS, 1 -> 1 channels, PCM32, 48000 Hz, 60000 frames, peak 0.04, nonzero 59997, underruns 0
+wav-pcm32-stereo.wav: PASS, 2 -> 1 channels, PCM32, 48000 Hz, 60000 frames, peak 0.0399959, nonzero 59985, underruns 0
+wavpack-5.1.wv: PASS, 6 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0368603, nonzero 59998, underruns 0
+wavpack-7.1.wv: PASS, 8 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0334023, nonzero 59998, underruns 0
+wavpack-mono.wv: PASS, 1 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.04, nonzero 59998, underruns 0
+wavpack-stereo.wv: PASS, 2 -> 1 channels, Float32, 48000 Hz, 60000 frames, peak 0.0399959, nonzero 59985, underruns 0
+wma-44100-mono.wma: PASS, 1 -> 1 channels, Float32, 48000 Hz, 55728 frames, peak 0.0425586, nonzero 55728, underruns 0
+wma-44100-stereo.wma: PASS, 2 -> 1 channels, Float32, 48000 Hz, 55728 frames, peak 0.0401234, nonzero 55728, underruns 0
+Result: 69 passed, 0 failed.

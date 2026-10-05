@@ -1,16 +1,18 @@
 from pathlib import Path
 import argparse
+import hashlib
 import os
 import re
 import stat
 import zipfile
 
 root = Path(__file__).resolve().parents[1]
-arguments = argparse.ArgumentParser(description="Package renderer binaries only; verify both archives.")
+arguments = argparse.ArgumentParser(description="Package and verify ARE release archives.")
 arguments.add_argument("--replace", action="store_true", help="Atomically replace existing release archives after CRC verification.")
 arguments.add_argument("--architecture", choices=("x64", "x86", "both"), default="both")
 arguments.add_argument("--staging-dir", type=Path, help="Directory containing x64/x86 install staging folders.")
 arguments.add_argument("--output-dir", type=Path, help="Destination for the two release ZIPs.")
+arguments.add_argument("--include-source", action="store_true", help="Also archive the complete source and vendored dependencies.")
 options = arguments.parse_args()
 version_match = re.search(r"project\(ASIORenderEngine VERSION (\d+\.\d+\.\d+)",
                           (root / "CMakeLists.txt").read_text(encoding="utf-8"))
@@ -62,4 +64,25 @@ for arch in (("x64", "x86") if options.architecture == "both" else (options.arch
     files = [(p, f"ARE-Audio-Renderer-{version}-{arch}/" + p.relative_to(package).as_posix())
              for p in sources]
     archive(f"ARE-Audio-Renderer-{version}-{arch}.zip", files)
+
+if options.include_source:
+    names = ("CMakeLists.txt", "CMakePresets.json", "README.md", "CHANGELOG.md",
+             "VALIDATION.md", "SOURCE.txt", "LICENSE", "THIRD_PARTY_NOTICES.md",
+             ".gitignore", ".editorconfig")
+    sources = [root / name for name in names if (root / name).is_file()]
+    for directory in ("src", "resources", "scripts", "tests", "third_party", "integration", "docs", ".github"):
+        sources.extend(sorted(p for p in (root / directory).rglob("*")
+                              if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"))
+    files = [(p, f"ARE-Audio-Renderer-{version}-source/" + p.relative_to(root).as_posix()) for p in sources]
+    archive(f"ARE-Audio-Renderer-{version}-source.zip", files)
+
+checksums = []
+for path in sorted(release.glob(f"ARE-Audio-Renderer-{version}-*.zip")):
+    with path.open("rb") as source:
+        digest = hashlib.file_digest(source, "sha256").hexdigest()
+    checksums.append(f"{digest}  {path.name}\n")
+temporary = release / "SHA256SUMS.txt.tmp"
+temporary.write_text("".join(checksums), encoding="ascii")
+temporary.replace(release / "SHA256SUMS.txt")
+print("Created SHA256SUMS.txt", flush=True)
 

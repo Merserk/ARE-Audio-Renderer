@@ -1,0 +1,554 @@
+[
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  1,
+        "codec":  "pcm_s16le",
+        "rate":  "48000",
+        "file":  "wav-pcm16-mono.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  2,
+        "codec":  "pcm_s16le",
+        "rate":  "48000",
+        "file":  "wav-pcm16-stereo.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "pcm_s16le",
+        "rate":  "48000",
+        "file":  "wav-pcm16-5.1.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "pcm_s24le",
+        "rate":  "48000",
+        "file":  "wav-pcm24-mono.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "pcm_s24le",
+        "rate":  "48000",
+        "file":  "wav-pcm24-stereo.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "quad",
+        "channels":  4,
+        "codec":  "pcm_s24le",
+        "rate":  "48000",
+        "file":  "wav-pcm24-quad.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "pcm_s24le",
+        "rate":  "48000",
+        "file":  "wav-pcm24-5.1.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "7.1",
+        "channels":  8,
+        "codec":  "pcm_s24le",
+        "rate":  "48000",
+        "file":  "wav-pcm24-7.1.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "pcm_s32le",
+        "rate":  "48000",
+        "file":  "wav-pcm32-mono.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "pcm_s32le",
+        "rate":  "48000",
+        "file":  "wav-pcm32-stereo.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "pcm_s32le",
+        "rate":  "48000",
+        "file":  "wav-pcm32-5.1.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  1,
+        "codec":  "pcm_f32le",
+        "rate":  "48000",
+        "file":  "wav-float32-mono.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  2,
+        "codec":  "pcm_f32le",
+        "rate":  "48000",
+        "file":  "wav-float32-stereo.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "pcm_f32le",
+        "rate":  "48000",
+        "file":  "wav-float32-5.1.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  1,
+        "codec":  "pcm_f64le",
+        "rate":  "48000",
+        "file":  "wav-float64-mono.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  2,
+        "codec":  "pcm_f64le",
+        "rate":  "48000",
+        "file":  "wav-float64-stereo.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "pcm_f64le",
+        "rate":  "48000",
+        "file":  "wav-float64-5.1.wav"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  1,
+        "codec":  "pcm_s16be",
+        "rate":  "48000",
+        "file":  "aiff-pcm16-mono.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  2,
+        "codec":  "pcm_s16be",
+        "rate":  "48000",
+        "file":  "aiff-pcm16-stereo.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1(side)",
+        "channels":  6,
+        "codec":  "pcm_s16be",
+        "rate":  "48000",
+        "file":  "aiff-pcm16-5.1.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  1,
+        "codec":  "pcm_s24be",
+        "rate":  "48000",
+        "file":  "aiff-pcm24-mono.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  2,
+        "codec":  "pcm_s24be",
+        "rate":  "48000",
+        "file":  "aiff-pcm24-stereo.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1(side)",
+        "channels":  6,
+        "codec":  "pcm_s24be",
+        "rate":  "48000",
+        "file":  "aiff-pcm24-5.1.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  1,
+        "codec":  "pcm_s32be",
+        "rate":  "48000",
+        "file":  "aiff-pcm32-mono.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  2,
+        "codec":  "pcm_s32be",
+        "rate":  "48000",
+        "file":  "aiff-pcm32-stereo.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1(side)",
+        "channels":  6,
+        "codec":  "pcm_s32be",
+        "rate":  "48000",
+        "file":  "aiff-pcm32-5.1.aiff"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "alac",
+        "rate":  "48000",
+        "file":  "alac-mono.m4a"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "alac",
+        "rate":  "48000",
+        "file":  "alac-stereo.m4a"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "alac",
+        "rate":  "48000",
+        "file":  "alac-5.1.m4a"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "7.1(wide)",
+        "channels":  8,
+        "codec":  "alac",
+        "rate":  "48000",
+        "file":  "alac-7.1-wide.m4a"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "mp3",
+        "rate":  "44100",
+        "file":  "mp3-mono.mp3"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "mp3",
+        "rate":  "44100",
+        "file":  "mp3-stereo.mp3"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "aac",
+        "rate":  "48000",
+        "file":  "aac-adts-mono.aac"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "aac",
+        "rate":  "48000",
+        "file":  "aac-adts-stereo.aac"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "aac",
+        "rate":  "48000",
+        "file":  "aac-adts-5.1.aac"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "aac",
+        "rate":  "48000",
+        "file":  "aac-mp4-mono.m4a"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "aac",
+        "rate":  "48000",
+        "file":  "aac-mp4-stereo.m4a"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "aac",
+        "rate":  "48000",
+        "file":  "aac-mp4-5.1.m4a"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "7.1",
+        "channels":  8,
+        "codec":  "aac",
+        "rate":  "48000",
+        "file":  "aac-mp4-7.1.m4a"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "ac3",
+        "rate":  "48000",
+        "file":  "ac3-mono.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "ac3",
+        "rate":  "48000",
+        "file":  "ac3-stereo.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1(side)",
+        "channels":  6,
+        "codec":  "ac3",
+        "rate":  "48000",
+        "file":  "ac3-5.1-side.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "eac3",
+        "rate":  "48000",
+        "file":  "eac3-mono.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "eac3",
+        "rate":  "48000",
+        "file":  "eac3-stereo.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1(side)",
+        "channels":  6,
+        "codec":  "eac3",
+        "rate":  "48000",
+        "file":  "eac3-5.1-side.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "truehd",
+        "rate":  "48000",
+        "file":  "truehd-mono.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "truehd",
+        "rate":  "48000",
+        "file":  "truehd-stereo.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1(side)",
+        "channels":  6,
+        "codec":  "truehd",
+        "rate":  "48000",
+        "file":  "truehd-5.1-side.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "dts",
+        "rate":  "48000",
+        "file":  "dts-mono.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "dts",
+        "rate":  "48000",
+        "file":  "dts-stereo.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1(side)",
+        "channels":  6,
+        "codec":  "dts",
+        "rate":  "48000",
+        "file":  "dts-5.1-side.mka"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "opus",
+        "rate":  "48000",
+        "file":  "opus-mono.opus"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "opus",
+        "rate":  "48000",
+        "file":  "opus-stereo.opus"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "opus",
+        "rate":  "48000",
+        "file":  "opus-5.1.opus"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "7.1",
+        "channels":  8,
+        "codec":  "opus",
+        "rate":  "48000",
+        "file":  "opus-7.1.opus"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "vorbis",
+        "rate":  "48000",
+        "file":  "vorbis-mono.ogg"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "vorbis",
+        "rate":  "48000",
+        "file":  "vorbis-stereo.ogg"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "vorbis",
+        "rate":  "48000",
+        "file":  "vorbis-5.1.ogg"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "7.1",
+        "channels":  8,
+        "codec":  "vorbis",
+        "rate":  "48000",
+        "file":  "vorbis-7.1.ogg"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "flac",
+        "rate":  "44100",
+        "file":  "flac-44100-mono.flac"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "flac",
+        "rate":  "44100",
+        "file":  "flac-44100-stereo.flac"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "flac",
+        "rate":  "44100",
+        "file":  "flac-44100-5.1.flac"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "7.1",
+        "channels":  8,
+        "codec":  "flac",
+        "rate":  "44100",
+        "file":  "flac-44100-7.1.flac"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "mono",
+        "channels":  1,
+        "codec":  "wavpack",
+        "rate":  "48000",
+        "file":  "wavpack-mono.wv"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "stereo",
+        "channels":  2,
+        "codec":  "wavpack",
+        "rate":  "48000",
+        "file":  "wavpack-stereo.wv"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "5.1",
+        "channels":  6,
+        "codec":  "wavpack",
+        "rate":  "48000",
+        "file":  "wavpack-5.1.wv"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  "7.1",
+        "channels":  8,
+        "codec":  "wavpack",
+        "rate":  "48000",
+        "file":  "wavpack-7.1.wv"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  1,
+        "codec":  "wmav2",
+        "rate":  "44100",
+        "file":  "wma-44100-mono.wma"
+    },
+    {
+        "seconds":  1.25,
+        "layout":  null,
+        "channels":  2,
+        "codec":  "wmav2",
+        "rate":  "44100",
+        "file":  "wma-44100-stereo.wma"
+    }
+]

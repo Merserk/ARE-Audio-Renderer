@@ -1,4 +1,5 @@
 #pragma once
+#include "core/channel_mapper.hpp"
 #include "win/clock.hpp"
 #include "win/interfaces.hpp"
 #include "core/format.hpp"
@@ -44,6 +45,7 @@ public:
     LiveStatus live_status();
     ProcessingStatus processing_status();
     ResamplingStatus resampling_status();
+    ChannelStatus channel_status();
 private:
     template<class F> auto invoke(F&& action) -> std::invoke_result_t<F> {
         using R = std::invoke_result_t<F>;
@@ -81,6 +83,7 @@ private:
     ComPtr<IASIO> driver_; // accessed by apartment, plus outputReady in ASIO callback
     HWND driver_window_{};
     SourceFormat source_{};
+    ChannelMapper channel_mapper_;
     SourceFormat queue_format_{};
     UINT output_rate_{};
     ProcessingOptions processing_{};

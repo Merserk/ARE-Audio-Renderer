@@ -48,7 +48,7 @@ private:
 };
 
 class Renderer final : public IBaseFilter, public IAMFilterMiscFlags,
-                       public ISpecifyPropertyPages, public IASIORenderSettings, public IASIORenderStatus, public IASIORenderPlayback, public IASIORenderProcessing, public IASIORenderResampling,
+                       public ISpecifyPropertyPages, public IASIORenderSettings, public IASIORenderStatus, public IASIORenderPlayback, public IASIORenderProcessing, public IASIORenderResampling, public IASIORenderChannels,
                        public IBasicAudio, public IMediaSeeking, public IQualityControl, public IReferenceClock {
 public:
     Renderer();
@@ -82,6 +82,7 @@ public:
     STDMETHODIMP GetResamplingOptions(ResamplingOptions* options) override;
     STDMETHODIMP SetResamplingOptions(const ResamplingOptions* options) override;
     STDMETHODIMP GetResamplingStatus(ResamplingStatus* status) override;
+    STDMETHODIMP GetChannelStatus(ChannelStatus* status) override;
     STDMETHODIMP GetTypeInfoCount(UINT* count) override;
     STDMETHODIMP GetTypeInfo(UINT, LCID, ITypeInfo**) override { return E_NOTIMPL; }
     STDMETHODIMP GetIDsOfNames(REFIID, LPOLESTR*, UINT, LCID, DISPID*) override { return E_NOTIMPL; }

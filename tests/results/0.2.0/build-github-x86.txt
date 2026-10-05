@@ -1,0 +1,134 @@
+MSBuild version 18.10.1-1.26427.6+3cd27c13e for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/third_party/soxr-build/CMakeLists.txt
+  soxr.c
+  data-io.c
+  dbesi0.c
+  filter.c
+  fft4g64.c
+  cr.c
+  cr64.c
+  Generating Code...
+  cr64s.c
+  pffft64s.c
+  util64s.c
+  Generating Code...
+  are_soxr.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\third_party\soxr-build\Release\are_soxr.lib
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Scanning sources for module dependencies...
+  channel_mapper.cpp
+  signal_processor.cpp
+  resampler.cpp
+  format.cpp
+  Compiling...
+  resampler.cpp
+  channel_mapper.cpp
+  format.cpp
+  signal_processor.cpp
+  are_core.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\are_core.lib
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  core_tests.cpp
+  settings.cpp
+  media.cpp
+  Compiling...
+  channel_tests.cpp
+  playback_rate_tests.cpp
+  resampler_tests.cpp
+  signal_tests.cpp
+  devices.cpp
+  clock.cpp
+  engine.cpp
+  core_tests.cpp
+  Compiling...
+  Compiling...
+  Compiling...
+  Compiling...
+  channel_tests.cpp
+  signal_tests.cpp
+  playback_rate_tests.cpp
+  resampler_tests.cpp
+  Compiling...
+  devices.cpp
+  settings.cpp
+  clock.cpp
+  media.cpp
+  engine.cpp
+  channel_tests.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\channel_tests.exe
+  playback_rate_tests.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\playback_rate_tests.exe
+  signal_tests.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\signal_tests.exe
+  resampler_tests.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\resampler_tests.exe
+  core_tests.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\core_tests.exe
+  are_platform.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\are_platform.lib
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  arectl.cpp
+  engine_tests.cpp
+  fake_asio.cpp
+  settings_main.cpp
+  live_shared_smoke.cpp
+  fake_driver_dll.cpp
+  fake_asio.cpp
+  dll.cpp
+  registration.cpp
+  property_page.cpp
+  filter.cpp
+  Compiling...
+  Compiling...
+  Compiling...
+  Compiling...
+  fake_asio.cpp
+  engine_tests.cpp
+  arectl.cpp
+  Compiling...
+  settings_main.cpp
+  Compiling...
+  fake_asio.cpp
+  fake_driver_dll.cpp
+  live_shared_smoke.cpp
+  property_page.cpp
+  filter.cpp
+  dll.cpp
+  registration.cpp
+  ASIORenderSettings.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\ARE-Audio-Renderer-Settings.exe
+     Creating library ${WORKSPACE}/out/github-0.2.0/x86/Release/fake_asio_driver.lib and object ${WORKSPACE}/out/github-0.2.0/x86/Release/fake_asio_driver.exp
+  fake_asio_driver.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\fake_asio_driver.dll
+     Creating library ${WORKSPACE}/out/github-0.2.0/x86/Release/ARE-Audio-Renderer.lib and object ${WORKSPACE}/out/github-0.2.0/x86/Release/ARE-Audio-Renderer.exp
+  ASIORenderEngine.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\ARE-Audio-Renderer.dll
+  live_shared_smoke.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\live_shared_smoke.exe
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt
+  Scanning sources for module dependencies...
+  Scanning sources for module dependencies...
+  filter_tests.cpp
+  codec_smoke_tests.cpp
+  Compiling...
+  Compiling...
+  codec_smoke_tests.cpp
+  filter_tests.cpp
+  arectl.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\ARE-Audio-Renderer-Control.exe
+  engine_tests.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\engine_tests.exe
+  codec_smoke_tests.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\codec_smoke_tests.exe
+  filter_tests.vcxproj -> ${WORKSPACE}\out\github-0.2.0\x86\Release\filter_tests.exe
+  Building Custom Rule ${WORKSPACE}/GitHub/Main/CMakeLists.txt

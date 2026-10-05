@@ -22,6 +22,81 @@ struct Fixture {
         engine->set_smoothing(false); // Exact transport checks use the strict path.
     }
 };
+void channel_contracts() {
+    for (const auto count : {1, 6, 8}) {
+        Fixture native;
+        native.source.channels = std::uint16_t(count);
+        native.source.channel_mask = count == 1 ? 4u : count == 6 ? 0x60fu : 0x63fu;
+        require(native.engine->open(native.source, native.settings) == S_OK, "Native channel layout rejected");
+        const auto route = native.engine->channel_status();
+        const auto outputs = count == 1 ? 2u : UINT(count);
+        require(route.input_channels == UINT(count) && route.output_channels == outputs && !route.downmix, "Native channel status wrong");
+        std::vector<std::int16_t> samples(std::size_t(count) * 128);
+        for (std::size_t i = 0; i < 128; ++i) for (int c = 0; c < count; ++c) samples[i * count + c] = std::int16_t(1000 * (c + 1) - int(i));
+        require(native.engine->submit(std::as_bytes(std::span(samples)), 0) == S_OK && native.engine->end_of_stream() == S_OK, "Native channel submit failed");
+        require(native.engine->start(native.clock->now(), native.clock->now()) == S_OK, "Native channel start failed");
+        for (std::size_t half = 0; half < 2; ++half) {
+            native.driver->pump();
+            for (std::size_t c = 0; c < outputs; ++c) for (std::size_t i = 0; i < 64; ++i) {
+                std::int32_t sample{}; std::memcpy(&sample, native.driver->last_output(c).data() + i * 4, 4);
+                const auto input_channel = count == 1 ? 0 : c;
+                require(std::int64_t(sample) == std::int64_t(samples[(half * 64 + i) * count + input_channel]) * 65536, "Native surround or mono duplication changed samples");
+            }
+        }
+        native.engine->close();
+        require(native.engine->channel_status().output_channels == 0, "Closed device retained channel status");
+    }
+    for (const auto outputs : {1, 2}) {
+        FakeConfig config; config.output_channels = outputs;
+        Fixture mixed(config); mixed.source = {SampleKind::float64, 48000, 6, 64, 64, 0x60f};
+        require(mixed.engine->open(mixed.source, mixed.settings) == S_OK, "Surround fallback rejected stereo/mono device");
+        const auto route = mixed.engine->channel_status();
+        require(route.downmix && route.input_channels == 6 && route.output_channels == UINT(outputs), "Downmix status wrong");
+        std::vector<double> samples(128 * 6);
+        for (std::size_t i = 0; i < 128; ++i) samples[i * 6 + 2] = 0.4; // Dialogue only.
+        require(mixed.engine->submit(std::as_bytes(std::span(samples)), 0) == S_OK && mixed.engine->end_of_stream() == S_OK, "Downmix submit failed");
+        require(mixed.engine->start(mixed.clock->now(), mixed.clock->now()) == S_OK, "Downmix start failed");
+        const auto center = 0.7071067811865475244;
+        const auto expected = 0.4 * center / (1 + 2 * center + 0.5);
+        for (int half = 0; half < 2; ++half) {
+            mixed.driver->pump();
+            for (int c = 0; c < outputs; ++c) for (std::size_t i = 0; i < 64; ++i) {
+                std::int32_t sample{}; std::memcpy(&sample, mixed.driver->last_output(std::size_t(c)).data() + i * 4, 4);
+                require(std::abs(double(sample) / 2147483648.0 - expected) < 2e-9, "Downmix lost dialogue or changed gain");
+            }
+        }
+        mixed.engine->close();
+    }
+    for (const auto algorithm : {SrcAlgorithm::r8brain, SrcAlgorithm::sinc}) {
+        FakeConfig config; config.output_channels = 2;
+        Fixture mixed(config); mixed.source = {SampleKind::integer, 44100, 8, 16, 16, 0x63f}; mixed.settings.keep_device_rate = TRUE;
+        for (const auto speed : {1.0, 2.0}) {
+            require(mixed.engine->open(mixed.source, mixed.settings, {}, {algorithm}, speed) == S_OK, "7.1 downmix with SRC/speed rejected");
+            std::vector<std::int16_t> signal(4096 * 8, 6000);
+            require(mixed.engine->submit(std::as_bytes(std::span(signal)), 0) == S_OK && mixed.engine->end_of_stream() == S_OK, "7.1 SRC submit/drain failed");
+            require(mixed.engine->start(mixed.clock->now(), mixed.clock->now()) == S_OK, "7.1 SRC start failed");
+            const auto frames = std::uint64_t(std::llround(4096.0 * 48000 / (44100 * speed)));
+            double peak = 0;
+            for (std::uint64_t i = 0; i < (frames + 63) / 64 + 4; ++i) {
+                mixed.driver->pump();
+                for (std::size_t c = 0; c < 2; ++c) for (std::size_t s = 0; s < 64; ++s) {
+                    std::int32_t sample{}; std::memcpy(&sample, mixed.driver->last_output(c).data() + s * 4, 4);
+                    peak = std::max(peak, std::abs(double(sample) / 2147483648.0));
+                }
+            }
+            require(peak > 0.15 && peak < 0.3 && mixed.engine->status().delivered_frames == frames && mixed.engine->drained(), "7.1 SRC/speed lost level, duration or EOS");
+            mixed.engine->abort(); mixed.engine->reset(); std::fill(signal.begin(), signal.end(), 0);
+            require(mixed.engine->submit(std::as_bytes(std::span(signal)), 0) == S_OK && mixed.engine->end_of_stream() == S_OK, "Mixed seek silence failed");
+            require(mixed.engine->start(mixed.clock->now(), mixed.clock->now()) == S_OK, "Mixed seek resume failed");
+            for (std::uint64_t i = 0; i < (frames + 63) / 64 + 4; ++i) {
+                mixed.driver->pump();
+                for (std::size_t c = 0; c < 2; ++c) for (auto byte : mixed.driver->last_output(c)) require(byte == std::byte{}, "Mixed seek replayed previous audio");
+            }
+            require(mixed.driver->rate_changes == 0, "Downmix/SRC changed device clock");
+            mixed.engine->close();
+        }
+    }
+}
 int main() {
     try {
         Fixture f;
@@ -65,6 +140,7 @@ int main() {
         }
         f.engine->close();
         require(f.driver->wrong_thread_calls == 0 && f.driver->panel_calls == 0, "driver apartment/control-panel contract broken");
+        channel_contracts();
         {
             Fixture seek; seek.engine->set_smoothing(true);
             require(seek.engine->open(seek.source,seek.settings)==S_OK,"seek lifecycle setup failed");
@@ -172,7 +248,7 @@ int main() {
         {
             Fixture bad; bad.settings.buffer_frames = 65;
             require(FAILED(bad.engine->open(bad.source, bad.settings)), "invalid buffer size accepted");
-            bad.settings.buffer_frames = 0; bad.settings.first_channel = 7;
+            bad.settings.buffer_frames = 0; bad.settings.first_channel = 8;
             require(FAILED(bad.engine->open(bad.source, bad.settings)), "invalid output range accepted");
         }
         {
@@ -283,6 +359,10 @@ int main() {
         }
         auto mt = pcm_media_type(2,48000,24);
         require(parse_media_type(mt).has_value(), "valid Wave format rejected");
+        mt.cbFormat = 16;
+        require(parse_media_type(mt).has_value(), "Legacy 16-byte PCM header rejected");
+        mt.cbFormat = 17; require(!parse_media_type(mt), "Truncated cbSize accepted");
+        mt.cbFormat = sizeof(WAVEFORMATEX);
         reinterpret_cast<WAVEFORMATEX*>(mt.pbFormat)->nBlockAlign = 5;
         require(!parse_media_type(mt), "malformed block alignment accepted"); free_media_type(mt);
         // DirectShow clock advisories and cancellation use actual Windows handles.

@@ -1,0 +1,7 @@
+Device: 2 channels, 44100 Hz
+1-track0.mka: PASS, 6 -> 2 channels, Float32, 44100 Hz, 352800 frames, peak 0.104413, nonzero 352800, underruns 0
+1-track1.mka: PASS, 6 -> 2 channels, Float32, 44100 Hz, 352800 frames, peak 0.0832694, nonzero 352800, underruns 0
+2-track0.mka: PASS, 6 -> 2 channels, Float32, 44100 Hz, 352800 frames, peak 0.00296063, nonzero 352800, underruns 0
+2-track1.mka: PASS, 6 -> 2 channels, Float32, 44100 Hz, 352800 frames, peak 0.00203687, nonzero 352797, underruns 0
+2-track2.mka: PASS, 6 -> 2 channels, Float32, 44100 Hz, 352800 frames, peak 0.00266893, nonzero 352800, underruns 0
+Result: 5 passed, 0 failed.

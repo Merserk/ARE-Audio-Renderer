@@ -1,4 +1,4 @@
-# ARE Audio Renderer 0.1.0
+# ARE Audio Renderer 0.2.0
 
 Use the x64 package for a 64-bit player or x86 for a 32-bit player.
 
@@ -8,6 +8,16 @@ Use the x64 package for a 64-bit player or x86 for a 32-bit player.
 
 Keep device sample rate (resample audio) is enabled by default for new settings.
 Existing saved preferences are preserved. Windows audio sharing depends on the ASIO driver.
+
+Version 0.2.0 adds automatic channel handling. Mono uses both stereo outputs.
+Surround is preserved when the ASIO device has enough outputs; otherwise ARE
+mixes it to stereo or mono, including dialogue, surround speakers and LFE with
+clipping headroom. The live properties page shows the input/output mapping.
+
+WAV, AIFF, ALAC, MP3, AAC, AC3, E-AC3 (Dolby Digital Plus), TrueHD, Opus,
+Vorbis, FLAC, DTS, WavPack and WMA are supported through the player's PCM decoder.
+Disable compressed bitstream output in LAV Audio when using ARE. Atmos-tagged
+audio plays its decoded channel bed; encoded/object passthrough is unsupported.
 
 Run Uninstall.bat to unregister the renderer. Close your player
 before removing its files. Saved device preferences are retained.

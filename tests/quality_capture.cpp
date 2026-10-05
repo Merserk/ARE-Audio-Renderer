@@ -81,8 +81,8 @@ int wmain(int argc, wchar_t** argv) {
     if (argc == 2 && std::wstring_view(argv[1]) == L"--sessions") {
         try { return active_sessions(); } catch (HRESULT hr) { std::cerr << "Session query failed: " << std::hex << unsigned(hr) << '\n'; return 1; }
     }
-    if (argc < 5 || argc > 7) {
-        std::wcerr << L"Usage: quality_capture system|are input.wav output-prefix renderer.dll [ASIO-CLSID [r8brain|sinc]]\n";
+    if (argc < 5 || argc > 8) {
+        std::wcerr << L"Usage: quality_capture system|are input.wav output-prefix renderer.dll [ASIO-CLSID [r8brain|sinc [volume-db100]]]\n";
         return 2;
     }
     const auto init = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
@@ -138,7 +138,7 @@ int wmain(int argc, wchar_t** argv) {
             ComPtr<IASIORenderProcessing> processing; checked(renderer.As(&processing));
             const ProcessingOptions precision{0}; checked(processing->SetProcessingOptions(&precision));
             ComPtr<IASIORenderResampling> resampling; checked(renderer.As(&resampling));
-            const auto algorithm = argc == 7 ? std::wstring_view(argv[6]) : L"r8brain";
+            const auto algorithm = argc >= 7 ? std::wstring_view(argv[6]) : L"r8brain";
             if (algorithm != L"r8brain" && algorithm != L"sinc") throw E_INVALIDARG;
             const ResamplingOptions src{algorithm == L"sinc" ? SrcAlgorithm::sinc : SrcAlgorithm::r8brain};
             checked(resampling->SetResamplingOptions(&src));
@@ -159,7 +159,9 @@ int wmain(int argc, wchar_t** argv) {
         ComPtr<IMediaControl> control; checked(graph.As(&control));
         StopGraph stop{control.Get()};
         ComPtr<IBasicAudio> volume;
-        if (graph.As(&volume) == S_OK) checked(volume->put_Volume(0));
+        const auto volume_db100 = argc >= 8 ? wcstol(argv[7], nullptr, 10) : 0;
+        if (volume_db100 < -10000 || volume_db100 > 0) throw E_INVALIDARG;
+        if (graph.As(&volume) == S_OK) checked(volume->put_Volume(volume_db100));
         ComPtr<IMediaEvent> events; checked(graph.As(&events));
         std::vector<float> samples;
         std::uint64_t discontinuities{}, timestamp_errors{}, silent_frames{};
@@ -202,6 +204,11 @@ int wmain(int argc, wchar_t** argv) {
         }
         EngineStatus engine{};
         if (settings) checked(settings->GetStatus(&engine));
+        ChannelStatus routing{};
+        if (is_are) {
+            ComPtr<IASIORenderChannels> channels;
+            if (renderer.As(&channels) == S_OK) checked(channels->GetChannelStatus(&routing));
+        }
         collect(); checked(control->Stop()); checked(client->Stop());
         if (!complete) throw HRESULT_FROM_WIN32(WAIT_TIMEOUT);
         const std::filesystem::path base(argv[3]);
@@ -211,6 +218,10 @@ int wmain(int argc, wchar_t** argv) {
         metadata << "{\"rate\":" << mix->nSamplesPerSec << ",\"channels\":" << mix->nChannels
             << ",\"container_bits\":" << mix->wBitsPerSample << ",\"valid_bits\":" << bits
             << ",\"floating_point\":" << (floating ? "true" : "false")
+            << ",\"volume_db100\":" << volume_db100
+            << ",\"input_channels\":" << routing.input_channels << ",\"output_channels\":" << routing.output_channels
+            << ",\"downmix\":" << (routing.downmix ? "true" : "false")
+            << ",\"mono_duplicate\":" << (routing.mono_duplicate ? "true" : "false")
             << ",\"frames\":" << samples.size() / mix->nChannels
             << ",\"asio_rate\":" << (is_are ? std::to_string(engine.sample_rate) : "null")
             << ",\"delivered_frames\":" << (is_are ? std::to_string(engine.delivered_frames) : "null")

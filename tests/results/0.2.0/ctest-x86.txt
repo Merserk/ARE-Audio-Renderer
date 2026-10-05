@@ -1,0 +1,21 @@
+Test project ${WORKSPACE}/out/x86
+    Start 1: mono_and_surround_channel_mapping
+1/8 Test #1: mono_and_surround_channel_mapping ..........   Passed    0.02 sec
+    Start 2: lossless_conversion_and_queue
+2/8 Test #2: lossless_conversion_and_queue ..............   Passed    0.05 sec
+    Start 3: volume_and_transition_signals
+3/8 Test #3: volume_and_transition_signals ..............   Passed    0.02 sec
+    Start 4: playback_speed_and_pitch
+4/8 Test #4: playback_speed_and_pitch ...................   Passed    2.90 sec
+    Start 5: sample_rate_conversion_and_pcm_precision
+5/8 Test #5: sample_rate_conversion_and_pcm_precision ...   Passed    1.07 sec
+    Start 6: sample_rate_conversion_scalar
+6/8 Test #6: sample_rate_conversion_scalar ..............   Passed    1.44 sec
+    Start 7: asio_engine_contract
+7/8 Test #7: asio_engine_contract .......................   Passed    3.26 sec
+    Start 8: directshow_filter_contract
+8/8 Test #8: directshow_filter_contract .................   Passed   44.07 sec
+
+100% tests passed out of 8
+
+Total Test time (real) =  52.83 sec

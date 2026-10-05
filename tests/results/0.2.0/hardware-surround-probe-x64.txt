@@ -1,0 +1,6 @@
+FL Studio ASIO
+44100 Hz, 6 channels, 16 source bits
+Float32 32 valid bits / 32-bit container
+Buffer: 512 frames, output latency: 2898 frames
+Delivered: 0, underruns: 0, overloads: 0
+6 channels mixed to 2 with clipping headroom. Downmixing changes samples. r8brain Float64 linear-phase SRC: 0.5% transition band / 218 dB stop-band target. Conversion is not bit-perfect.

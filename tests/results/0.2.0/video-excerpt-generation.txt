@@ -1,0 +1,5 @@
+Created 1-track0.mka: 8.000000 seconds, eac3, 6 channels
+Created 1-track1.mka: 8.000000 seconds, eac3, 6 channels
+Created 2-track0.mka: 8.000000 seconds, ac3, 6 channels
+Created 2-track1.mka: 8.000000 seconds, ac3, 6 channels
+Created 2-track2.mka: 8.000000 seconds, eac3, 6 channels
