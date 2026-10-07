@@ -10,6 +10,8 @@ namespace are::test {
 inline constexpr CLSID fake_clsid{0x6ce814a9,0x235b,0x40cb,{0xa6,0x74,0x1b,0xd1,0xa4,0x5b,0x08,0x79}};
 struct OutputMetrics { std::uint64_t nonzero[32]{}; double peak[32]{}; };
 OutputMetrics output_metrics() noexcept;
+struct DriverMetrics { unsigned opens{}, starts{}, stops{}, disposals{}, rate_changes{}; };
+DriverMetrics driver_metrics() noexcept;
 struct FakeConfig {
     long type{ASIOSTInt32LSB};
     long output_channels{8};

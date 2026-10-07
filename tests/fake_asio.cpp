@@ -8,6 +8,10 @@ namespace are::test {
 namespace {
 std::array<std::atomic<std::uint64_t>,32> nonzero{};
 std::array<std::atomic<double>,32> peaks{};
+std::atomic<unsigned> total_opens{}, total_starts{}, total_stops{}, total_disposals{}, total_rate_changes{};
+}
+DriverMetrics driver_metrics() noexcept {
+    return {total_opens.load(), total_starts.load(), total_stops.load(), total_disposals.load(), total_rate_changes.load()};
 }
 OutputMetrics output_metrics() noexcept {
     OutputMetrics result;
@@ -17,11 +21,11 @@ OutputMetrics output_metrics() noexcept {
 FakeASIO::~FakeASIO() { running_.store(false); if (callback_thread_.joinable()) { callback_thread_.request_stop(); callback_thread_.join(); } }
 STDMETHODIMP FakeASIO::QueryInterface(REFIID iid, void** out) { if (!out) return E_POINTER; *out = nullptr; if (iid != IID_IUnknown && iid != fake_clsid) return E_NOINTERFACE; *out = static_cast<IASIO*>(this); AddRef(); return S_OK; }
 STDMETHODIMP_(ULONG) FakeASIO::Release() { const auto n = --refs_; if (!n) delete this; return n; }
-ASIOBool FakeASIO::init(void* handle) { initial_thread_ = GetCurrentThreadId(); return config_.init_ok && handle ? ASIOTrue : ASIOFalse; }
+ASIOBool FakeASIO::init(void* handle) { ++total_opens; initial_thread_ = GetCurrentThreadId(); return config_.init_ok && handle ? ASIOTrue : ASIOFalse; }
 void FakeASIO::getDriverName(char* name) { check_thread(); strcpy_s(name, 32, "Simulated ASIO test driver"); }
 void FakeASIO::getErrorMessage(char* text) { check_thread(); strcpy_s(text, 124, "Simulated driver failure"); }
 ASIOError FakeASIO::start() {
-    check_thread(); ++starts;
+    check_thread(); ++starts; ++total_starts;
     for (const auto& channel : data_) for (const auto& buffer : channel) for (const auto sample : buffer) if (sample != std::byte{}) { ++stale_start_buffers; break; }
     if (config_.start_result != ASE_OK) return config_.start_result;
     running_.store(true);
@@ -34,13 +38,13 @@ ASIOError FakeASIO::start() {
     }
     return ASE_OK;
 }
-ASIOError FakeASIO::stop() { check_thread(); ++stops; running_.store(false); if (callback_thread_.joinable()) { callback_thread_.request_stop(); callback_thread_.join(); } return ASE_OK; }
+ASIOError FakeASIO::stop() { check_thread(); ++stops; ++total_stops; running_.store(false); if (callback_thread_.joinable()) { callback_thread_.request_stop(); callback_thread_.join(); } return ASE_OK; }
 ASIOError FakeASIO::getChannels(long* in, long* out) { check_thread(); *in = 0; *out = config_.output_channels; return ASE_OK; }
 ASIOError FakeASIO::getLatencies(long* in, long* out) { check_thread(); *in = 0; *out = config_.latency; return ASE_OK; }
 ASIOError FakeASIO::getBufferSize(long* min, long* max, long* preferred, long* granularity) { check_thread(); *min = 16; *max = 4096; *preferred = config_.buffer_size; *granularity = -1; return ASE_OK; }
 ASIOError FakeASIO::canSampleRate(ASIOSampleRate) { check_thread(); return config_.rates_supported ? ASE_OK : ASE_NoClock; }
 ASIOError FakeASIO::getSampleRate(ASIOSampleRate* rate) { check_thread(); *rate = config_.sample_rate; return ASE_OK; }
-ASIOError FakeASIO::setSampleRate(ASIOSampleRate rate) { check_thread(); ++rate_changes; if (!config_.rates_supported) return ASE_NoClock; config_.sample_rate = rate; return ASE_OK; }
+ASIOError FakeASIO::setSampleRate(ASIOSampleRate rate) { check_thread(); ++rate_changes; ++total_rate_changes; if (!config_.rates_supported) return ASE_NoClock; config_.sample_rate = rate; return ASE_OK; }
 ASIOError FakeASIO::getChannelInfo(ASIOChannelInfo* info) { check_thread(); info->type = config_.type; info->isActive = ASIOTrue; strcpy_s(info->name, "Test output"); return ASE_OK; }
 ASIOError FakeASIO::createBuffers(ASIOBufferInfo* buffers, long channels, long size, ASIOCallbacks* callbacks) {
     if (channels <= 0 || channels > config_.output_channels) return ASE_InvalidParameter;
@@ -52,7 +56,7 @@ ASIOError FakeASIO::createBuffers(ASIOBufferInfo* buffers, long channels, long s
     for (long c = 0; c < channels; ++c) for (std::size_t b = 0; b < 2; ++b) { auto& data = data_[std::size_t(c)][b]; data.resize(std::size_t(size) * format->sample_bytes()); buffers[c].buffers[b] = data.data(); }
     return ASE_OK;
 }
-ASIOError FakeASIO::disposeBuffers() { check_thread(); ++disposals; data_.clear(); return ASE_OK; }
+ASIOError FakeASIO::disposeBuffers() { check_thread(); ++disposals; ++total_disposals; data_.clear(); return ASE_OK; }
 void FakeASIO::pump() {
     if (!running_.load()) return;
     ASIOTime time{}; time.timeInfo.flags = kSamplePositionValid | kSampleRateValid; time.timeInfo.sampleRate = config_.sample_rate;

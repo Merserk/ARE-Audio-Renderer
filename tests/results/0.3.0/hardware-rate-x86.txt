@@ -1,0 +1,15 @@
+RATE src=r8brain rate=0.8 api_ms=2.1506 delivery_ms=64.0642 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=r8brain rate=1.2 api_ms=2.1403 delivery_ms=8.5272 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=r8brain rate=1 api_ms=2.1217 delivery_ms=19.03 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=r8brain rate=0.8 api_ms=2.1536 delivery_ms=19.0254 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=r8brain rate=1.2 api_ms=2.156 delivery_ms=20.0279 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=r8brain rate=1 api_ms=2.1467 delivery_ms=39.5591 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=sinc rate=0.8 api_ms=17.6408 delivery_ms=72.1272 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=sinc rate=1.2 api_ms=16.1986 delivery_ms=39.0852 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=sinc rate=1 api_ms=16.6655 delivery_ms=60.2615 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=sinc rate=0.8 api_ms=16.1816 delivery_ms=40.5974 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=sinc rate=1.2 api_ms=17.2101 delivery_ms=39.0493 output_hz=44100 buffer=512 underruns=0 overloads=0
+RATE src=sinc rate=1 api_ms=16.8746 delivery_ms=38.7268 output_hz=44100 buffer=512 underruns=0 overloads=0
+APPLY running_ms=397.479 position_delta_ms=25.8679 src=r8brain pcm_bits=16 pending=0
+APPLY paused=1 position_preserved=1 src=sinc pending=0
+Physical ASIO rate/reconfigure contract passed; device released after Stop.

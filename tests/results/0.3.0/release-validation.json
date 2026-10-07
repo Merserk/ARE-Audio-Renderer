@@ -1,0 +1,28 @@
+{
+  "version": "0.3.0",
+  "date": "2026-10-07",
+  "all_passed": true,
+  "automated_suites_per_architecture": 8,
+  "repeated_graph_runs_per_architecture": 2,
+  "concurrent_run_segment_flush_cases_per_graph_run": 24,
+  "physical_rate_changes": 24,
+  "physical_live_apply_checks": 4,
+  "compatibility_checks": 592,
+  "physical_loopback_captures": 6,
+  "preferences_preserved": true,
+  "installed_x64_x86": true,
+  "installations": [
+    {
+      "architecture": "x64",
+      "version": "0.3.0.0",
+      "registered": true,
+      "staged_dll_sha256": "5b62ac259706bffabfce0131377a8fc9e170727e5ec90156be8c0249ee84c2bc"
+    },
+    {
+      "architecture": "x86",
+      "version": "0.3.0.0",
+      "registered": true,
+      "staged_dll_sha256": "0b5c09ce2a5a64bc55d500039cf13a8394b8705c57a155d65a1dd2cecda4abe3"
+    }
+  ]
+}

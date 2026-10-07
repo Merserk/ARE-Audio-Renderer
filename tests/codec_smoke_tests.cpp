@@ -4,6 +4,7 @@
 #include "win/settings.hpp"
 #include "win/devices.hpp"
 #include "fake_asio.hpp"
+#include "preferences_lock.hpp"
 #include "lav_config.hpp"
 #include <filesystem>
 #include <iomanip>
@@ -26,7 +27,7 @@ struct Library {
 };
 // Preserve exact value types and absence, including preferences added in future
 // versions. Configure only after construction so failures also restore them.
-struct Preferences {
+struct Preferences : are::test::PreferencesLock {
     struct Value { std::wstring name; DWORD type{}; std::vector<BYTE> data; };
     bool existed{};
     std::vector<Value> values;

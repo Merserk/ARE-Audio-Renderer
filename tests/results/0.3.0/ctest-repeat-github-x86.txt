@@ -1,0 +1,9 @@
+Test project ${WORKSPACE}/out/github-0.3.0-final/x86
+    Start 8: directshow_filter_contract
+    Test #8: directshow_filter_contract .......   Passed   48.70 sec
+    Start 8: directshow_filter_contract
+1/1 Test #8: directshow_filter_contract .......   Passed   48.71 sec
+
+100% tests passed out of 1
+
+Total Test time (real) =  97.41 sec

@@ -48,7 +48,7 @@ private:
 };
 
 class Renderer final : public IBaseFilter, public IAMFilterMiscFlags,
-                       public ISpecifyPropertyPages, public IASIORenderSettings, public IASIORenderStatus, public IASIORenderPlayback, public IASIORenderProcessing, public IASIORenderResampling, public IASIORenderChannels,
+                       public ISpecifyPropertyPages, public IASIORenderSettings, public IASIORenderStatus, public IASIORenderPlayback, public IASIORenderProcessing, public IASIORenderResampling, public IASIORenderChannels, public IASIORenderApply,
                        public IBasicAudio, public IMediaSeeking, public IQualityControl, public IReferenceClock {
 public:
     Renderer();
@@ -83,6 +83,7 @@ public:
     STDMETHODIMP SetResamplingOptions(const ResamplingOptions* options) override;
     STDMETHODIMP GetResamplingStatus(ResamplingStatus* status) override;
     STDMETHODIMP GetChannelStatus(ChannelStatus* status) override;
+    STDMETHODIMP ApplyPendingSettings() override;
     STDMETHODIMP GetTypeInfoCount(UINT* count) override;
     STDMETHODIMP GetTypeInfo(UINT, LCID, ITypeInfo**) override { return E_NOTIMPL; }
     STDMETHODIMP GetIDsOfNames(REFIID, LPOLESTR*, UINT, LCID, DISPID*) override { return E_NOTIMPL; }
@@ -126,6 +127,7 @@ private:
     std::recursive_mutex transition_mutex_;
     std::mutex info_mutex_;
     std::mutex receive_mutex_;
+    std::mutex apply_mutex_;
     Settings settings_;
     std::optional<Settings> pending_settings_;
     ProcessingOptions processing_;
@@ -143,9 +145,13 @@ private:
     std::atomic<bool> eos_{};
     std::atomic<bool> complete_sent_{};
     std::atomic<bool> error_sent_{};
+    std::atomic<bool> applying_settings_{};
     std::atomic<long> volume_db100_{};
     std::atomic<REFERENCE_TIME> run_start_{};
     std::atomic<double> playback_rate_{1.0};
+    // DirectShow stops/resumes the graph around SetRate. Retain the silent
+    // ASIO stream briefly, then release it if playback remains stopped.
+    std::atomic<ULONGLONG> stop_release_at_{};
     Handle ready_{CreateEventW(nullptr, TRUE, FALSE, nullptr)};
     Handle monitor_stop_{CreateEventW(nullptr, TRUE, FALSE, nullptr)};
     std::thread monitor_thread_;

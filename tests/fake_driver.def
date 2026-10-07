@@ -2,4 +2,5 @@ EXPORTS
     DllGetClassObject PRIVATE
     DllCanUnloadNow PRIVATE
     GetOutputMetrics PRIVATE
+    GetDriverMetrics PRIVATE
     ConfigureTestDriver PRIVATE

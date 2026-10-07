@@ -1,0 +1,410 @@
+{
+  "driver": "FL Studio ASIO",
+  "runs": {
+    "hardware-rate-baseline-x64": {
+      "version": "0.2.0",
+      "cases": [
+        {
+          "src": "r8brain",
+          "rate": 0.8,
+          "api_ms": 262.833,
+          "delivery_ms": 294.78,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.2,
+          "api_ms": 261.253,
+          "delivery_ms": 294.749,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.0,
+          "api_ms": 282.809,
+          "delivery_ms": 318.915,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 0.8,
+          "api_ms": 285.065,
+          "delivery_ms": 320.031,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.2,
+          "api_ms": 283.973,
+          "delivery_ms": 329.23,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.0,
+          "api_ms": 292.234,
+          "delivery_ms": 343.808,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 0.8,
+          "api_ms": 281.372,
+          "delivery_ms": 352.34,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.2,
+          "api_ms": 276.918,
+          "delivery_ms": 313.662,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.0,
+          "api_ms": 313.96,
+          "delivery_ms": 349.641,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 0.8,
+          "api_ms": 288.506,
+          "delivery_ms": 360.165,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.2,
+          "api_ms": 288.359,
+          "delivery_ms": 331.316,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.0,
+          "api_ms": 294.905,
+          "delivery_ms": 345.534,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        }
+      ],
+      "api_ms": {
+        "min": 261.253,
+        "median": 284.519,
+        "max": 313.96
+      },
+      "delivery_ms": {
+        "min": 294.749,
+        "median": 330.273,
+        "max": 360.165
+      }
+    },
+    "hardware-rate-x64": {
+      "version": "0.3.0",
+      "cases": [
+        {
+          "src": "r8brain",
+          "rate": 0.8,
+          "api_ms": 2.1469,
+          "delivery_ms": 58.7882,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.2,
+          "api_ms": 2.144,
+          "delivery_ms": 29.6082,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.0,
+          "api_ms": 2.1217,
+          "delivery_ms": 7.5242,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 0.8,
+          "api_ms": 2.1427,
+          "delivery_ms": 17.0755,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.2,
+          "api_ms": 2.1405,
+          "delivery_ms": 32.5637,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.0,
+          "api_ms": 2.1187,
+          "delivery_ms": 39.8275,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 0.8,
+          "api_ms": 8.6701,
+          "delivery_ms": 28.5298,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.2,
+          "api_ms": 7.4899,
+          "delivery_ms": 19.8783,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.0,
+          "api_ms": 6.6341,
+          "delivery_ms": 47.2728,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 0.8,
+          "api_ms": 8.6671,
+          "delivery_ms": 68.5829,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.2,
+          "api_ms": 9.2403,
+          "delivery_ms": 32.1307,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.0,
+          "api_ms": 8.2045,
+          "delivery_ms": 18.5335,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        }
+      ],
+      "api_ms": {
+        "min": 2.1187,
+        "median": 4.3905,
+        "max": 9.2403
+      },
+      "delivery_ms": {
+        "min": 7.5242,
+        "median": 30.86945,
+        "max": 68.5829
+      }
+    },
+    "hardware-rate-x86": {
+      "version": "0.3.0",
+      "cases": [
+        {
+          "src": "r8brain",
+          "rate": 0.8,
+          "api_ms": 2.1506,
+          "delivery_ms": 64.0642,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.2,
+          "api_ms": 2.1403,
+          "delivery_ms": 8.5272,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.0,
+          "api_ms": 2.1217,
+          "delivery_ms": 19.03,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 0.8,
+          "api_ms": 2.1536,
+          "delivery_ms": 19.0254,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.2,
+          "api_ms": 2.156,
+          "delivery_ms": 20.0279,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "r8brain",
+          "rate": 1.0,
+          "api_ms": 2.1467,
+          "delivery_ms": 39.5591,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 0.8,
+          "api_ms": 17.6408,
+          "delivery_ms": 72.1272,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.2,
+          "api_ms": 16.1986,
+          "delivery_ms": 39.0852,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.0,
+          "api_ms": 16.6655,
+          "delivery_ms": 60.2615,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 0.8,
+          "api_ms": 16.1816,
+          "delivery_ms": 40.5974,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.2,
+          "api_ms": 17.2101,
+          "delivery_ms": 39.0493,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        },
+        {
+          "src": "sinc",
+          "rate": 1.0,
+          "api_ms": 16.8746,
+          "delivery_ms": 38.7268,
+          "output_hz": 44100,
+          "buffer_frames": 512,
+          "underruns": 0,
+          "overloads": 0
+        }
+      ],
+      "api_ms": {
+        "min": 2.1217,
+        "median": 9.1688,
+        "max": 17.6408
+      },
+      "delivery_ms": {
+        "min": 8.5272,
+        "median": 39.06725,
+        "max": 72.1272
+      }
+    }
+  }
+}

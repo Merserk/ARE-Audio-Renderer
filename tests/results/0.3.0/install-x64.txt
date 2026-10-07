@@ -1,0 +1,3 @@
+Installed for the current user. No administrator rights required.
+ARE Audio Renderer is installed and loadable.
+@device:sw:{E0F158E1-CB04-11D0-BD4E-00A0C911CE86}\{8A793BA1-CF7E-4F24-939F-288D13CA5787}

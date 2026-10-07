@@ -3,18 +3,21 @@
 #include "win/settings.hpp"
 #include "win/devices.hpp"
 #include "fake_asio.hpp"
+#include "preferences_lock.hpp"
 #include "../resources/resource.h"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <limits>
 #include <format>
+#include <barrier>
+#include <future>
 #include <stdexcept>
 
 using namespace are::win;
 void require(bool ok, const char* detail) { if (!ok) throw std::runtime_error(detail); }
 void success(HRESULT hr, const char* detail) { if (FAILED(hr)) { std::cerr << std::hex << unsigned(hr) << ' '; throw std::runtime_error(detail); } }
-struct Scope {
+struct Scope : are::test::PreferencesLock {
     Settings previous = load_settings();
     bool existed{};
     bool had_smoothing{};
@@ -24,6 +27,7 @@ struct Scope {
     ProcessingOptions previous_precision=load_processing_options();
     PlaybackOptions previous_options = load_playback_options();
     std::wstring driver_key = L"Software\\Classes\\CLSID\\" + guid_string(are::test::fake_clsid);
+    std::wstring asio_key = L"Software\\ASIO\\ARE regression driver " + std::to_wstring(GetCurrentProcessId());
     Scope(const wchar_t* driver_path) {
         RegKey key; existed = RegOpenKeyExW(HKEY_CURRENT_USER, settings_registry_path, 0, KEY_READ, key.put()) == ERROR_SUCCESS;
         DWORD value{}, size=sizeof(value);
@@ -34,6 +38,10 @@ struct Scope {
         require(RegSetValueExW(key.get(), nullptr, 0, REG_SZ, reinterpret_cast<const BYTE*>(driver_path), DWORD((wcslen(driver_path)+1)*2)) == ERROR_SUCCESS, "fake driver path failed");
         constexpr wchar_t model[] = L"Both";
         require(RegSetValueExW(key.get(), L"ThreadingModel", 0, REG_SZ, reinterpret_cast<const BYTE*>(model), sizeof(model)) == ERROR_SUCCESS, "fake driver model failed");
+        DWORD disposition{};
+        require(RegCreateKeyExW(HKEY_CURRENT_USER,asio_key.c_str(),0,nullptr,0,KEY_WRITE,nullptr,key.put(),&disposition)==ERROR_SUCCESS && disposition==REG_CREATED_NEW_KEY,"test ASIO enumeration key already exists");
+        const auto clsid=guid_string(are::test::fake_clsid);
+        require(RegSetValueExW(key.get(),L"CLSID",0,REG_SZ,reinterpret_cast<const BYTE*>(clsid.c_str()),DWORD((clsid.size()+1)*sizeof(wchar_t)))==ERROR_SUCCESS,"test ASIO enumeration failed");
         success(save_settings(Settings{are::test::fake_clsid,0,0,FALSE}), "test settings failed");
         success(save_processing_options({0}),"test precision settings failed");
         success(save_resampling_options({}),"test SRC settings failed");
@@ -49,6 +57,7 @@ struct Scope {
             else { RegKey key; if (RegOpenKeyExW(HKEY_CURRENT_USER,settings_registry_path,0,KEY_SET_VALUE,key.put())==ERROR_SUCCESS) RegDeleteValueW(key.get(),L"SrcAlgorithm"); }
         } else RegDeleteTreeW(HKEY_CURRENT_USER, settings_registry_path);
         RegDeleteTreeW(HKEY_CURRENT_USER, driver_key.c_str());
+        RegDeleteTreeW(HKEY_CURRENT_USER, asio_key.c_str());
     }
 };
 struct Library { HMODULE module{}; explicit Library(const wchar_t* path) : module(LoadLibraryW(path)) {} ~Library() { if (module) FreeLibrary(module); } };
@@ -65,15 +74,15 @@ std::wstring dialog_text(HWND window, int id) {
 HWND page_window(HWND parent) {
     const auto page = GetWindow(parent,GW_CHILD); require(page != nullptr,"property page window missing"); return page;
 }
-std::filesystem::path make_wave(std::uint32_t rate=48000) {
+std::filesystem::path make_wave(std::uint32_t rate=48000, std::uint32_t seconds=1) {
     auto file = std::filesystem::temp_directory_path() / (L"are-filter-test-" + std::to_wstring(GetCurrentProcessId()) + L".wav");
     std::ofstream output(file, std::ios::binary | std::ios::trunc);
-    const std::uint32_t data_size = rate*4, riff_size = 36 + data_size, fmt_size = 16;
+    const std::uint32_t data_size = rate*seconds*4, riff_size = 36 + data_size, fmt_size = 16;
     const std::uint16_t tag = 1, channels = 2, align = 4, bits = 16;
     const std::uint32_t byte_rate = rate*4;
     auto put = [&](const auto& v) { output.write(reinterpret_cast<const char*>(&v), sizeof(v)); };
     output.write("RIFF",4); put(riff_size); output.write("WAVEfmt ",8); put(fmt_size); put(tag); put(channels); put(rate); put(byte_rate); put(align); put(bits); output.write("data",4); put(data_size);
-    for (std::uint32_t i = 0; i < rate; ++i) { const auto a = std::int16_t(int(i%30000) - 15000), b = std::int16_t(-a); put(a); put(b); }
+    for (std::uint32_t i = 0; i < rate*seconds; ++i) { const auto a = std::int16_t(int(i%30000) - 15000), b = std::int16_t(-a); put(a); put(b); }
     require(output.good(), "WAV fixture failed"); return file;
 }
 int wmain(int argc, wchar_t** argv) {
@@ -83,6 +92,9 @@ int wmain(int argc, wchar_t** argv) {
     int result = 0;
     try {
         Scope scope(argv[2]); Library library(argv[1]); require(library.module != nullptr, "renderer DLL failed to load");
+        Library driver_library(argv[2]); require(driver_library.module != nullptr,"fake driver failed to load");
+        const auto driver_metrics=reinterpret_cast<HRESULT(WINAPI*)(are::test::DriverMetrics*)>(GetProcAddress(driver_library.module,"GetDriverMetrics"));
+        require(driver_metrics!=nullptr,"driver lifecycle metrics unavailable");
         auto get_class = reinterpret_cast<GetClass>(GetProcAddress(library.module,"DllGetClassObject"));
         auto can_unload = reinterpret_cast<HRESULT(WINAPI*)()>(GetProcAddress(library.module,"DllCanUnloadNow"));
         require(get_class && can_unload, "missing COM exports");
@@ -249,6 +261,121 @@ int wmain(int argc, wchar_t** argv) {
                 success(graph->RemoveFilter(filter.Get()), "graph renderer removal failed");
             }
             std::filesystem::remove(wav);
+            // Apply through the actual property page while a producer is
+            // blocked on the full queue. Restart once for all changed fields,
+            // preserving position, speed, volume and running/paused state.
+            wav=make_wave(44100,6);
+            {
+                Settings device=stored; device.keep_device_rate=TRUE;
+                success(settings->SetSettings(&device),"Apply test device setup failed");
+                const ProcessingOptions native{0}; success(processing->SetProcessingOptions(&native),"Apply test precision setup failed");
+                const ResamplingOptions r8brain{}; success(resampling->SetResamplingOptions(&r8brain),"Apply test SRC setup failed");
+                ComPtr<IASIORenderApply> apply; success(filter.As(&apply),"missing live Apply interface");
+                ComPtr<IGraphBuilder> graph; success(CoCreateInstance(CLSID_FilterGraph,nullptr,CLSCTX_INPROC_SERVER,IID_PPV_ARGS(graph.GetAddressOf())),"Apply graph creation failed");
+                success(graph->AddFilter(filter.Get(),renderer_name),"Apply renderer addition failed");
+                ComPtr<IBaseFilter> source; success(graph->AddSourceFilter(wav.c_str(),L"WAV",source.GetAddressOf()),"Apply WAV source failed");
+                auto out=first_pin(source.Get(),PINDIR_OUTPUT); success(graph->Connect(out.Get(),pin.Get()),"Apply graph connection failed");
+                ComPtr<IMediaControl> control; graph.As(&control);
+                ComPtr<IMediaSeeking> seeking; graph.As(&seeking);
+                success(seeking->SetRate(1.25),"Apply speed setup failed");
+                success(audio->put_Volume(-2795),"Apply volume setup failed");
+                success(control->Run(),"Apply graph run failed"); Sleep(100);
+                success(page->Activate(parent,&rect,FALSE),"Apply page activation failed");
+                const auto window=page_window(parent);
+                are::test::DriverMetrics before{},after{}; driver_metrics(&before);
+                success(page->Apply(),"unchanged page Apply failed"); driver_metrics(&after);
+                require(after.opens==before.opens && after.disposals==before.disposals,"unchanged Apply reopened ASIO");
+                LONGLONG position_before{},position_after{}; seeking->GetCurrentPosition(&position_before);
+                SendDlgItemMessageW(window,IDC_SRC_ALGORITHM,CB_SETCURSEL,1,0);
+                SendDlgItemMessageW(window,IDC_PCM_BITS,CB_SETCURSEL,2,0);
+                SendDlgItemMessageW(window,IDC_BUFFER,CB_SETCURSEL,3,0);
+                SetDlgItemInt(window,IDC_CHANNEL,2,FALSE);
+                SendMessageW(window,WM_COMMAND,MAKEWPARAM(IDC_SRC_ALGORITHM,CBN_SELCHANGE),0);
+                success(page->Apply(),"running property-page Apply failed");
+                driver_metrics(&after);
+                require(after.opens==before.opens+1 && after.disposals==before.disposals+1,"Apply did not batch changes into one ASIO restart");
+                ResamplingStatus src; success(resampling->GetResamplingStatus(&src),"applied SRC status failed");
+                ProcessingStatus precision; success(processing->GetProcessingStatus(&precision),"applied precision status failed");
+                success(live_status->GetLiveStatus(&live),"applied live status failed");
+                require(src.algorithm==are::SrcAlgorithm::sinc && src.active && !src.settings_pending && precision.pcm_bits==24 && !live.settings_pending,"Apply left the new converter or precision pending");
+                if (live.playback!=State_Running || !live.engine.playing || live.engine.buffer_frames!=256)
+                    std::cerr << "Apply state " << live.playback << ", playing " << live.engine.playing << ", buffer " << live.engine.buffer_frames << ", error " << std::hex << unsigned(live.engine.error) << std::dec << '\n';
+                require(live.playback==State_Running && live.engine.playing && live.engine.buffer_frames==256,"Apply did not resume playback with the new buffer size");
+                success(settings->GetSettings(&device),"applied routing unavailable"); require(device.first_channel==1,"Apply did not update ASIO routing");
+                double rate{}; renderer_seeking->GetRate(&rate); audio->get_Volume(&volume);
+                require(rate==1.25 && volume==-2795,"Apply changed playback speed or volume");
+                seeking->GetCurrentPosition(&position_after);
+                require(std::abs(position_after-position_before)<5000000,"Apply jumped to a different playback position");
+                Sleep(100); success(live_status->GetLiveStatus(&live),"post-Apply status failed");
+                require(live.engine.delivered_frames>0 && SUCCEEDED(live.engine.error),"Apply failed to deliver audio after reopening");
+                success(control->Pause(),"Apply graph pause failed");
+                OAFilterState state{}; success(control->GetState(2000,&state),"Apply graph pause did not settle");
+                seeking->GetCurrentPosition(&position_before);
+                SendDlgItemMessageW(window,IDC_SRC_ALGORITHM,CB_SETCURSEL,0,0);
+                SendDlgItemMessageW(window,IDC_PCM_BITS,CB_SETCURSEL,1,0);
+                success(page->Apply(),"paused property-page Apply failed");
+                success(live_status->GetLiveStatus(&live),"paused applied live status failed");
+                success(resampling->GetResamplingStatus(&src),"paused applied SRC status failed");
+                seeking->GetCurrentPosition(&position_after);
+                require(live.playback==State_Paused && !live.engine.playing && !live.settings_pending && src.algorithm==are::SrcAlgorithm::r8brain,"Apply resumed a paused graph or deferred SRC");
+                require(std::abs(position_after-position_before)<100000,"paused Apply changed playback position");
+                success(control->Run(),"resume after paused Apply failed"); Sleep(80);
+                // Invalid device settings roll back to the last working stream.
+                SetDlgItemInt(window,IDC_CHANNEL,1024,FALSE);
+                require(FAILED(page->Apply()),"Apply accepted unavailable ASIO output");
+                success(live_status->GetLiveStatus(&live),"failed Apply status unavailable");
+                success(settings->GetSettings(&device),"rolled-back routing unavailable");
+                if (!live.engine.opened || !live.engine.playing || FAILED(live.engine.error) || live.settings_pending || device.first_channel!=1)
+                    std::cerr << "Rollback state " << live.playback << ", open " << live.engine.opened << ", playing " << live.engine.playing << ", pending " << live.settings_pending << ", channel " << device.first_channel << ", error " << std::hex << unsigned(live.engine.error) << std::dec << '\n';
+                require(live.engine.opened && live.engine.playing && SUCCEEDED(live.engine.error) && !live.settings_pending && device.first_channel==1,"failed Apply did not restore the working stream");
+                require(page->IsPageDirty()==S_OK,"failed Apply cleared unsaved page edits");
+                SetDlgItemInt(window,IDC_CHANNEL,2,FALSE); success(page->Apply(),"corrected Apply failed");
+                success(audio->put_Volume(-10000),"Apply mute setup failed");
+                SendDlgItemMessageW(window,IDC_SRC_ALGORITHM,CB_SETCURSEL,1,0); success(page->Apply(),"muted Apply failed");
+                audio->get_Volume(&volume); require(volume==-10000,"Apply unmuted playback");
+                success(audio->put_Volume(0),"Apply test unity restore failed");
+                ComPtr<IMediaEvent> events; graph.As(&events); long complete{};
+                // Failed Apply must not post EC_ERRORABORT to the player when
+                // the previous stream has been restored successfully.
+                long event{}; LONG_PTR first{},second{};
+                while (events->GetEvent(&event,&first,&second,0)==S_OK) {
+                    require(event!=EC_ERRORABORT,"failed Apply posted a fatal graph error despite rollback");
+                    events->FreeEventParams(event,first,second);
+                }
+                success(events->WaitForCompletion(8000,&complete),"applied graph failed to finish"); require(complete==EC_COMPLETE,"applied graph ended in error");
+                driver_metrics(&before); success(control->Stop(),"Apply graph stop failed");
+                const auto deadline=GetTickCount64()+1500;
+                do { success(live_status->GetLiveStatus(&live),"stop-release status failed"); if (!live.engine.opened) break; Sleep(10); } while (GetTickCount64()<deadline);
+                driver_metrics(&after);
+                require(!live.engine.opened && after.stops==before.stops+1 && after.disposals==before.disposals+1,"real Stop failed to release retained ASIO device");
+                // Race the graph's Run transition against a producer's
+                // NewSegment, and separately against a flush pair. All calls
+                // must finish with a running consumer, not a stalled queue.
+                success(filter->Pause(),"transition race setup failed");
+                for (int iteration=0;iteration<24;++iteration) {
+                    success(filter->Pause(),"transition race pause failed");
+                    REFERENCE_TIME now{}; success(clock->GetTime(&now),"transition race clock failed");
+                    std::barrier begin(3);
+                    auto run=std::async(std::launch::async,[&] {
+                        CoInitializeEx(nullptr,COINIT_MULTITHREADED); begin.arrive_and_wait();
+                        const auto hr=filter->Run(now); CoUninitialize(); return hr;
+                    });
+                    auto segment=std::async(std::launch::async,[&] {
+                        CoInitializeEx(nullptr,COINIT_MULTITHREADED); begin.arrive_and_wait();
+                        auto hr=iteration%2 ? pin->NewSegment(0,60000000,iteration%3==0 ? 1.0 : 1.25) : pin->BeginFlush();
+                        if (SUCCEEDED(hr) && iteration%2==0) hr=pin->EndFlush();
+                        CoUninitialize(); return hr;
+                    });
+                    begin.arrive_and_wait(); success(run.get(),"racing Run failed"); success(segment.get(),"racing segment/flush failed");
+                    success(live_status->GetLiveStatus(&live),"transition race status failed");
+                    require(live.playback==State_Running && live.engine.playing,"segment/flush race left a running graph with a paused engine");
+                }
+                success(filter->Stop(),"transition race stop failed");
+                success(page->Deactivate(),"Apply page deactivation failed");
+                success(graph->RemoveFilter(filter.Get()),"Apply renderer removal failed");
+                std::cout << "Live Apply: batched running/paused restart, position/speed/volume/mute, unchanged Apply, rollback, idle release and Run/segment/flush races passed.\n";
+            }
+            std::filesystem::remove(wav);
             // Real DirectShow producer, back-pressure, converter tail and seek
             // at a different device rate, through the same public COM contract.
             wav=make_wave(44100);
@@ -310,7 +437,12 @@ int wmain(int argc, wchar_t** argv) {
                         require(dialog_text(window,IDC_PLAYBACK).find(rate_text)!=std::wstring::npos,"live page omitted playback speed");
                         if (rate!=1.0) require(dialog_text(window,IDC_STATUS).find(L"playback speed")!=std::wstring::npos,"page claimed exact samples during speed processing");
                         if (rate!=1.0) require(dialog_text(window,IDC_STATUS).find(L"Pitch follows speed")!=std::wstring::npos,"page reported the wrong speed/pitch behavior");
-                        long complete{}; success(events->WaitForCompletion(6000,&complete),"speed graph did not finish"); require(complete==EC_COMPLETE,"speed graph ended with error");
+                        long complete{}; const auto finished=events->WaitForCompletion(6000,&complete);
+                        if (FAILED(finished)) {
+                            LiveStatus diagnostic; live_status->GetLiveStatus(&diagnostic);
+                            std::cerr << "Speed timeout: input " << input_rate << ", SRC " << unsigned(algorithm) << ", rate " << rate << ", state " << diagnostic.playback << ", playing " << diagnostic.engine.playing << ", delivered " << diagnostic.engine.delivered_frames << ", queued " << diagnostic.engine.queued_frames << ", error " << std::hex << unsigned(diagnostic.engine.error) << std::dec << '\n';
+                        }
+                        success(finished,"speed graph did not finish"); require(complete==EC_COMPLETE,"speed graph ended with error");
                         EngineStatus status; success(settings->GetStatus(&status),"speed status read failed");
                         // One conversion combines speed and device rate;
                         // intermediate rounding would lose a frame at 1.001x.
@@ -327,11 +459,20 @@ int wmain(int argc, wchar_t** argv) {
                     // Change speed during running playback, as the toolbar does.
                     LONGLONG position=0; success(seeking->SetPositions(&position,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning),"running rate seek failed");
                     success(control->Run(),"running rate start failed"); Sleep(80);
-                    success(seeking->SetRate(0.8),"running rate decrease failed"); Sleep(80);
+                    are::test::DriverMetrics before{},after{}; driver_metrics(&before);
+                    const auto rate_started=GetTickCount64();
+                    success(seeking->SetRate(0.8),"running rate decrease failed");
+                    const auto rate_elapsed=GetTickCount64()-rate_started; driver_metrics(&after);
+                    std::cout << "Rate change: " << input_rate << " Hz, SRC " << unsigned(algorithm) << ", " << rate_elapsed << " ms; opens " << after.opens-before.opens << ", starts " << after.starts-before.starts << ", stops " << after.stops-before.stops << ", disposals " << after.disposals-before.disposals << '\n';
+                    require(after.opens==before.opens && after.starts==before.starts && after.stops==before.stops && after.disposals==before.disposals && after.rate_changes==before.rate_changes,"toolbar rate decrease restarted ASIO hardware");
+                    require(rate_elapsed<200,"toolbar rate decrease blocked too long");
+                    Sleep(80);
                     success(renderer_seeking->GetRate(&normal_rate),"running rate read failed"); require(normal_rate==0.8,"running decrease ignored");
                     success(seeking->SetRate(2.0),"running rate increase failed"); Sleep(80);
+                    driver_metrics(&after); require(after.opens==before.opens && after.starts==before.starts && after.stops==before.stops && after.disposals==before.disposals,"toolbar rate increase restarted ASIO");
                     success(renderer_seeking->GetRate(&normal_rate),"running increased rate read failed"); require(normal_rate==2.0,"running increase ignored");
                     success(seeking->SetRate(1.0),"running normal speed restoration failed");
+                    driver_metrics(&after); require(after.opens==before.opens && after.starts==before.starts && after.stops==before.stops && after.disposals==before.disposals,"toolbar rate reset restarted ASIO");
                     long complete{}; success(events->WaitForCompletion(6000,&complete),"rate change playback did not finish"); require(complete==EC_COMPLETE,"rate change playback errored");
                     success(control->Stop(),"running rate stop failed"); success(graph->RemoveFilter(filter.Get()),"speed renderer removal failed");
                 }

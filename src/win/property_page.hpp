@@ -34,6 +34,7 @@ private:
     ComPtr<IASIORenderProcessing> processing_;
     ComPtr<IASIORenderResampling> resampling_;
     ComPtr<IASIORenderChannels> channels_;
+    ComPtr<IASIORenderApply> apply_;
     ComPtr<IMediaSeeking> seeking_;
     std::wstring apply_message_;
     std::vector<Device> devices_;

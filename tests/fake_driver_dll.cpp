@@ -17,6 +17,7 @@ extern "C" HRESULT WINAPI DllGetClassObject(REFCLSID clsid, REFIID iid, void** o
 // COM retains the simulator module for the test process, including its callback code.
 extern "C" HRESULT WINAPI DllCanUnloadNow() { return S_FALSE; }
 extern "C" HRESULT WINAPI GetOutputMetrics(OutputMetrics* result) { if (!result) return E_POINTER; *result=output_metrics(); return S_OK; }
+extern "C" HRESULT WINAPI GetDriverMetrics(DriverMetrics* result) { if (!result) return E_POINTER; *result=driver_metrics(); return S_OK; }
 extern "C" HRESULT WINAPI ConfigureTestDriver(long outputs, double sample_rate) {
     if (outputs < 1 || outputs > 32 || sample_rate < 8000 || sample_rate > 768000) return E_INVALIDARG;
     configuration.output_channels = outputs; configuration.sample_rate = sample_rate; return S_OK;

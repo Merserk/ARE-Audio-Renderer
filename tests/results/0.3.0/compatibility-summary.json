@@ -1,0 +1,5964 @@
+{
+  "total_checks": 592,
+  "codec_checks": 552,
+  "video_checks": 40,
+  "fixtures": 69,
+  "video_tracks": 5,
+  "zero_underruns": true,
+  "mapping_preserves_duration": true,
+  "duration_matches_architectures": true,
+  "observations": {
+    "codecs-x64-8-outputs": {
+      "aac-adts-5.1.aac": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0689047,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-mono.aac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406669,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-stereo.aac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406665,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-mp4-5.1.m4a": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0689047,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-7.1.m4a": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.068773,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406669,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406665,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "ac3-5.1-side.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0427237,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414671,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414798,
+        "nonzero": 58719,
+        "underruns": 0
+      },
+      "aiff-pcm16-5.1.aiff": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm16-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm16-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm24-5.1.aiff": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-5.1.aiff": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-5.1.m4a": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-7.1-wide.m4a": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "dts-5.1-side.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400376,
+        "nonzero": 59934,
+        "underruns": 0
+      },
+      "dts-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400017,
+        "nonzero": 59941,
+        "underruns": 0
+      },
+      "dts-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400215,
+        "nonzero": 59942,
+        "underruns": 0
+      },
+      "eac3-5.1-side.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0434169,
+        "nonzero": 58719,
+        "underruns": 0
+      },
+      "eac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.041467,
+        "nonzero": 57952,
+        "underruns": 0
+      },
+      "eac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414684,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "flac-44100-5.1.flac": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-7.1.flac": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-mono.flac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-stereo.flac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "mp3-mono.mp3": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0417464,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "mp3-stereo.mp3": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0427337,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "opus-5.1.opus": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0479756,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-7.1.opus": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0511153,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-mono.opus": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0414113,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-stereo.opus": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413865,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "truehd-5.1-side.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "vorbis-5.1.ogg": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-7.1.ogg": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-mono.ogg": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-stereo.ogg": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "wav-float32-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-pcm16-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm16-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm16-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm24-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-7.1.wav": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-quad.wav": {
+        "source": 4,
+        "output": 4,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wavpack-5.1.wv": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-7.1.wv": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-mono.wv": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-stereo.wv": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wma-44100-mono.wma": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0425586,
+        "nonzero": 55728,
+        "underruns": 0
+      },
+      "wma-44100-stereo.wma": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0427633,
+        "nonzero": 55728,
+        "underruns": 0
+      }
+    },
+    "codecs-x64-2-outputs": {
+      "aac-adts-5.1.aac": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0397071,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-mono.aac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406669,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-stereo.aac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406665,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-mp4-5.1.m4a": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0397071,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-7.1.m4a": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0390289,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406669,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406665,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "ac3-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0396921,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414671,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414798,
+        "nonzero": 58719,
+        "underruns": 0
+      },
+      "aiff-pcm16-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396835,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm16-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm16-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm24-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396907,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-5.1.m4a": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396907,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-7.1-wide.m4a": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389633,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "dts-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0369388,
+        "nonzero": 59932,
+        "underruns": 0
+      },
+      "dts-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400017,
+        "nonzero": 59941,
+        "underruns": 0
+      },
+      "dts-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400215,
+        "nonzero": 59942,
+        "underruns": 0
+      },
+      "eac3-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0396918,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "eac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.041467,
+        "nonzero": 57952,
+        "underruns": 0
+      },
+      "eac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414684,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "flac-44100-5.1.flac": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396909,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-7.1.flac": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389636,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-mono.flac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-stereo.flac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "mp3-mono.mp3": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0417464,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "mp3-stereo.mp3": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0427337,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "opus-5.1.opus": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0404704,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-7.1.opus": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0390707,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-mono.opus": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0414113,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-stereo.opus": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413865,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "truehd-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396907,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "vorbis-5.1.ogg": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0421598,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-7.1.ogg": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0393179,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-mono.ogg": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-stereo.ogg": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "wav-float32-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-pcm16-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396835,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm16-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm16-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm24-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396907,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-7.1.wav": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389633,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-quad.wav": {
+        "source": 4,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wavpack-5.1.wv": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-7.1.wv": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389633,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-mono.wv": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-stereo.wv": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wma-44100-mono.wma": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0425586,
+        "nonzero": 55728,
+        "underruns": 0
+      },
+      "wma-44100-stereo.wma": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0427633,
+        "nonzero": 55728,
+        "underruns": 0
+      }
+    },
+    "codecs-x64-1-outputs": {
+      "aac-adts-5.1.aac": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0369072,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-mono.aac": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406669,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-stereo.aac": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.040613,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-mp4-5.1.m4a": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0369072,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-7.1.m4a": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0335711,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-mono.m4a": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406669,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-stereo.m4a": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.040613,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "ac3-5.1-side.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0368606,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-mono.mka": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414671,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-stereo.mka": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.039997,
+        "nonzero": 58718,
+        "underruns": 0
+      },
+      "aiff-pcm16-5.1.aiff": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368633,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm16-mono.aiff": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm16-stereo.aiff": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59945,
+        "underruns": 0
+      },
+      "aiff-pcm24-5.1.aiff": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-mono.aiff": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-stereo.aiff": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039996,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-5.1.aiff": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-mono.aiff": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-stereo.aiff": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "alac-5.1.m4a": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-7.1-wide.m4a": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0334023,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-mono.m4a": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-stereo.m4a": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039996,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "dts-5.1-side.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0340601,
+        "nonzero": 59937,
+        "underruns": 0
+      },
+      "dts-mono.mka": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400017,
+        "nonzero": 59941,
+        "underruns": 0
+      },
+      "dts-stereo.mka": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039999,
+        "nonzero": 59938,
+        "underruns": 0
+      },
+      "eac3-5.1-side.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0368616,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "eac3-mono.mka": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.041467,
+        "nonzero": 57952,
+        "underruns": 0
+      },
+      "eac3-stereo.mka": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0399969,
+        "nonzero": 58717,
+        "underruns": 0
+      },
+      "flac-44100-5.1.flac": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368605,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-7.1.flac": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0334029,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-mono.flac": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-stereo.flac": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399961,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "mp3-mono.mp3": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0417464,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "mp3-stereo.mp3": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0387993,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "opus-5.1.opus": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0369681,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-7.1.opus": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.033525,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-mono.opus": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0414113,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-stereo.opus": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0407925,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "truehd-5.1-side.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-mono.mka": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-stereo.mka": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039996,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "vorbis-5.1.ogg": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389701,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-7.1.ogg": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0337965,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-mono.ogg": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-stereo.ogg": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0405184,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "wav-float32-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "wav-float64-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "wav-pcm16-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368633,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm16-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm16-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59945,
+        "underruns": 0
+      },
+      "wav-pcm24-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-7.1.wav": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0334023,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-quad.wav": {
+        "source": 4,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0397538,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039996,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "wavpack-5.1.wv": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-7.1.wv": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0334023,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-mono.wv": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-stereo.wv": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "wma-44100-mono.wma": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0425586,
+        "nonzero": 55728,
+        "underruns": 0
+      },
+      "wma-44100-stereo.wma": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0401234,
+        "nonzero": 55728,
+        "underruns": 0
+      }
+    },
+    "codecs-x64-2-outputs-sinc": {
+      "aac-adts-5.1.aac": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 56448,
+        "peak": 0.0396741,
+        "nonzero": 56448,
+        "underruns": 0
+      },
+      "aac-adts-mono.aac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 56448,
+        "peak": 0.0406172,
+        "nonzero": 56448,
+        "underruns": 0
+      },
+      "aac-adts-stereo.aac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 56448,
+        "peak": 0.0406172,
+        "nonzero": 56448,
+        "underruns": 0
+      },
+      "aac-mp4-5.1.m4a": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396808,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aac-mp4-7.1.m4a": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0389663,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aac-mp4-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0405805,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aac-mp4-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0405801,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "ac3-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0396667,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "ac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0424416,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "ac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0424355,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "aiff-pcm16-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396582,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm16-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401828,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm16-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401828,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm24-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396653,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aiff-pcm24-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aiff-pcm24-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aiff-pcm32-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm32-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm32-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "alac-5.1.m4a": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396653,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "alac-7.1-wide.m4a": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0388971,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "alac-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "alac-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "dts-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0369386,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "dts-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0403589,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "dts-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0403046,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "eac3-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0396664,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "eac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0424418,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "eac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0424429,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "flac-44100-5.1.flac": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396654,
+        "nonzero": 55124,
+        "underruns": 0
+      },
+      "flac-44100-7.1.flac": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0388974,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "flac-44100-mono.flac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0400004,
+        "nonzero": 55124,
+        "underruns": 0
+      },
+      "flac-44100-stereo.flac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0400004,
+        "nonzero": 55124,
+        "underruns": 0
+      },
+      "mp3-mono.mp3": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53926,
+        "peak": 0.0389841,
+        "nonzero": 53926,
+        "underruns": 0
+      },
+      "mp3-stereo.mp3": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53926,
+        "peak": 0.040272,
+        "nonzero": 53926,
+        "underruns": 0
+      },
+      "opus-5.1.opus": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0404854,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "opus-7.1.opus": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0390096,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "opus-mono.opus": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0403124,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "opus-stereo.opus": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.041348,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "truehd-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396653,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "truehd-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "truehd-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "vorbis-5.1.ogg": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0421358,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "vorbis-7.1.ogg": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0392567,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "vorbis-mono.ogg": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0413763,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "vorbis-stereo.ogg": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0413763,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-float32-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float64-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float64-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float64-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm16-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396582,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm16-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401828,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm16-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401828,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm24-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396653,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm24-7.1.wav": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0388971,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm24-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm24-quad.wav": {
+        "source": 4,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0402805,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm24-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm32-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wavpack-5.1.wv": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wavpack-7.1.wv": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0388971,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wavpack-mono.wv": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wavpack-stereo.wv": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wma-44100-mono.wma": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 51200,
+        "peak": 0.0404391,
+        "nonzero": 51200,
+        "underruns": 0
+      },
+      "wma-44100-stereo.wma": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 51200,
+        "peak": 0.0404498,
+        "nonzero": 51200,
+        "underruns": 0
+      }
+    },
+    "codecs-x86-8-outputs": {
+      "aac-adts-5.1.aac": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0689047,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-mono.aac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406669,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-stereo.aac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406665,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-mp4-5.1.m4a": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0689047,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-7.1.m4a": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.068773,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406669,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406665,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "ac3-5.1-side.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0427237,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414671,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414798,
+        "nonzero": 58719,
+        "underruns": 0
+      },
+      "aiff-pcm16-5.1.aiff": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm16-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm16-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm24-5.1.aiff": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-5.1.aiff": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-5.1.m4a": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-7.1-wide.m4a": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "dts-5.1-side.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400376,
+        "nonzero": 59934,
+        "underruns": 0
+      },
+      "dts-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400017,
+        "nonzero": 59941,
+        "underruns": 0
+      },
+      "dts-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400215,
+        "nonzero": 59942,
+        "underruns": 0
+      },
+      "eac3-5.1-side.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0434169,
+        "nonzero": 58719,
+        "underruns": 0
+      },
+      "eac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.041467,
+        "nonzero": 57952,
+        "underruns": 0
+      },
+      "eac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414684,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "flac-44100-5.1.flac": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-7.1.flac": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-mono.flac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-stereo.flac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "mp3-mono.mp3": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0417464,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "mp3-stereo.mp3": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0427337,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "opus-5.1.opus": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0479756,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-7.1.opus": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0511153,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-mono.opus": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0414114,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-stereo.opus": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413865,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "truehd-5.1-side.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "vorbis-5.1.ogg": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-7.1.ogg": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-mono.ogg": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-stereo.ogg": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "wav-float32-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-pcm16-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm16-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm16-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm24-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-7.1.wav": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-quad.wav": {
+        "source": 4,
+        "output": 4,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-5.1.wav": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wavpack-5.1.wv": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-7.1.wv": {
+        "source": 8,
+        "output": 8,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-mono.wv": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-stereo.wv": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wma-44100-mono.wma": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0425586,
+        "nonzero": 55728,
+        "underruns": 0
+      },
+      "wma-44100-stereo.wma": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0427633,
+        "nonzero": 55728,
+        "underruns": 0
+      }
+    },
+    "codecs-x86-2-outputs": {
+      "aac-adts-5.1.aac": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0397071,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-mono.aac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406669,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-stereo.aac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406665,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-mp4-5.1.m4a": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0397071,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-7.1.m4a": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0390289,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406669,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406665,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "ac3-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0396921,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414671,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414798,
+        "nonzero": 58719,
+        "underruns": 0
+      },
+      "aiff-pcm16-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396835,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm16-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm16-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm24-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396907,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-5.1.m4a": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396907,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-7.1-wide.m4a": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389633,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "dts-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0369388,
+        "nonzero": 59932,
+        "underruns": 0
+      },
+      "dts-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400017,
+        "nonzero": 59941,
+        "underruns": 0
+      },
+      "dts-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400215,
+        "nonzero": 59942,
+        "underruns": 0
+      },
+      "eac3-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0396918,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "eac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.041467,
+        "nonzero": 57952,
+        "underruns": 0
+      },
+      "eac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414684,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "flac-44100-5.1.flac": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396909,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-7.1.flac": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389636,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-mono.flac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-stereo.flac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "mp3-mono.mp3": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0417464,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "mp3-stereo.mp3": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0427337,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "opus-5.1.opus": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0404704,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-7.1.opus": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0390707,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-mono.opus": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0414114,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-stereo.opus": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413865,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "truehd-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396907,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "vorbis-5.1.ogg": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0421598,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-7.1.ogg": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0393179,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-mono.ogg": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-stereo.ogg": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "wav-float32-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-pcm16-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396835,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm16-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm16-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm24-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396907,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-7.1.wav": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389633,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-quad.wav": {
+        "source": 4,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wavpack-5.1.wv": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0396906,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-7.1.wv": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389633,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-mono.wv": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-stereo.wv": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wma-44100-mono.wma": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0425586,
+        "nonzero": 55728,
+        "underruns": 0
+      },
+      "wma-44100-stereo.wma": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0427633,
+        "nonzero": 55728,
+        "underruns": 0
+      }
+    },
+    "codecs-x86-1-outputs": {
+      "aac-adts-5.1.aac": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0369072,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-mono.aac": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.0406669,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-adts-stereo.aac": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 61440,
+        "peak": 0.040613,
+        "nonzero": 61440,
+        "underruns": 0
+      },
+      "aac-mp4-5.1.m4a": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0369072,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-7.1.m4a": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0335711,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-mono.m4a": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0406669,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "aac-mp4-stereo.m4a": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.040613,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "ac3-5.1-side.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0368606,
+        "nonzero": 58719,
+        "underruns": 0
+      },
+      "ac3-mono.mka": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0414671,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "ac3-stereo.mka": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.039997,
+        "nonzero": 58718,
+        "underruns": 0
+      },
+      "aiff-pcm16-5.1.aiff": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368633,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm16-mono.aiff": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "aiff-pcm16-stereo.aiff": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59945,
+        "underruns": 0
+      },
+      "aiff-pcm24-5.1.aiff": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-mono.aiff": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm24-stereo.aiff": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039996,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-5.1.aiff": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-mono.aiff": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "aiff-pcm32-stereo.aiff": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "alac-5.1.m4a": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-7.1-wide.m4a": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0334023,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-mono.m4a": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "alac-stereo.m4a": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039996,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "dts-5.1-side.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0340601,
+        "nonzero": 59937,
+        "underruns": 0
+      },
+      "dts-mono.mka": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400017,
+        "nonzero": 59941,
+        "underruns": 0
+      },
+      "dts-stereo.mka": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039999,
+        "nonzero": 59938,
+        "underruns": 0
+      },
+      "eac3-5.1-side.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0368616,
+        "nonzero": 58720,
+        "underruns": 0
+      },
+      "eac3-mono.mka": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.041467,
+        "nonzero": 57952,
+        "underruns": 0
+      },
+      "eac3-stereo.mka": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58720,
+        "peak": 0.0399969,
+        "nonzero": 58718,
+        "underruns": 0
+      },
+      "flac-44100-5.1.flac": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368605,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-7.1.flac": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0334029,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-mono.flac": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0408287,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "flac-44100-stereo.flac": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399961,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "mp3-mono.mp3": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0417464,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "mp3-stereo.mp3": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 58695,
+        "peak": 0.0387993,
+        "nonzero": 58695,
+        "underruns": 0
+      },
+      "opus-5.1.opus": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0369681,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-7.1.opus": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.033525,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-mono.opus": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0414114,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "opus-stereo.opus": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0407925,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "truehd-5.1-side.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-mono.mka": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "truehd-stereo.mka": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039996,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "vorbis-5.1.ogg": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0389701,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-7.1.ogg": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0337965,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-mono.ogg": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0413748,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "vorbis-stereo.ogg": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0405185,
+        "nonzero": 60000,
+        "underruns": 0
+      },
+      "wav-float32-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float32-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "wav-float64-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wav-float64-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "wav-pcm16-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368633,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm16-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59987,
+        "underruns": 0
+      },
+      "wav-pcm16-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM16",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400085,
+        "nonzero": 59945,
+        "underruns": 0
+      },
+      "wav-pcm24-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-7.1.wav": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0334023,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0400001,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-quad.wav": {
+        "source": 4,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0397538,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm24-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM24",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.039996,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-5.1.wav": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-mono.wav": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59997,
+        "underruns": 0
+      },
+      "wav-pcm32-stereo.wav": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "PCM32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "wavpack-5.1.wv": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0368603,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-7.1.wv": {
+        "source": 8,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0334023,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-mono.wv": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.04,
+        "nonzero": 59998,
+        "underruns": 0
+      },
+      "wavpack-stereo.wv": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 60000,
+        "peak": 0.0399959,
+        "nonzero": 59985,
+        "underruns": 0
+      },
+      "wma-44100-mono.wma": {
+        "source": 1,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0425586,
+        "nonzero": 55728,
+        "underruns": 0
+      },
+      "wma-44100-stereo.wma": {
+        "source": 2,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 55728,
+        "peak": 0.0401234,
+        "nonzero": 55728,
+        "underruns": 0
+      }
+    },
+    "codecs-x86-2-outputs-sinc": {
+      "aac-adts-5.1.aac": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 56448,
+        "peak": 0.0396741,
+        "nonzero": 56448,
+        "underruns": 0
+      },
+      "aac-adts-mono.aac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 56448,
+        "peak": 0.0406172,
+        "nonzero": 56448,
+        "underruns": 0
+      },
+      "aac-adts-stereo.aac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 56448,
+        "peak": 0.0406172,
+        "nonzero": 56448,
+        "underruns": 0
+      },
+      "aac-mp4-5.1.m4a": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396808,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aac-mp4-7.1.m4a": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0389663,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aac-mp4-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0405805,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aac-mp4-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0405801,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "ac3-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0396667,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "ac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0424416,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "ac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0424355,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "aiff-pcm16-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396582,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm16-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401828,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm16-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401828,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm24-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396653,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aiff-pcm24-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aiff-pcm24-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "aiff-pcm32-5.1.aiff": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm32-mono.aiff": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "aiff-pcm32-stereo.aiff": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "alac-5.1.m4a": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396653,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "alac-7.1-wide.m4a": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0388971,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "alac-mono.m4a": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "alac-stereo.m4a": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "dts-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0369386,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "dts-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0403589,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "dts-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0403046,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "eac3-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0396664,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "eac3-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0424418,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "eac3-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53949,
+        "peak": 0.0424429,
+        "nonzero": 53949,
+        "underruns": 0
+      },
+      "flac-44100-5.1.flac": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396654,
+        "nonzero": 55124,
+        "underruns": 0
+      },
+      "flac-44100-7.1.flac": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0388974,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "flac-44100-mono.flac": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0400004,
+        "nonzero": 55124,
+        "underruns": 0
+      },
+      "flac-44100-stereo.flac": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0400004,
+        "nonzero": 55124,
+        "underruns": 0
+      },
+      "mp3-mono.mp3": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53926,
+        "peak": 0.0389841,
+        "nonzero": 53926,
+        "underruns": 0
+      },
+      "mp3-stereo.mp3": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 53926,
+        "peak": 0.040272,
+        "nonzero": 53926,
+        "underruns": 0
+      },
+      "opus-5.1.opus": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0404854,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "opus-7.1.opus": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0390096,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "opus-mono.opus": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0403124,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "opus-stereo.opus": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.041348,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "truehd-5.1-side.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396653,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "truehd-mono.mka": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "truehd-stereo.mka": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "vorbis-5.1.ogg": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0421358,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "vorbis-7.1.ogg": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0392567,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "vorbis-mono.ogg": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0413763,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "vorbis-stereo.ogg": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0413763,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-float32-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float64-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float64-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-float64-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm16-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396582,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm16-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401828,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm16-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM16",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401828,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm24-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396653,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm24-7.1.wav": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0388971,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm24-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm24-quad.wav": {
+        "source": 4,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0402805,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm24-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM24",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401747,
+        "nonzero": 55125,
+        "underruns": 0
+      },
+      "wav-pcm32-5.1.wav": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm32-mono.wav": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wav-pcm32-stereo.wav": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "PCM32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wavpack-5.1.wv": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0396652,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wavpack-7.1.wv": {
+        "source": 8,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0388971,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wavpack-mono.wv": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wavpack-stereo.wv": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 55125,
+        "peak": 0.0401748,
+        "nonzero": 55123,
+        "underruns": 0
+      },
+      "wma-44100-mono.wma": {
+        "source": 1,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 51200,
+        "peak": 0.0404391,
+        "nonzero": 51200,
+        "underruns": 0
+      },
+      "wma-44100-stereo.wma": {
+        "source": 2,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 51200,
+        "peak": 0.0404498,
+        "nonzero": 51200,
+        "underruns": 0
+      }
+    },
+    "videos-x64-8-outputs": {
+      "1-track0.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.0718585,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "1-track1.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.078054,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "2-track0.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 7.91289e-05,
+        "nonzero": 383951,
+        "underruns": 0
+      },
+      "2-track1.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 1.15065e-05,
+        "nonzero": 383942,
+        "underruns": 0
+      },
+      "2-track2.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 6.5784e-06,
+        "nonzero": 383895,
+        "underruns": 0
+      }
+    },
+    "videos-x64-2-outputs": {
+      "1-track0.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.104463,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "1-track1.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.0831506,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "2-track0.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00295377,
+        "nonzero": 383998,
+        "underruns": 0
+      },
+      "2-track1.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00204263,
+        "nonzero": 383998,
+        "underruns": 0
+      },
+      "2-track2.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00268384,
+        "nonzero": 383999,
+        "underruns": 0
+      }
+    },
+    "videos-x64-1-outputs": {
+      "1-track0.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.10476,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "1-track1.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.0764302,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "2-track0.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00295285,
+        "nonzero": 383995,
+        "underruns": 0
+      },
+      "2-track1.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00204227,
+        "nonzero": 383998,
+        "underruns": 0
+      },
+      "2-track2.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00268367,
+        "nonzero": 384000,
+        "underruns": 0
+      }
+    },
+    "videos-x64-2-outputs-sinc": {
+      "1-track0.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.104413,
+        "nonzero": 352800,
+        "underruns": 0
+      },
+      "1-track1.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.0832694,
+        "nonzero": 352800,
+        "underruns": 0
+      },
+      "2-track0.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.00296063,
+        "nonzero": 352800,
+        "underruns": 0
+      },
+      "2-track1.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.00203687,
+        "nonzero": 352797,
+        "underruns": 0
+      },
+      "2-track2.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.00266893,
+        "nonzero": 352800,
+        "underruns": 0
+      }
+    },
+    "videos-x86-8-outputs": {
+      "1-track0.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.0718585,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "1-track1.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.078054,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "2-track0.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 7.91289e-05,
+        "nonzero": 383951,
+        "underruns": 0
+      },
+      "2-track1.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 1.15065e-05,
+        "nonzero": 383942,
+        "underruns": 0
+      },
+      "2-track2.mka": {
+        "source": 6,
+        "output": 6,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 6.5784e-06,
+        "nonzero": 383895,
+        "underruns": 0
+      }
+    },
+    "videos-x86-2-outputs": {
+      "1-track0.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.104463,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "1-track1.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.0831506,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "2-track0.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00295377,
+        "nonzero": 383998,
+        "underruns": 0
+      },
+      "2-track1.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00204263,
+        "nonzero": 383998,
+        "underruns": 0
+      },
+      "2-track2.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00268384,
+        "nonzero": 383999,
+        "underruns": 0
+      }
+    },
+    "videos-x86-1-outputs": {
+      "1-track0.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.10476,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "1-track1.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.0764302,
+        "nonzero": 384000,
+        "underruns": 0
+      },
+      "2-track0.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00295285,
+        "nonzero": 383995,
+        "underruns": 0
+      },
+      "2-track1.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00204227,
+        "nonzero": 383998,
+        "underruns": 0
+      },
+      "2-track2.mka": {
+        "source": 6,
+        "output": 1,
+        "sample_type": "Float32",
+        "rate": 48000,
+        "frames": 384000,
+        "peak": 0.00268367,
+        "nonzero": 384000,
+        "underruns": 0
+      }
+    },
+    "videos-x86-2-outputs-sinc": {
+      "1-track0.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.104413,
+        "nonzero": 352800,
+        "underruns": 0
+      },
+      "1-track1.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.0832694,
+        "nonzero": 352800,
+        "underruns": 0
+      },
+      "2-track0.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.00296063,
+        "nonzero": 352800,
+        "underruns": 0
+      },
+      "2-track1.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.00203687,
+        "nonzero": 352797,
+        "underruns": 0
+      },
+      "2-track2.mka": {
+        "source": 6,
+        "output": 2,
+        "sample_type": "Float32",
+        "rate": 44100,
+        "frames": 352800,
+        "peak": 0.00266893,
+        "nonzero": 352800,
+        "underruns": 0
+      }
+    }
+  }
+}

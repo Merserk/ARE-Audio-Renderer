@@ -46,15 +46,16 @@ STDMETHODIMP SettingsPage::GetPageInfo(PROPPAGEINFO* info) {
     return S_OK;
 }
 STDMETHODIMP SettingsPage::SetObjects(ULONG count, IUnknown** objects) {
-    if (!count) { settings_.Reset(); live_status_.Reset(); playback_.Reset(); processing_.Reset(); resampling_.Reset(); channels_.Reset(); seeking_.Reset(); return S_OK; }
+    if (!count) { settings_.Reset(); live_status_.Reset(); playback_.Reset(); processing_.Reset(); resampling_.Reset(); channels_.Reset(); apply_.Reset(); seeking_.Reset(); return S_OK; }
     if (count != 1 || !objects || !objects[0]) return E_INVALIDARG;
-    settings_.Reset(); live_status_.Reset(); playback_.Reset(); processing_.Reset(); resampling_.Reset(); channels_.Reset(); seeking_.Reset();
+    settings_.Reset(); live_status_.Reset(); playback_.Reset(); processing_.Reset(); resampling_.Reset(); channels_.Reset(); apply_.Reset(); seeking_.Reset();
     const auto hr = objects[0]->QueryInterface(IID_PPV_ARGS(settings_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(live_status_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(playback_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(processing_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(resampling_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(channels_.GetAddressOf()));
+    if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(apply_.GetAddressOf()));
     if (SUCCEEDED(hr)) objects[0]->QueryInterface(IID_PPV_ARGS(seeking_.GetAddressOf()));
     if (SUCCEEDED(hr) && window_) initialize();
     return hr;
@@ -178,7 +179,7 @@ void SettingsPage::refresh_status() {
     std::wstring text;
     if (FAILED(status.error)) text = std::format(L"Error 0x{:08X}: {}", UINT(status.error), status.detail);
     else if (!apply_message_.empty() && apply_message_ != L"Settings saved.") text = apply_message_;
-    else if (live.settings_pending) text = L"Settings saved. Stop and restart playback to apply changes.";
+    else if (live.settings_pending) text = L"Settings saved. Click Apply to restart the audio engine.";
     else if (!live.in_graph) text = L"Open settings during playback in MPC-HC to see output details.";
     else if (!status.opened) text = L"Start playback to see output details.";
     else if (!signal_available) text=L"Processing status unavailable.";
@@ -241,6 +242,13 @@ STDMETHODIMP SettingsPage::Apply() {
             const ResamplingOptions src{SrcAlgorithm(SendDlgItemMessageW(window_,IDC_SRC_ALGORITHM,CB_GETITEMDATA,WPARAM(src_index),0))};
             const auto result=resampling_->SetResamplingOptions(&src);
             if (FAILED(result)) { apply_message_=L"Could not save sample rate converter."; refresh_status(); return result; }
+        }
+        if (apply_) {
+            const auto result = apply_->ApplyPendingSettings();
+            if (FAILED(result)) {
+                apply_message_ = std::format(L"Could not apply settings (0x{:08X}). Check the device and output format.", UINT(result));
+                refresh_status(); return result;
+            }
         }
         apply_message_ = L"Settings saved.";
         dirty_ = false; if (site_) site_->OnStatusChange(PROPPAGESTATUS_CLEAN); refresh_status(); return S_OK;

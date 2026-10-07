@@ -11,7 +11,11 @@ param(
 $ErrorActionPreference='Stop'
 $sourceRoot=Split-Path -Parent $PSScriptRoot
 if (!$FixturesDirectory) { $FixturesDirectory=Join-Path $sourceRoot 'out/codec-fixtures' }
-if (!$ResultsDirectory) { $ResultsDirectory=Join-Path $sourceRoot 'tests/results/0.2.0' }
+if (!$ResultsDirectory) {
+    $releaseVersion=[regex]::Match((Get-Content -LiteralPath (Join-Path $sourceRoot 'CMakeLists.txt') -Raw),'project\(ASIORenderEngine VERSION (\d+\.\d+\.\d+)').Groups[1].Value
+    if (!$releaseVersion) { throw 'Cannot determine the renderer version.' }
+    $ResultsDirectory=Join-Path $sourceRoot ("tests/results/$releaseVersion")
+}
 if (!$BuildDirectory) { $BuildDirectory=Join-Path $sourceRoot 'out' }
 $BuildDirectory=(Resolve-Path -LiteralPath $BuildDirectory).Path
 $LavDirectory=(Resolve-Path -LiteralPath $LavDirectory).Path

@@ -4,6 +4,9 @@ The validated host is **MPC-HC 2.8.2**, upstream commit
 [`a84d0cf38a1866f3518bb819c901300dacff5a9b`](https://github.com/clsid2/mpc-hc/tree/a84d0cf38a1866f3518bb819c901300dacff5a9b).
 The player is obtained and built separately from the renderer release.
 
+ARE 0.3.0 uses the same compatibility patch as 0.2.0. The rate/Apply fixes are
+inside the renderer DLL; an already patched player needs no additional rebuild.
+
 With Audio Switcher enabled, unpatched MPC-HC 2.8.2 rejects ARE during pin
 connection because its renderer detection uses connected pins and a CLSID
 whitelist. The included patch recognizes the standard renderer flag. It also

@@ -15,20 +15,22 @@
 
 ARE Audio Renderer connects decoded PCM audio to your ASIO device through a
 DirectShow renderer. Choose r8brain or SoX conversion, control the output format,
-and inspect the active audio path from the properties page.
+and inspect the active audio path from the properties page. Current version: **0.3.0**.
 
 - **Play mono and surround.** Mono feeds both stereo outputs; multichannel PCM is preserved or mixed to the device's available outputs.
 - **Keep the device sample rate.** Resampling is enabled by default for new settings; existing preferences are preserved.
 - **Choose the conversion engine.** r8brain and SoX Sinc both process audio in Float64 with linear phase filters.
 - **Inspect playback.** See input/output formats, sample rates, buffer latency, conversion status and underrun counters.
 - **Control the output.** Select an ASIO device, first output channel, buffer size and automatic or explicit PCM precision.
+- **Change speed quickly.** Decrease Rate, Increase Rate and Reset Rate retain the ASIO stream through the player's brief graph restart.
+- **Apply settings during playback.** Apply activates SRC, PCM precision and device changes in one restart at the current position, preserving speed, volume, mute and paused state.
 
 ## Download and install
 
 | MPC-HC architecture | Release package |
 | --- | --- |
-| 64-bit | [ARE-Audio-Renderer-0.2.0-x64.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.2.0/ARE-Audio-Renderer-0.2.0-x64.zip) |
-| 32-bit | [ARE-Audio-Renderer-0.2.0-x86.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.2.0/ARE-Audio-Renderer-0.2.0-x86.zip) |
+| 64-bit | [ARE-Audio-Renderer-0.3.0-x64.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.3.0/ARE-Audio-Renderer-0.3.0-x64.zip) |
+| 32-bit | [ARE-Audio-Renderer-0.3.0-x86.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.3.0/ARE-Audio-Renderer-0.3.0-x86.zip) |
 
 Use the package matching **MPC-HC**, and install an ASIO driver of the same
 architecture. Obtain MPC-HC separately from its [official releases](https://github.com/clsid2/mpc-hc/releases).
@@ -46,6 +48,26 @@ Open the settings during playback through MPC-HC's **Play → Filters → ARE Au
 Renderer** entry, or use **ARE-Audio-Renderer-Settings.exe**. Windows audio sharing
 depends on the ASIO driver. For unregistration, run **Uninstall.bat** from the
 installed or extracted folder.
+
+Click **Apply** inside the active renderer's properties page to use changed
+settings immediately. A failed device/output selection restores the previous
+stream when it can be reopened. An unchanged Apply keeps the device running.
+The standalone helper saves preferences for the next renderer instance.
+Restart MPC-HC once after installing an updated DLL to load the new version.
+
+## Playback-rate performance
+
+Version 0.3.0 retains a silent ASIO stream for 250 ms when DirectShow stops the
+graph. A rate change resumes during that window without driver initialization.
+A sustained Stop releases the device afterward; closing a file and applying
+changed settings release/reopen it directly. The converter quality settings,
+pitch behavior and hardware sample rate remain the same.
+
+On the tested FL Studio ASIO path, 0.2.0's x64 DirectShow rate calls took
+261–314 ms. The 0.3.0 physical checks cover both architectures and both
+converters, along with live Apply while playing and paused. Timings measure
+the graph API and renderer delivery, rather than the full UI-to-DAC response.
+See [validation](VALIDATION.md) and [changes](CHANGELOG.md).
 
 ## Mono, stereo and surround
 
@@ -90,7 +112,7 @@ plays its decoded channel bed; object metadata and encoded Dolby/DTS/DSD/DoP
 passthrough are outside the PCM/ASIO path. TrueHD fixture coverage reaches 5.1;
 7.1 channel handling is tested independently using the other formats above.
 
-Release checks passed 592 codec/video graph cases across x64/x86 and eight clean
+Release checks passed 592 codec/video graph cases across x64/x86 and six clean
 physical ASIO captures. See [validation](VALIDATION.md) for the configurations,
 results and limits.
 
@@ -112,7 +134,9 @@ is disabled. ARE renders decoded PCM; compressed bitstream passthrough is unsupp
 ## Measured comparison
 
 The measurements below were recorded for version 0.1.0 on a stereo path.
-Version 0.2.0 channel and codec checks are documented in [VALIDATION.md](VALIDATION.md).
+Version 0.3.0 rate, Apply and compatibility checks are documented in
+[VALIDATION.md](VALIDATION.md); the previous channel checks are retained in
+[the 0.2.0 validation](docs/validation/0.2.0.md).
 
 <!-- measurement:start -->
 **117 live captures** · 13 signals / formats · three output paths · 3 repetitions per case.
@@ -174,7 +198,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Build.ps1
 ```
 
 The script builds and tests both architectures, then writes the two release ZIPs
-to `dist/0.2.0/`. Use `-Architecture x64` or `-Architecture x86` for one build.
+to `dist/0.3.0/`. Use `-Architecture x64` or `-Architecture x86` for one build.
 Release binaries use the static MSVC runtime. Both architectures passed all eight
 CTest checks covering PCM precision, conversion, playback rate, transitions,
 the ASIO engine and the DirectShow filter contract.

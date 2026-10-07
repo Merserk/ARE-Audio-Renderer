@@ -97,6 +97,7 @@ STDMETHODIMP Renderer::QueryInterface(REFIID iid, void** out) {
     else if (iid == __uuidof(IASIORenderProcessing)) *out = static_cast<IASIORenderProcessing*>(this);
     else if (iid == __uuidof(IASIORenderResampling)) *out = static_cast<IASIORenderResampling*>(this);
     else if (iid == __uuidof(IASIORenderChannels)) *out = static_cast<IASIORenderChannels*>(this);
+    else if (iid == __uuidof(IASIORenderApply)) *out = static_cast<IASIORenderApply*>(this);
     else if (iid == IID_IBasicAudio || iid == IID_IDispatch) *out = static_cast<IBasicAudio*>(this);
     else if (iid == IID_IMediaSeeking) *out = static_cast<IMediaSeeking*>(this);
     else if (iid == IID_IQualityControl) *out = static_cast<IQualityControl*>(this);
@@ -108,13 +109,20 @@ STDMETHODIMP_(ULONG) Renderer::Release() { const auto n = --refs_; if (!n) delet
 STDMETHODIMP Renderer::GetClassID(CLSID* clsid) { if (!clsid) return E_POINTER; *clsid = clsid_renderer; return S_OK; }
 STDMETHODIMP Renderer::Stop() {
     std::lock_guard transition(transition_mutex_);
+    stop_release_at_.store(0);
     state_.store(State_Stopped); flushing_.store(false); engine_.abort(); SetEvent(ready_.get());
     std::lock_guard stream(receive_mutex_);
-    engine_.close(); eos_.store(false); complete_sent_.store(false); error_sent_.store(false);
+    if (pending_settings_ || pending_processing_ || pending_resampling_ || FAILED(engine_.error())) engine_.close();
+    else if (engine_.opened()) {
+        engine_.reset(); engine_.abort();
+        stop_release_at_.store(GetTickCount64() + 250);
+    }
+    eos_.store(false); complete_sent_.store(false); error_sent_.store(false);
     if (pending_settings_) { settings_ = *pending_settings_; pending_settings_.reset(); }
     if (pending_processing_) { processing_ = *pending_processing_; pending_processing_.reset(); }
     if (pending_resampling_) { resampling_ = *pending_resampling_; pending_resampling_.reset(); }
     input_.have_time_ = false; input_.submitted_frames_ = 0;
+    SetEvent(engine_.progress_event());
     return S_OK;
 }
 STDMETHODIMP Renderer::Pause() {
@@ -122,6 +130,7 @@ STDMETHODIMP Renderer::Pause() {
         std::lock_guard transition(transition_mutex_);
         if (state_.load() == State_Paused) return S_OK;
         if (state_.load() == State_Stopped) {
+            stop_release_at_.store(0);
             std::lock_guard stream(receive_mutex_);
             if (input_.format_ && !engine_.opened()) { const auto hr = engine_.open(*input_.format_, settings_,processing_,resampling_,playback_rate_.load()); if (FAILED(hr)) return hr; }
             input_.have_time_ = false; input_.submitted_frames_ = 0;
@@ -286,6 +295,70 @@ STDMETHODIMP Renderer::GetChannelStatus(ChannelStatus* status) {
         std::lock_guard transition(transition_mutex_); *status = engine_.channel_status(); return S_OK;
     } catch (...) { return E_OUTOFMEMORY; }
 }
+STDMETHODIMP Renderer::ApplyPendingSettings() {
+    try {
+        std::lock_guard apply(apply_mutex_);
+        Settings previous_settings;
+        ProcessingOptions previous_processing;
+        ResamplingOptions previous_resampling;
+        FILTER_STATE previous_state;
+        ComPtr<IFilterGraph> graph;
+        {
+            std::lock_guard transition(transition_mutex_);
+            if (!pending_settings_ && !pending_processing_ && !pending_resampling_) return S_OK;
+            previous_settings = settings_; previous_processing = processing_; previous_resampling = resampling_;
+            previous_state = state_.load();
+            std::lock_guard info(info_mutex_); graph = graph_;
+        }
+        if (!graph) return VFW_E_NOT_IN_GRAPH;
+        ComPtr<IMediaControl> control; ComPtr<IMediaSeeking> seeking;
+        auto result = graph.As(&control); if (FAILED(result)) return result;
+        result = graph.As(&seeking); if (FAILED(result)) return result;
+        DWORD capabilities{};
+        result = seeking->GetCapabilities(&capabilities); if (FAILED(result)) return result;
+        if (!(capabilities & AM_SEEKING_CanSeekAbsolute)) return E_NOTIMPL;
+        LONGLONG position{};
+        result = seeking->GetCurrentPosition(&position); if (FAILED(result)) return result;
+        struct ApplyGuard {
+            std::atomic<bool>& active;
+            HANDLE progress;
+            ~ApplyGuard() { active.store(false); SetEvent(progress); }
+        } guard{applying_settings_,engine_.progress_event()};
+        applying_settings_.store(true);
+        // Do not hold renderer locks across graph calls: Stop/seek join the
+        // upstream producer and call back into this filter. Reposition the
+        // whole graph so video and newly converted audio stay synchronized.
+        result = control->Stop(); if (FAILED(result)) return result;
+        auto resume = [&] {
+            auto hr = seeking->SetPositions(&position, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+            if (FAILED(hr)) return hr;
+            hr = previous_state == State_Running ? control->Run() : control->Pause();
+            if (FAILED(hr)) return hr;
+            // Run may return S_FALSE while the graph is still prerolling.
+            // Apply succeeds only after the prior playback state is restored.
+            OAFilterState state{};
+            hr = control->GetState(2000,&state);
+            if (FAILED(hr)) return hr;
+            return state == previous_state ? S_OK : HRESULT_FROM_WIN32(WAIT_TIMEOUT);
+        };
+        result = resume();
+        if (FAILED(result)) {
+            // An unsupported device/precision must not leave the old graph
+            // unusable. Restore the prior configuration and playback state.
+            control->Stop();
+            {
+                std::lock_guard transition(transition_mutex_);
+                std::lock_guard stream(receive_mutex_);
+                engine_.abort(); engine_.close(); stop_release_at_.store(0);
+                settings_ = previous_settings; processing_ = previous_processing; resampling_ = previous_resampling;
+                pending_settings_.reset(); pending_processing_.reset(); pending_resampling_.reset();
+                save_settings(settings_); save_processing_options(processing_); save_resampling_options(resampling_);
+            }
+            resume();
+        }
+        return result;
+    } catch (...) { return E_OUTOFMEMORY; }
+}
 void Renderer::notify_event(long event, LONG_PTR first, LONG_PTR second) {
     ComPtr<IMediaEventSink> sink;
     { std::lock_guard lock(info_mutex_); if (graph_) graph_->QueryInterface(IID_PPV_ARGS(sink.GetAddressOf())); }
@@ -295,9 +368,20 @@ void Renderer::monitor() {
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     const HANDLE handles[]{monitor_stop_.get(), engine_.progress_event()};
     for (;;) {
-        const auto timeout = eos_.load() && state_.load() == State_Running && !complete_sent_.load() ? 10u : INFINITE;
+        auto timeout = eos_.load() && state_.load() == State_Running && !complete_sent_.load() ? 10u : INFINITE;
+        if (const auto release_at = stop_release_at_.load()) {
+            const auto now = GetTickCount64();
+            timeout = DWORD(release_at > now ? release_at - now : 0);
+        }
         if (WaitForMultipleObjects(2, handles, FALSE, timeout) == WAIT_OBJECT_0) break;
-        if (state_.load() == State_Stopped || flushing_.load()) continue;
+        if (const auto release_at = stop_release_at_.load(); release_at && GetTickCount64() >= release_at) {
+            std::lock_guard transition(transition_mutex_);
+            if (state_.load() == State_Stopped && stop_release_at_.load() == release_at) {
+                std::lock_guard stream(receive_mutex_);
+                engine_.abort(); engine_.close(); stop_release_at_.store(0);
+            }
+        }
+        if (state_.load() == State_Stopped || flushing_.load() || applying_settings_.load()) continue;
         const auto error = engine_.error();
         if (FAILED(error)) {
             if (!error_sent_.exchange(true)) { SetEvent(ready_.get()); notify_event(EC_ERRORABORT, error, 0); }
@@ -469,12 +553,14 @@ STDMETHODIMP InputPin::EndOfStream() {
 }
 STDMETHODIMP InputPin::BeginFlush() {
     renderer_.flushing_.store(true); renderer_.engine_.abort();
+    std::lock_guard transition(renderer_.transition_mutex_);
     std::lock_guard stream(renderer_.receive_mutex_);
     renderer_.engine_.reset(); renderer_.eos_.store(false); renderer_.complete_sent_.store(false); renderer_.error_sent_.store(false);
     have_time_ = false; submitted_frames_ = 0; ResetEvent(renderer_.ready_.get()); return S_OK;
 }
 STDMETHODIMP InputPin::EndFlush() {
     try {
+        std::lock_guard transition(renderer_.transition_mutex_);
         std::lock_guard stream(renderer_.receive_mutex_);
         renderer_.flushing_.store(false); renderer_.engine_.allow_input();
         if (renderer_.state_.load() == State_Running && renderer_.engine_.opened()) return renderer_.engine_.start(renderer_.run_start_.load(), renderer_.graph_now());
@@ -485,6 +571,10 @@ STDMETHODIMP InputPin::NewSegment(REFERENCE_TIME, REFERENCE_TIME, double rate) {
     if (!valid_playback_rate(rate)) return E_INVALIDARG;
     renderer_.engine_.abort();
     try {
+        // Run must publish its state before a segment reset decides whether
+        // to restart consumption. Otherwise a reset can pause the engine just
+        // after Run starts it, leaving a running graph with a full queue.
+        std::lock_guard transition(renderer_.transition_mutex_);
         std::lock_guard stream(renderer_.receive_mutex_); renderer_.engine_.reset();
         if (renderer_.engine_.opened()) {
             const auto result=renderer_.engine_.set_rate(rate); if (FAILED(result)) return result;

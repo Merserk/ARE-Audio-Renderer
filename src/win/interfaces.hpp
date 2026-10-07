@@ -105,4 +105,9 @@ MIDL_INTERFACE("9C411DD0-2F46-4385-9D3C-2ED27E91B731")
 IASIORenderChannels : public IUnknown {
     virtual HRESULT STDMETHODCALLTYPE GetChannelStatus(ChannelStatus* status) = 0;
 };
+// Batch the existing setters into one restart without changing earlier ABIs.
+MIDL_INTERFACE("7B5125EA-1553-46D1-A624-FC7EF51994BD")
+IASIORenderApply : public IUnknown {
+    virtual HRESULT STDMETHODCALLTYPE ApplyPendingSettings() = 0;
+};
 } // namespace are::win

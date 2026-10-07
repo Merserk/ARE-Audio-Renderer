@@ -1,0 +1,17 @@
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/ARE-Audio-Renderer.dll
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/ARE-Audio-Renderer-Control.exe
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/ARE-Audio-Renderer-Settings.exe
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/LICENSE
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/licenses/ARE-MIT.txt
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/THIRD_PARTY_NOTICES.md
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/README.md
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/Install.ps1
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/Install.cmd
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/Uninstall.ps1
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/Uninstall.bat
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/licenses/ASIO-SDK.txt
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/licenses/r8brain-MIT.txt
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/licenses/OOURA-FFT-NOTICE.txt
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/licenses/SoX-LGPL-2.1.txt
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/licenses/LICENCE
+-- Installing: ${WORKSPACE}/out/release-0.3.0/x64/licenses/FFT-NOTICES.txt

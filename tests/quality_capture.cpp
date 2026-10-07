@@ -3,6 +3,7 @@
 // No default device, mixer volume, or audio enhancement settings are changed.
 #include "win/interfaces.hpp"
 #include "win/settings.hpp"
+#include "preferences_lock.hpp"
 #include "core/format.hpp"
 #include <audioclient.h>
 #include <audiopolicy.h>
@@ -21,7 +22,7 @@ struct StopGraph {
     ~StopGraph() { control->Stop(); }
 };
 // Preserve exact registry values/types/absence across the optional ARE run.
-struct Preferences {
+struct Preferences : are::test::PreferencesLock {
     struct Value { std::wstring name; DWORD type; std::vector<BYTE> data; };
     std::vector<Value> values;
     bool existed{};

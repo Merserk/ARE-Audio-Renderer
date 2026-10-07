@@ -69,7 +69,7 @@ void print_status(const EngineStatus& s) {
         s.output_latency_frames, s.delivered_frames, s.underruns, s.overloads, s.detail);
 }
 void help() {
-    std::wcout << LR"(ARE Audio Renderer 0.2.0
+    std::wcout << LR"(ARE Audio Renderer 0.3.0
   ARE-Audio-Renderer-Control.exe --devices
   ARE-Audio-Renderer-Control.exe --settings
   ARE-Audio-Renderer-Control.exe --install <absolute DLL path>
