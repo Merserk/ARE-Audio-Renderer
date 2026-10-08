@@ -13,209 +13,82 @@
   />
 </p>
 
-ARE Audio Renderer connects decoded PCM audio to your ASIO device through a
-DirectShow renderer. Choose r8brain or SoX conversion, control the output format,
-and inspect the active audio path from the properties page. Current version: **0.3.0**.
+ARE Audio Renderer is a DirectShow audio renderer for MPC-HC that sends decoded PCM audio to an ASIO device. It focuses on precise output control, high-quality sample-rate conversion, and a clear view of the active audio path.
 
-- **Play mono and surround.** Mono feeds both stereo outputs; multichannel PCM is preserved or mixed to the device's available outputs.
-- **Keep the device sample rate.** Resampling is enabled by default for new settings; existing preferences are preserved.
-- **Choose the conversion engine.** r8brain and SoX Sinc both process audio in Float64 with linear phase filters.
-- **Inspect playback.** See input/output formats, sample rates, buffer latency, conversion status and underrun counters.
-- **Control the output.** Select an ASIO device, first output channel, buffer size and automatic or explicit PCM precision.
-- **Change speed quickly.** Decrease Rate, Increase Rate and Reset Rate retain the ASIO stream through the player's brief graph restart.
-- **Apply settings during playback.** Apply activates SRC, PCM precision and device changes in one restart at the current position, preserving speed, volume, mute and paused state.
+## Features
 
-## Download and install
+- **Direct ASIO output** with selectable device, first output channel, buffer size, and output precision.
+- **High-quality sample-rate conversion** using r8brain or SoX Sinc, processed in Float64 with linear-phase filters.
+- **Device-rate playback** with optional resampling to keep the ASIO device at its current sample rate.
+- **Mono, stereo, and surround support.** Mono can feed both stereo outputs; multichannel audio is preserved when enough outputs are available and downmixed when necessary.
+- **Automatic or explicit PCM output** with 16-, 24-, and 32-bit choices and dithering when integer quantization is required.
+- **Live playback status** for input/output formats, sample rates, channel mapping, buffer latency, conversion state, and underruns.
+- **Runtime settings and playback-rate changes** designed to minimize unnecessary ASIO device reinitialization.
 
-| MPC-HC architecture | Release package |
+## Installation
+
+You need **Windows**, **MPC-HC**, and an **ASIO driver** matching the architecture of MPC-HC.
+
+1. Download the package for your MPC-HC architecture from [Releases](https://github.com/Merserk/ARE-Audio-Renderer/releases).
+2. Prepare a compatible MPC-HC build using the included [compatibility patch](integration/mpc-hc/README.md).
+3. Close MPC-HC, extract the package, and run `Install.cmd`.
+4. Select your ASIO device in the renderer settings and click **Apply**.
+5. Restart MPC-HC, then select **ARE Audio Renderer** under **Options → Playback → Output → Audio Renderer**.
+
+During playback, open the renderer settings from **Play → Filters → ARE Audio Renderer**. You can also use `ARE-Audio-Renderer-Settings.exe` to configure defaults outside the player.
+
+To unregister the renderer, run `Uninstall.bat` from the installed or extracted folder.
+
+## Audio behavior
+
+ARE receives decoded PCM from the player's audio decoder and sends it through the selected ASIO path.
+
+| Input / device situation | Behavior |
 | --- | --- |
-| 64-bit | [ARE-Audio-Renderer-0.3.0-x64.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.3.0/ARE-Audio-Renderer-0.3.0-x64.zip) |
-| 32-bit | [ARE-Audio-Renderer-0.3.0-x86.zip](https://github.com/Merserk/ARE-Audio-Renderer/releases/download/v0.3.0/ARE-Audio-Renderer-0.3.0-x86.zip) |
+| Mono on a stereo output | Duplicated to left and right |
+| Stereo | Preserved as stereo |
+| Multichannel with enough ASIO outputs | Channels are preserved in speaker-mask order |
+| Multichannel with fewer outputs | Downmixed to stereo, or mono when only one output is available |
+| Source and device sample rates differ | Resampled when device-rate playback is enabled |
+| Compatible source/device rate and format | Conversion can be bypassed for a direct PCM path |
 
-Use the package matching **MPC-HC**, and install an ASIO driver of the same
-architecture. Obtain MPC-HC separately from its [official releases](https://github.com/clsid2/mpc-hc/releases).
+The first ASIO output channel is configurable, and unused device outputs are not opened.
 
-The validated host is **MPC-HC 2.8.2 with the included compatibility patch**.
-Its stock Audio Switcher rejects ARE during connection; the patch also enables
-the Output settings button for external renderers. Follow the
-[host build instructions](integration/mpc-hc/README.md) before installation.
+### Decoder configuration
 
-1. Close MPC-HC, extract the ZIP and run **Install.cmd**. The installer opens the renderer settings after registration.
-2. Choose your **ASIO device** and apply the settings.
-3. Restart MPC-HC. In **Options → Playback → Output → Audio Renderer**, select **ARE Audio Renderer**.
+Configure LAV Audio or another upstream decoder to output **PCM** when using ARE. Compressed Dolby/DTS bitstream passthrough, DSD/DoP passthrough, and object-based audio metadata are outside the PCM/ASIO path.
 
-Open the settings during playback through MPC-HC's **Play → Filters → ARE Audio
-Renderer** entry, or use **ARE-Audio-Renderer-Settings.exe**. Windows audio sharing
-depends on the ASIO driver. For unregistration, run **Uninstall.bat** from the
-installed or extracted folder.
+## Sample-rate conversion
 
-Click **Apply** inside the active renderer's properties page to use changed
-settings immediately. A failed device/output selection restores the previous
-stream when it can be reopened. An unchanged Apply keeps the device running.
-The standalone helper saves preferences for the next renderer instance.
-Restart MPC-HC once after installing an updated DLL to load the new version.
+Two conversion engines are available:
 
-## Playback-rate performance
+- **r8brain** — the default high-quality converter.
+- **SoX Sinc** — an alternative high-quality sinc converter.
 
-Version 0.3.0 retains a silent ASIO stream for 250 ms when DirectShow stops the
-graph. A rate change resumes during that window without driver initialization.
-A sustained Stop releases the device afterward; closing a file and applying
-changed settings release/reopen it directly. The converter quality settings,
-pitch behavior and hardware sample rate remain the same.
-
-On the tested FL Studio ASIO path, 0.2.0's x64 DirectShow rate calls took
-261–314 ms. The 0.3.0 physical checks cover both architectures and both
-converters, along with live Apply while playing and paused. Timings measure
-the graph API and renderer delivery, rather than the full UI-to-DAC response.
-See [validation](VALIDATION.md) and [changes](CHANGELOG.md).
-
-## Mono, stereo and surround
-
-
-Version 0.2.0 automatically adapts decoded audio to the outputs available from
-the selected ASIO channel. Mono plays through both outputs on a stereo device;
-stereo keeps its exact channel path. A device with enough outputs retains every
-surround channel in WAVE speaker-mask order, starting at the selected first
-channel. A smaller device receives a stereo downmix, or mono when only one
-output remains. Unused extra device outputs are not opened.
-
-The downmix includes center dialogue, rear/side/height speakers and LFE. Center
-and surround contributions use -3 dB; LFE uses -6 dB before a common matrix
-attenuation provides headroom for coherent full-scale channels. This can make
-surround playback quieter than stereo. Mixing runs in Float64 on the producer
-thread, before SRC, playback speed, volume, fades and final PCM quantization.
-Native surround and mono duplication retain the exact sample path when rates,
-volume and output precision allow it. Downmixing changes sample values.
-
-The properties page shows mappings such as **6 channels → Stereo** and
-**Mono → Stereo**, and identifies channel downmixing in the status footer.
-The first ASIO output must exist; an invalid selection still reports an error.
-
-ARE receives PCM from the player's decoder. The LAV integration tests cover:
-
-| Source format | Tested source layouts |
-| --- | --- |
-| WAV: PCM16/24/32, Float32/64 | Mono, stereo, 5.1; PCM24 also quad and 7.1 |
-| AIFF: big-endian PCM16/24/32 | Mono, stereo, 5.1 |
-| ALAC | Mono, stereo, 5.1, 7.1 wide |
-| MP3 | Mono, stereo; MP3 does not encode discrete 5.1/7.1 |
-| AAC: ADTS and M4A/MP4 | Mono, stereo, 5.1; M4A also 7.1 |
-| AC3 / Dolby Digital; E-AC3 / Dolby Digital Plus | Mono, stereo, 5.1 |
-| Dolby TrueHD; DTS | Mono, stereo, 5.1 |
-| Opus; Vorbis; FLAC; WavPack | Mono, stereo, 5.1, 7.1 |
-| WMA | Mono, stereo |
-
-These codecs are decoded upstream; ARE accepts validated interleaved integer
-PCM and Float32/64 with up to 32 channels. Configure LAV Audio to decode to PCM
-and disable compressed bitstream output when using ARE. Atmos-tagged E-AC3
-plays its decoded channel bed; object metadata and encoded Dolby/DTS/DSD/DoP
-passthrough are outside the PCM/ASIO path. TrueHD fixture coverage reaches 5.1;
-7.1 channel handling is tested independently using the other formats above.
-
-Release checks passed 592 codec/video graph cases across x64/x86 and six clean
-physical ASIO captures. See [validation](VALIDATION.md) for the configurations,
-results and limits.
-
-## Audio processing
-
-| Component | Configuration in this release |
-| --- | --- |
-| [r8brain-free-src 7.6](https://github.com/avaneev/r8brain-free-src) | Default converter; Float64, linear phase, 0.5% transition band, 218 dB stopband design target |
-| [libsoxr 0.1.3](https://github.com/chirlu/soxr) | Optional Sinc converter; Float64, linear phase, 33-bit design precision, passband to 99.8% of Nyquist |
-| Output conversion | Driver-native format in Automatic mode; explicit 16 / 24 / 32-bit PCM choices; TPDF dither when integer quantization is required |
-| Processing model | Conversion on the producer thread, bounded audio queue, lightweight ASIO buffer callback |
-
-The filter design values are configuration targets, rather than measurements of
-the complete device path. Resampling, gain changes and precision reduction alter
-the samples. A lossless path is available when source/device rates and formats are
-compatible, playback is at normal speed and unity volume, and transition processing
-is disabled. ARE renders decoded PCM; compressed bitstream passthrough is unsupported.
-
-## Measured comparison
-
-The measurements below were recorded for version 0.1.0 on a stereo path.
-Version 0.3.0 rate, Apply and compatibility checks are documented in
-[VALIDATION.md](VALIDATION.md); the previous channel checks are retained in
-[the 0.2.0 validation](docs/validation/0.2.0.md).
-
-<!-- measurement:start -->
-**117 live captures** · 13 signals / formats · three output paths · 3 repetitions per case.
-
-Music: **Michael Jackson – Thriller**, 60–72 s from a local lossless stereo file. The same excerpt was tested as 44.1 kHz PCM16 and derived 48/96 kHz PCM24. No music or captured audio is included in the release.
-
-Both actual DirectShow renderers were captured digitally at the same **48 kHz Windows endpoint**. ARE used **FL Studio ASIO** at **44.1 kHz**, with Keep device sample rate enabled, unity renderer volume, automatic output precision and transition smoothing disabled. System/device settings were unchanged between runs. Captures with audio present before the test started are rejected.
-
-Values are medians; small text gives the minimum…maximum across repeated runs. ↑ means higher is better; ↓ means lower is better.
-
-| Input / measurement | Unit | System Default (DirectSound) | ARE / r8brain | ARE / SoX Sinc |
-| --- | --- | ---: | ---: | ---: |
-| Music, aligned waveform SNR, 44.1 kHz / 16-bit | dB ↑ | 55.07<br><sub>55.07…55.07</sub> | 62.34<br><sub>62.34…62.34</sub> | 62.34<br><sub>62.34…62.34</sub> |
-| Music, aligned waveform SNR, 48 kHz / 24-bit | dB ↑ | ≥150<br><sub>analysis floor</sub> | 61.25<br><sub>61.25…61.25</sub> | 62.12<br><sub>62.12…62.12</sub> |
-| Music, aligned waveform SNR, 96 kHz / 24-bit | dB ↑ | 86.15<br><sub>86.15…86.15</sub> | 61.25<br><sub>61.25…61.25</sub> | 62.12<br><sub>62.12…62.12</sub> |
-| 1 kHz, THD+N, 44.1 kHz / 24-bit | dBc ↓ | -118.83<br><sub>-118.83…-118.83</sub> | -111.99<br><sub>-111.99…-111.99</sub> | -111.99<br><sub>-111.99…-111.99</sub> |
-| 1 kHz, THD+N, 48 kHz / 24-bit | dBc ↓ | -127.30<br><sub>-127.30…-127.30</sub> | -112.06<br><sub>-112.06…-112.06</sub> | -112.06<br><sub>-112.06…-112.06</sub> |
-| 1 kHz, THD+N, 96 kHz / 24-bit | dBc ↓ | -131.49<br><sub>-131.49…-131.49</sub> | -112.14<br><sub>-112.14…-112.14</sub> | -112.14<br><sub>-112.14…-112.14</sub> |
-| 31 tones, worst gain deviation, 44.1 kHz / 24-bit | dB ↓ | 0.2571<br><sub>0.2571…0.2571</sub> | 0.0074<br><sub>0.0074…0.0074</sub> | 0.0074<br><sub>0.0074…0.0074</sub> |
-| 31 tones, worst gain deviation, 48 kHz / 24-bit | dB ↓ | 0.0000<br><sub>0.0000…0.0000</sub> | 0.0074<br><sub>0.0074…0.0074</sub> | 0.0074<br><sub>0.0074…0.0074</sub> |
-| 31 tones, worst gain deviation, 96 kHz / 24-bit | dB ↓ | 0.0001<br><sub>0.0001…0.0001</sub> | 0.0074<br><sub>0.0074…0.0074</sub> | 0.0074<br><sub>0.0074…0.0074</sub> |
-| −90 dBFS 1 kHz, THD+N, 96 kHz / 24-bit | dBc ↓ | -60.12<br><sub>-60.12…-60.12</sub> | -61.16<br><sub>-61.16…-61.16</sub> | -61.16<br><sub>-61.16…-61.16</sub> |
-| 1 + 29 kHz, 19 kHz residual, 96 kHz / 24-bit | dBc ↓ | -112.32<br><sub>-112.32…-112.32</sub> | -135.91<br><sub>-135.91…-135.91</sub> | -135.91<br><sub>-135.91…-135.91</sub> |
-| 1 + 29 kHz, 15.1 kHz residual, 96 kHz / 24-bit | dBc ↓ | <−180<br><sub>reporting floor</sub> | -164.45<br><sub>-164.45…-164.45</sub> | -164.45<br><sub>-164.45…-164.45</sub> |
-| 1 + 29 kHz, total residual, 96 kHz / 24-bit | dBc ↓ | -112.24<br><sub>-112.24…-112.24</sub> | -112.09<br><sub>-112.09…-112.09</sub> | -112.09<br><sub>-112.09…-112.09</sub> |
-| L: 1 kHz / R: 1.7 kHz, channel leakage, 48 kHz / 24-bit | dBc ↓ | <−180 | -161.20<br><sub>-161.20…-161.20</sub> | -161.20<br><sub>-161.20…-161.20</sub> |
-| Digital silence, nonzero samples, 48 kHz / 24-bit | samples ↓ | 0 | 0 | 12754 |
-| Digital silence, settled RMS level | dBFS ↓ | digital zero | digital zero | <−180<br><sub>numerical tail</sub> |
-
-| Reliability check | Observed result |
-| --- | ---: |
-| Completed captures | 117/117 |
-| Captured samples at or above digital full scale | 0 |
-| ARE-reported underruns / overloads | 0 / 0 |
-| Loopback discontinuity flags, excluding first packet | 0 |
-| Loopback timestamp error flags | 0 |
-| Pre-test audio / rejected captures | 0 |
-
-Music SNR is measured against a zero-padded Fourier reference after fitting one shared stereo gain and one fractional delay. It is waveform agreement, not a listening score. THD+N includes source quantization, SRC, driver and Windows-path errors. The two paths include different driver resampling stages; these results do not isolate the converter or measure DAC/analog performance.
-
-[Full method, per-run measurements and reproduction](docs/quality/README.md).
-<!-- measurement:end -->
-For the original **44.1 kHz music**, ARE's captured path showed **7.27 dB higher
-waveform agreement** and less multitone gain variation. DirectSound was closer
-to the reference for the derived **48/96 kHz** music, including sample-exact
-48 kHz playback. The 19 kHz ultrasonic residual favored ARE, while total
-residual slightly favored DirectSound. At 44.1 kHz input the ARE converter is
-bypassed; the ASIO driver and Windows bridge are part of these measured results.
+Both operate internally in Float64. Resampling is only used when required by the selected device-rate configuration; otherwise the renderer can keep the original sample rate.
 
 ## Build from source
 
-Install **Visual Studio 2026** with Desktop development with C++, a Windows SDK,
-**[CMake 4.2+](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2018%202026.html)**
-for the supplied presets, and **Python 3** for packaging. All required DSP sources
-and ASIO interface headers are included.
+Install Visual Studio with the **Desktop development with C++** workload, a Windows SDK, CMake, and Python. All required DSP sources and ASIO interface headers are included in the repository.
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Build.ps1
 ```
 
-The script builds and tests both architectures, then writes the two release ZIPs
-to `dist/0.3.0/`. Use `-Architecture x64` or `-Architecture x86` for one build.
-Release binaries use the static MSVC runtime. Both architectures passed all eight
-CTest checks covering PCM precision, conversion, playback rate, transitions,
-the ASIO engine and the DirectShow filter contract.
+Build a single architecture with:
 
-The `tests/` folder is retained because these checks protect audio integrity and
-player integration. Test executables are excluded from release packages. The
-live measurement tool is optional (`-DARE_BUILD_MEASUREMENTS=ON`); its method and
-reproduction commands are in [the measurement documentation](docs/quality/README.md).
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Build.ps1 -Architecture x64
+```
+
+Use `x86` instead for a 32-bit build. Generated packages are written under `dist/`.
+
+For the MPC-HC host patch and build steps, see [`integration/mpc-hc/README.md`](integration/mpc-hc/README.md).
 
 ## License
 
-Original renderer code is **[MIT licensed](LICENSE)**, copyright © 2026 Merserk.
-Third-party sources retain their own licenses. The combined Windows binaries
-are distributed under **GPLv3** because the included Steinberg ASIO SDK headers
-use their GPL option; r8brain is MIT and libsoxr is LGPL-2.1-or-later.
-Complete source and build scripts are provided for rebuilding and relinking.
-The separate MPC-HC compatibility patch is GPL-3.0-or-later.
-See [third-party notices](THIRD_PARTY_NOTICES.md) for the pinned revisions and license texts.
+The original ARE Audio Renderer source is licensed under the [MIT License](LICENSE).
 
+Windows release binaries are distributed under **GPL-3.0** because the included Steinberg ASIO SDK headers use their GPL option. The MPC-HC compatibility patch is GPL-3.0-or-later, and bundled third-party components retain their own licenses.
 
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for details.
