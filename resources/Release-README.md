@@ -1,10 +1,15 @@
-# ARE Audio Renderer 3.1.0
+# ARE Audio Renderer 3.1.1
 
 Use the x64 package for a 64-bit player or x86 for a 32-bit player.
 
 1. Extract the ZIP to a folder and run Install.cmd.
 2. Restart your player and select ARE Audio Renderer as its audio renderer.
 3. Select your ASIO device in ARE-Audio-Renderer-Settings.exe.
+
+Version 3.1.1 fixes Install.cmd/Uninstall.bat under Windows PowerShell.
+Reinstall reuses identical loaded files and installs changed files separately,
+so an open player or settings window does not cause a DLL overwrite error.
+Restart MPC-HC and close older settings windows to load the updated renderer.
 
 Click the gear next to ARE Audio Renderer in MPC-HC's Options > Playback >
 Output. Version 3.1.0 restores this button after official MPC-HC updates without

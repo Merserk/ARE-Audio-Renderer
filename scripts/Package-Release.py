@@ -56,7 +56,7 @@ for arch in (("x64", "x86") if options.architecture == "both" else (options.arch
         raise RuntimeError(f"Missing staged renderer: {package}")
     names = ("ARE-Audio-Renderer.dll", "ARE-Audio-Renderer-Settings.exe",
              "ARE-Audio-Renderer-Control.exe", "Install.cmd", "Install.ps1",
-             "Uninstall.ps1", "Uninstall.bat", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md")
+             "Uninstall.ps1", "Uninstall.bat", "Install-Support.ps1", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md")
     sources = [package / name for name in names]
     sources.extend(sorted((package / "licenses").glob("*")))
     if any(not p.is_file() for p in sources) or not (package / "licenses").is_dir():

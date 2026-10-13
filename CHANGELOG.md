@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.1.1 — 2026-10-13
+
+- Parse the settings helper's Windows command line with CommandLineToArgvW.
+  Windows PowerShell 5.1 could append a space to --mpc-integration, causing
+  3.1.0 to open a settings dialog instead of starting its hidden helper.
+- Reuse byte-identical installed files without writing to loaded DLLs or EXEs.
+  Changed binaries with the same version get a separate payload directory,
+  allowing repair/reinstall while older player/settings instances are open.
+- Wait for hidden helper processes to exit after signalling shutdown; a released
+  mutex alone does not guarantee Windows has unmapped the executable/DLL.
+- Keep open player/settings sessions and saved preferences during uninstall.
+  Explain that loaded files remain until those windows close.
+- Forward CMD/BAT arguments and preserve their PowerShell exit codes. Keep the
+  install console open on failure so its error can be read.
+- Add real Windows PowerShell/CMD installer regressions for locked DLLs,
+  same-version changed payloads, uninstall/reinstall, helper startup and shutdown.
+
 ## 3.1.0 — 2026-10-13
 
 - Restored the ARE settings gear in official MPC-HC after player updates. A

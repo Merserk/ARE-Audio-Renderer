@@ -53,6 +53,12 @@ During playback, open the renderer settings from **Play → Filters → ARE Audi
 To unregister the renderer, stop its helper and remove its Windows startup
 entry, run `Uninstall.bat` from the installed or extracted folder.
 
+**Version 3.1.1 fixes install/uninstall under Windows PowerShell.** Reinstall
+reuses identical loaded files and stages changed binaries separately, so an
+open player or settings window does not cause a DLL overwrite error. Restart
+MPC-HC and close older settings windows to use the updated version. Uninstall
+waits for hidden helpers to exit and retains saved device preferences.
+
 ## Audio behavior
 
 ARE receives decoded PCM from the player's audio decoder and sends it through the selected ASIO path.

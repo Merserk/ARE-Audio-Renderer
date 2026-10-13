@@ -69,7 +69,9 @@ struct Registration {
 struct Watcher {
     PROCESS_INFORMATION process{};
     Watcher(const wchar_t* path) {
-        std::wstring command = L"\"" + std::wstring(path) + L"\" --mpc-integration";
+        // Windows PowerShell's Start-Process can add trailing whitespace.
+        // Quoted flags must also be accepted by the GUI entry point.
+        std::wstring command = L"\"" + std::wstring(path) + L"\" \"--mpc-integration\" \t";
         STARTUPINFOW startup{}; startup.cb = sizeof(startup);
         require(CreateProcessW(path, command.data(), nullptr, nullptr, FALSE, CREATE_NO_WINDOW, nullptr, nullptr, &startup, &process) != FALSE, "helper launch failed");
     }

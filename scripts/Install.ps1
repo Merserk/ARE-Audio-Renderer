@@ -1,66 +1,64 @@
 param([switch]$NoSettings, [switch]$NoMpcIntegration)
 $ErrorActionPreference = 'Stop'
-$dll = Join-Path $PSScriptRoot 'ARE-Audio-Renderer.dll'
-$tool = Join-Path $PSScriptRoot 'ARE-Audio-Renderer-Control.exe'
-if (!(Test-Path -LiteralPath $dll) -or !(Test-Path -LiteralPath $tool)) { throw 'Run this script from an extracted release folder.' }
-$architecture = if ($PSScriptRoot -match '(?:^|[\\/])x86(?:[\\/]|$)') { 'x86' } else { 'x64' }
-# Read the PE machine rather than relying on the extracted folder name.
-$stream = [IO.File]::OpenRead($dll)
-try {
-    $reader = [IO.BinaryReader]::new($stream)
-    $stream.Position = 0x3c
-    $peOffset = $reader.ReadInt32()
-    $stream.Position = $peOffset + 4
-    $machine = $reader.ReadUInt16()
-    $architecture = switch ($machine) { 0x8664 { 'x64' }; 0x014c { 'x86' }; default { throw 'Unsupported DLL architecture.' } }
-} finally { $stream.Dispose() }
+. (Join-Path $PSScriptRoot 'Install-Support.ps1')
+$binaryNames = @('ARE-Audio-Renderer.dll', 'ARE-Audio-Renderer-Settings.exe', 'ARE-Audio-Renderer-Control.exe')
+foreach ($name in $binaryNames) {
+    if (!(Test-Path -LiteralPath (Join-Path $PSScriptRoot $name) -PathType Leaf)) { throw 'Run this script from a complete extracted release folder.' }
+}
+$dll = Join-Path $PSScriptRoot $binaryNames[0]
+$architecture = Get-AreArchitecture $dll
 $version = (Get-Item -LiteralPath $dll).VersionInfo.ProductVersion
 if ($version -notmatch '^\d+\.\d+\.\d+\.\d+$') { throw 'Invalid renderer version.' }
-# A running player can keep the previous DLL loaded until it exits.
-$target = Join-Path $env:LOCALAPPDATA "ARE Audio Renderer\$architecture\$version"
-New-Item -ItemType Directory -Force -Path $target | Out-Null
-# Stop the previous helper before replacing its files. The named event is
-# architecture-specific, so installing x64 leaves an x86 helper running.
-$helperName = 'ARE-Audio-Renderer-Settings.exe'
-$runKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
-$runName = "ARE Audio Renderer MPC-HC $architecture"
-$stopEvent = $null
-try {
-    $stopEvent = [Threading.EventWaitHandle]::OpenExisting("Local\ARE.AudioRenderer.MPC.Integration.Stop.$architecture")
-    $stopEvent.Set() | Out-Null
-} catch [Threading.WaitHandleCannotBeOpenedException] { }
-finally { if ($stopEvent) { $stopEvent.Dispose() } }
-$helperMutexName = "Local\ARE.AudioRenderer.MPC.Integration.$architecture"
-$deadline = [DateTime]::UtcNow.AddSeconds(10)
-do {
-    $oldHelper = $null
-    try { $oldHelper = [Threading.Mutex]::OpenExisting($helperMutexName) }
-    catch [Threading.WaitHandleCannotBeOpenedException] { break }
-    if ($oldHelper) { $oldHelper.Dispose() }
-    if ([DateTime]::UtcNow -ge $deadline) { throw 'Close the ARE settings dialog in MPC-HC, then run the installer again.' }
-    Start-Sleep -Milliseconds 100
-} while ($true)
-foreach ($name in @('ARE-Audio-Renderer.dll', 'ARE-Audio-Renderer-Settings.exe', 'ARE-Audio-Renderer-Control.exe', 'README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'Uninstall.ps1', 'Uninstall.bat')) {
-    $sourceFile = Join-Path $PSScriptRoot $name
-    if (Test-Path -LiteralPath $sourceFile) { Copy-Item -LiteralPath $sourceFile -Destination (Join-Path $target $name) -Force }
+
+function Test-Payload([string]$Folder) {
+    foreach ($name in $binaryNames) {
+        if (!(Test-AreSameFile (Join-Path $PSScriptRoot $name) (Join-Path $Folder $name))) { return $false }
+    }
+    return $true
 }
-if (Test-Path -LiteralPath (Join-Path $PSScriptRoot 'licenses')) {
-    Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'licenses') -Destination $target -Recurse -Force
+
+# A player/property page can retain a DLL after unregistration. Reuse identical
+# binaries; stage different bytes elsewhere instead of overwriting loaded images.
+$versionRoot = Join-Path $env:LOCALAPPDATA "ARE Audio Renderer\$architecture\$version"
+$target = $versionRoot
+if ((Test-Path -LiteralPath $versionRoot) -and !(Test-Payload $versionRoot)) {
+    $hashes = @($binaryNames | ForEach-Object { Get-AreFileHash (Join-Path $PSScriptRoot $_) }) -join ''
+    $digest = [Security.Cryptography.SHA256]::Create()
+    try { $payloadId = -join ($digest.ComputeHash([Text.Encoding]::UTF8.GetBytes($hashes)) | ForEach-Object { $_.ToString('x2') }) }
+    finally { $digest.Dispose() }
+    $target = Join-Path $versionRoot ('build-' + $payloadId.Substring(0,16))
+    if ((Test-Path -LiteralPath $target) -and !(Test-Payload $target)) {
+        $target = Join-Path $versionRoot ('build-' + $payloadId.Substring(0,16) + '-' + [guid]::NewGuid().ToString('N'))
+    }
+}
+Stop-AreIntegration $architecture
+New-Item -ItemType Directory -Force -Path $target | Out-Null
+foreach ($name in @($binaryNames) + @('README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'Uninstall.ps1', 'Uninstall.bat', 'Install-Support.ps1')) {
+    $sourceFile = Join-Path $PSScriptRoot $name
+    if (Test-Path -LiteralPath $sourceFile) { Copy-AreFile $sourceFile (Join-Path $target $name) }
+}
+$sourceLicenses = Join-Path $PSScriptRoot 'licenses'
+if (Test-Path -LiteralPath $sourceLicenses) {
+    $targetLicenses = Join-Path $target 'licenses'
+    New-Item -ItemType Directory -Force -Path $targetLicenses | Out-Null
+    foreach ($file in Get-ChildItem -LiteralPath $sourceLicenses -File) { Copy-AreFile $file.FullName (Join-Path $targetLicenses $file.Name) }
 }
 $installedTool = Join-Path $target 'ARE-Audio-Renderer-Control.exe'
 & $installedTool --install (Join-Path $target 'ARE-Audio-Renderer.dll')
 if ($LASTEXITCODE -ne 0) { throw 'Renderer registration failed.' }
 & $installedTool --verify-installed
 if ($LASTEXITCODE -ne 0) { throw 'Renderer verification failed.' }
+$runKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
+$runName = "ARE Audio Renderer MPC-HC $architecture"
 if ($NoMpcIntegration) {
     if (Test-Path -LiteralPath $runKey) { Remove-ItemProperty -LiteralPath $runKey -Name $runName -ErrorAction SilentlyContinue }
 } else {
     if (!(Test-Path -LiteralPath $runKey)) { New-Item -Path $runKey -Force | Out-Null }
-    $installedHelper = Join-Path $target $helperName
+    $installedHelper = Join-Path $target 'ARE-Audio-Renderer-Settings.exe'
     New-ItemProperty -LiteralPath $runKey -Name $runName -Value ('"' + $installedHelper + '" --mpc-integration') -PropertyType String -Force | Out-Null
     $watcher = Start-Process -FilePath $installedHelper -ArgumentList '--mpc-integration' -WindowStyle Hidden -PassThru
     Start-Sleep -Milliseconds 250
     if ($watcher.HasExited) { throw 'MPC-HC settings integration could not start.' }
 }
-Write-Host "Installed $architecture renderer. Restart MPC-HC, then select ARE Audio Renderer in Options > Playback > Output > Audio Renderer."
+Write-Host "Installed $architecture renderer at $target. Restart MPC-HC to load this version."
 if (!$NoSettings) { & (Join-Path $target 'ARE-Audio-Renderer-Settings.exe') }

@@ -5,12 +5,12 @@ $view = if ($Architecture -eq 'x64') { [Microsoft.Win32.RegistryView]::Registry6
 $base = [Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]::CurrentUser, $view)
 try {
     $key = $base.OpenSubKey('Software\Classes\CLSID\{8A793BA1-CF7E-4F24-939F-288D13CA5787}\InprocServer32')
-    if (!$key) { throw 'Install the matching ARE Audio Renderer 3.1.0 package first.' }
+    if (!$key) { throw 'Install the matching ARE Audio Renderer 3.1.1 package first.' }
     try { $dll = [string]$key.GetValue('') } finally { $key.Dispose() }
 } finally { $base.Dispose() }
 $helper = Join-Path (Split-Path -Parent $dll) 'ARE-Audio-Renderer-Settings.exe'
-if (!(Test-Path -LiteralPath $helper) -or (Get-Item -LiteralPath $helper).VersionInfo.ProductVersion -notmatch '^3\.1\.0\.') {
-    throw 'Install ARE Audio Renderer 3.1.0 to enable version-independent settings integration.'
+if (!(Test-Path -LiteralPath $helper) -or [version](Get-Item -LiteralPath $helper).VersionInfo.ProductVersion -lt [version]'3.1.1.0') {
+    throw 'Install ARE Audio Renderer 3.1.1 to enable version-independent settings integration.'
 }
 $runKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
 if (!(Test-Path -LiteralPath $runKey)) { New-Item -Path $runKey -Force | Out-Null }

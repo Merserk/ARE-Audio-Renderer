@@ -1,12 +1,19 @@
 #include "win/interfaces.hpp"
 #include <commctrl.h>
+#include <shellapi.h>
 #include "tools/mpc_watcher.hpp"
 #include <string_view>
 
 using namespace are::win;
-int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR command, int) {
-    if (std::wstring_view(command) == L"--mpc-integration") return watch_mpc_settings();
-    if (std::wstring_view(command) == L"--stop-mpc-integration") return stop_mpc_settings();
+int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int) {
+    int count{};
+    auto arguments = CommandLineToArgvW(GetCommandLineW(), &count);
+    if (!arguments) return 1;
+    const std::wstring command = count == 2 ? arguments[1] : L"";
+    LocalFree(arguments);
+    if (count == 2 && command == L"--mpc-integration") return watch_mpc_settings();
+    if (count == 2 && command == L"--stop-mpc-integration") return stop_mpc_settings();
+    if (count != 1) return 2;
     const INITCOMMONCONTROLSEX controls{sizeof(INITCOMMONCONTROLSEX),ICC_STANDARD_CLASSES};
     InitCommonControlsEx(&controls);
     const auto com = OleInitialize(nullptr);

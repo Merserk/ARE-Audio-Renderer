@@ -1,4 +1,4 @@
-# MPC-HC settings integration — ARE Audio Renderer 3.1.0
+# MPC-HC settings integration — ARE Audio Renderer 3.1.1
 
 Official MPC-HC enables its Output audio settings gear only for its built-in
 audio renderers. Earlier ARE installations used a patched MPC-HC 2.8.2
@@ -12,6 +12,12 @@ the player executable, inspect machine-code offsets, or whitelist player
 version numbers. Current and older MPC-HC releases with this Output layout
 can use the same renderer package. Official player updates do not replace
 the helper.
+
+Version 3.1.1 fixes helper argument parsing for quoted flags and trailing
+whitespace from Windows PowerShell. The installer reuses identical loaded
+files and places changed binaries in another directory; uninstall waits for
+hidden helper processes to exit. An open player/settings dialog can retain
+its old DLL until it closes, and no longer prevents reinstalling the renderer.
 
 ## Installation and operation
 
