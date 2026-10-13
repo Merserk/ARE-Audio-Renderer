@@ -1,5 +1,6 @@
 #include "win/filter.hpp"
 #include "win/settings.hpp"
+#include "win/mpc_integration.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -105,7 +106,7 @@ STDMETHODIMP Renderer::QueryInterface(REFIID iid, void** out) {
     else return E_NOINTERFACE;
     AddRef(); return S_OK;
 }
-STDMETHODIMP_(ULONG) Renderer::Release() { const auto n = --refs_; if (!n) delete this; return n; }
+STDMETHODIMP_(ULONG) Renderer::Release() { const auto n = release_settings_renderer(this, refs_); if (!n) delete this; return n; }
 STDMETHODIMP Renderer::GetClassID(CLSID* clsid) { if (!clsid) return E_POINTER; *clsid = clsid_renderer; return S_OK; }
 STDMETHODIMP Renderer::Stop() {
     std::lock_guard transition(transition_mutex_);
@@ -179,7 +180,7 @@ STDMETHODIMP Renderer::QueryFilterInfo(FILTER_INFO* info) {
     std::lock_guard lock(info_mutex_); wcsncpy_s(info->achName, name_.c_str(), _TRUNCATE); info->pGraph = graph_; if (graph_) graph_->AddRef(); return S_OK;
 }
 STDMETHODIMP Renderer::JoinFilterGraph(IFilterGraph* graph, LPCWSTR name) {
-    try { std::lock_guard lock(info_mutex_); graph_ = graph; name_ = name ? name : renderer_name; return S_OK; }
+    try { std::lock_guard lock(info_mutex_); update_settings_renderer(this, graph != nullptr); graph_ = graph; name_ = name ? name : renderer_name; return S_OK; }
     catch (...) { return E_OUTOFMEMORY; }
 }
 STDMETHODIMP Renderer::QueryVendorInfo(LPWSTR* vendor) { if (!vendor) return E_POINTER; *vendor = nullptr; return E_NOTIMPL; }

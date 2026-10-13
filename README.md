@@ -30,14 +30,28 @@ ARE Audio Renderer is a DirectShow audio renderer for MPC-HC that sends decoded 
 You need **Windows**, **MPC-HC**, and an **ASIO driver** matching the architecture of MPC-HC.
 
 1. Download the package for your MPC-HC architecture from [Releases](https://github.com/Merserk/ARE-Audio-Renderer/releases).
-2. Prepare a compatible MPC-HC build using the included [compatibility patch](integration/mpc-hc/README.md).
-3. Close MPC-HC, extract the package, and run `Install.cmd`.
-4. Select your ASIO device in the renderer settings and click **Apply**.
-5. Restart MPC-HC, then select **ARE Audio Renderer** under **Options → Playback → Output → Audio Renderer**.
+2. Close MPC-HC, extract the package, and run `Install.cmd`.
+3. Select your ASIO device in the renderer settings and click **Apply**.
+4. Restart MPC-HC, then select **ARE Audio Renderer** under **Options → Playback → Output → Audio Renderer**.
+
+**Version 3.1.0 restores the settings gear after MPC-HC updates.** Click the gear
+next to the selected renderer to open ARE settings. The installer starts a
+per-user helper and registers it for Windows sign-in. It uses the existing
+Windows controls without replacing MPC-HC or checking its release version.
+Allow about one second after opening Output or selecting ARE for the gear to
+activate. During playback the gear opens the active renderer for live status
+and Apply; before playback it configures defaults.
+
+The helper runs silently as `ARE-Audio-Renderer-Settings.exe --mpc-integration`,
+independently for x64 and x86. Use `Install.ps1 -NoMpcIntegration` to omit it.
+Run MPC-HC without administrator elevation so the helper can reach its controls.
+Compatibility depends on MPC-HC retaining its standard Output controls; future
+UI redesigns may need an update. See [integration details](integration/mpc-hc/README.md).
 
 During playback, open the renderer settings from **Play → Filters → ARE Audio Renderer**. You can also use `ARE-Audio-Renderer-Settings.exe` to configure defaults outside the player.
 
-To unregister the renderer, run `Uninstall.bat` from the installed or extracted folder.
+To unregister the renderer, stop its helper and remove its Windows startup
+entry, run `Uninstall.bat` from the installed or extracted folder.
 
 ## Audio behavior
 
@@ -83,7 +97,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Build.ps1 -Architect
 
 Use `x86` instead for a 32-bit build. Generated packages are written under `dist/`.
 
-For the MPC-HC host patch and build steps, see [`integration/mpc-hc/README.md`](integration/mpc-hc/README.md).
+For settings integration and the archived MPC-HC 2.8.2 host patch, see
+[`integration/mpc-hc/README.md`](integration/mpc-hc/README.md).
 
 ## License
 

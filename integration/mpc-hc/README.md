@@ -1,48 +1,62 @@
-# MPC-HC compatibility
+# MPC-HC settings integration — ARE Audio Renderer 3.1.0
 
-The validated host is **MPC-HC 2.8.2**, upstream commit
-[`a84d0cf38a1866f3518bb819c901300dacff5a9b`](https://github.com/clsid2/mpc-hc/tree/a84d0cf38a1866f3518bb819c901300dacff5a9b).
-The player is obtained and built separately from the renderer release.
+Official MPC-HC enables its Output audio settings gear only for its built-in
+audio renderers. Earlier ARE installations used a patched MPC-HC 2.8.2
+executable. An official player update removed that patch and disabled ARE's
+gear, even though the renderer's COM property page was still available.
 
-ARE 0.3.0 uses the same compatibility patch as 0.2.0. The rate/Apply fixes are
-inside the renderer DLL; an already patched player needs no additional rebuild.
+Version 3.1.0 installs a per-user settings helper. It identifies MPC-HC's
+selected **ARE Audio Renderer** combobox and its adjacent Windows button,
+then connects the gear to ARE's property page. It does not replace or patch
+the player executable, inspect machine-code offsets, or whitelist player
+version numbers. Current and older MPC-HC releases with this Output layout
+can use the same renderer package. Official player updates do not replace
+the helper.
 
-With Audio Switcher enabled, unpatched MPC-HC 2.8.2 rejects ARE during pin
-connection because its renderer detection uses connected pins and a CLSID
-whitelist. The included patch recognizes the standard renderer flag. It also
-lets the Output settings button open external COM property pages and finds the
-active renderer before the Filters menu has been opened.
+## Installation and operation
 
-The patch changes four host files; audio processing stays in the ARE DLL.
-Renderer playback and properties were validated with this integration. Other
-MPC-HC versions require a review of their renderer detection and patch context.
+Run the matching release's `Install.cmd`. The installer registers ARE, starts
+`ARE-Audio-Renderer-Settings.exe --mpc-integration`, and adds an architecture-
+specific entry under the current user's Windows Run key. The helper has no
+window or tray icon; x64 and x86 installations run independently. It scans
+visible MPC-HC windows every 750 ms, and installs a thread-specific Windows
+message hook only when ARE's Output controls are present. It leaves other
+renderers' click handlers with MPC-HC.
 
-## Build the compatible host
+After opening Output or selecting ARE, allow about one second for the gear
+to activate. Run MPC-HC at normal user privilege; an unelevated helper cannot
+hook an administrator-elevated player. Restart MPC-HC after upgrading the
+renderer because Windows retains loaded renderer/hook DLLs until player exit.
 
-Install Visual Studio 2026 with Desktop development with C++, **ATL and MFC**,
-a Windows SDK, Git and NASM. The helper defaults to toolset `v145`, detects the
-installed SDK, verifies the pinned source revision and applies the patch once.
-From the ARE source folder:
+The gear opens the ARE renderer attached to the player's graph for live
+status and Apply. Before playback, it creates a configuration instance.
+The helper is separate from ASIO processing and does not change playback
+formats, device preferences, or audio engine settings.
 
-```powershell
-git clone https://github.com/clsid2/mpc-hc.git C:\src\mpc-hc
-git -C C:\src\mpc-hc checkout a84d0cf38a1866f3518bb819c901300dacff5a9b
-git -C C:\src\mpc-hc submodule update --init
-git -C C:\src\mpc-hc\src\thirdparty\LAVFilters\src submodule update --init ffmpeg
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Build-MpcHc.ps1 `
-  -SourceDirectory C:\src\mpc-hc -Architecture x64
-```
+`Install.ps1 -NoMpcIntegration` installs the renderer without the helper.
+`Uninstall.bat` stops it, removes that architecture's Windows startup entry,
+and unregisters ARE. Settings are also available through **Play > Filters >
+ARE Audio Renderer** and the standalone settings executable.
 
-Choose `x86` for a 32-bit player. Use the resulting executable with runtime
-files from official MPC-HC 2.8.2 of the same architecture. The helper only builds
-inside the supplied source directory; it does not replace an installed player.
-Keep a copy of the original executable before manually installing the result.
-An official player update replaces these host changes.
+## Compatibility and validation
 
-## License
+The integration requires standard Windows combobox/button controls and an
+unambiguous adjacent gear. It does not depend on resource IDs, UI language,
+or a specific MPC-HC version. It deliberately skips unfamiliar or ambiguous
+layouts. A future player UI redesign may require an update; compatibility
+with every possible future release cannot be guaranteed.
 
-This patch contains modified MPC-HC code and is **GPL-3.0-or-later**. Upstream
-copyright notices remain in the affected files: Gabest and the MPC-HC authors.
-The GPLv3 text is included in [third_party/ASIO-GPL-3.0.txt](../../third_party/ASIO-GPL-3.0.txt).
-The renderer's original source remains MIT licensed. MPC-HC source, executables
-and runtime codecs are not included in ARE binary ZIPs.
+Regression fixtures exercise both architectures: control discovery, repeated
+idle disabling during a mouse press, keyboard/accessibility clicks, modal
+property pages before playback, active/stale graph instances, selection
+changes, detachment and helper shutdown. See `VALIDATION.md`.
+
+Stop an installed helper with
+`ARE-Audio-Renderer-Settings.exe --stop-mpc-integration` before running the
+integration test fixture locally. Restart it with `--mpc-integration` afterward.
+The test restores prior per-user renderer registration and serializes with
+the other tests that temporarily use renderer preferences.
+
+The old host patch is retained for reference in
+[`legacy-2.8.2.md`](legacy-2.8.2.md). Its build script intentionally checks the
+matching historical source revision; it is not used by the 3.1.0 installer.
