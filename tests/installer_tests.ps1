@@ -19,6 +19,7 @@ function Registered-Dll {
 }
 function Require([bool]$Value, [string]$Reason) { if (!$Value) { throw $Reason } }
 function Run-Wrapper([string]$File, [string]$Arguments = '') {
+    if ((Split-Path -Leaf $File) -eq 'Install.cmd') { $Arguments += ' -NoMpcConfiguration' }
     $start = [Diagnostics.ProcessStartInfo]::new()
     $start.FileName = $env:ComSpec
     $start.Arguments = '/d /s /c ""' + $File + '" ' + $Arguments + '"'

@@ -1,5 +1,6 @@
 #include "win/interfaces.hpp"
 #include "win/mpc_ui.hpp"
+#include "win/dialog_theme.hpp"
 #include "preferences_lock.hpp"
 #include "../resources/resource.h"
 #include <commctrl.h>
@@ -7,11 +8,36 @@
 #include <iostream>
 #include <functional>
 #include <stdexcept>
+#include <fstream>
 
 using namespace are::win;
 void require(bool value, const char* reason) { if (!value) throw std::runtime_error(reason); }
 int forwarded{}, modal_count{};
 std::wstring modal_playback;
+bool test_dark{}, modal_dark{};
+HBRUSH test_dark_brush{};
+COLORREF modal_background{};
+void save_dialog(HWND window,const wchar_t* filename) {
+    RECT rect{}; GetWindowRect(window,&rect);
+    const auto width=rect.right-rect.left, height=rect.bottom-rect.top;
+    BITMAPINFO info{}; info.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
+    info.bmiHeader.biWidth=width; info.bmiHeader.biHeight=-height; info.bmiHeader.biPlanes=1; info.bmiHeader.biBitCount=32;
+    const auto source=GetWindowDC(window), dc=CreateCompatibleDC(source);
+    void* pixels{}; const auto bitmap=CreateDIBSection(source,&info,DIB_RGB_COLORS,&pixels,nullptr,0);
+    if (bitmap) {
+        const auto previous=SelectObject(dc,bitmap);
+        if (PrintWindow(window,dc,0)) {
+            BITMAPFILEHEADER header{}; header.bfType=0x4d42; header.bfOffBits=sizeof(header)+sizeof(BITMAPINFOHEADER);
+            const auto bytes=DWORD(width*height*4); header.bfSize=header.bfOffBits+bytes;
+            std::ofstream output(std::filesystem::path(filename),std::ios::binary);
+            output.write(reinterpret_cast<const char*>(&header),sizeof(header));
+            output.write(reinterpret_cast<const char*>(&info.bmiHeader),sizeof(BITMAPINFOHEADER));
+            output.write(static_cast<const char*>(pixels),bytes);
+        }
+        SelectObject(dc,previous); DeleteObject(bitmap);
+    }
+    DeleteDC(dc); ReleaseDC(window,source);
+}
 BOOL CALLBACK read_page(HWND window, LPARAM) {
     if (auto label = GetDlgItem(window, IDC_PLAYBACK)) {
         wchar_t value[128]{}; GetWindowTextW(label, value, 128); modal_playback = value;
@@ -23,11 +49,20 @@ BOOL CALLBACK close_modal(HWND window, LPARAM owner) {
         SetPropW(window, L"ARE.Test.Closing", reinterpret_cast<HANDLE>(1));
         EnumChildWindows(window, read_page, 0);
         ++modal_count;
+        modal_dark=GetPropW(window,dark_property)!=nullptr;
+        if (modal_count==4) save_dialog(window,L"mpc-settings-dark.bmp");
+        if (modal_count==5) save_dialog(window,L"mpc-settings-light.bmp");
+        const auto dc=GetDC(window);
+        LOGBRUSH brush{};
+        const auto background=reinterpret_cast<HBRUSH>(SendMessageW(window,WM_CTLCOLORDLG,reinterpret_cast<WPARAM>(dc),reinterpret_cast<LPARAM>(window)));
+        if (background && GetObjectW(background,sizeof(brush),&brush)) modal_background=brush.lbColor;
+        ReleaseDC(window,dc);
         PostMessageW(window, WM_COMMAND, IDCANCEL, 0);
     }
     return TRUE;
 }
 LRESULT CALLBACK fixture_proc(HWND window, UINT message, WPARAM wp, LPARAM lp) {
+    if (message==WM_CTLCOLORDLG) return reinterpret_cast<LRESULT>(test_dark ? test_dark_brush : GetSysColorBrush(COLOR_3DFACE));
     if (message == WM_COMMAND) ++forwarded;
     if (message == WM_TIMER) EnumThreadWindows(GetCurrentThreadId(), close_modal, reinterpret_cast<LPARAM>(window));
     return DefWindowProcW(window, message, wp, lp);
@@ -90,6 +125,7 @@ int wmain(int argc, wchar_t** argv) {
         require(!running, "Stop the installed ARE MPC integration helper before running this UI fixture");
         Registration registration(argv[1]);
         const INITCOMMONCONTROLSEX controls{sizeof(controls), ICC_STANDARD_CLASSES}; InitCommonControlsEx(&controls);
+        test_dark_brush=CreateSolidBrush(RGB(32,32,32));
         WNDCLASSW klass{}; klass.lpfnWndProc = fixture_proc; klass.hInstance = GetModuleHandleW(nullptr); klass.lpszClassName = L"ARE.MPC.Test";
         require(RegisterClassW(&klass) != 0, "fixture class failed");
         const auto root = CreateWindowW(klass.lpszClassName, L"MPC integration regression", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 720, 400, nullptr, nullptr, klass.hInstance, nullptr);
@@ -128,6 +164,13 @@ int wmain(int argc, wchar_t** argv) {
             filter.Reset(); graph.Reset();
             SendMessageW(button, WM_KEYUP, VK_SPACE, 0);
             require(modal_count == 3 && modal_playback == L"No playback", "gear retained a stale graph instance");
+            require(!modal_dark,"light player opened dark settings");
+            test_dark=true;
+            SendMessageW(button,BM_CLICK,0,0);
+            require(modal_count==4 && modal_dark && modal_background==DialogTheme::background,"dark player did not open a fully dark settings frame");
+            test_dark=false;
+            SendMessageW(button,BM_CLICK,0,0);
+            require(modal_count==5 && !modal_dark,"theme changes were not followed on reopen");
             SendMessageW(combo, CB_SETCURSEL, 1, 0); EnableWindow(button, FALSE);
             require(!IsWindowEnabled(button), "integration changed another renderer's gear");
             SendMessageW(page, WM_COMMAND, MAKEWPARAM(9854, BN_CLICKED), reinterpret_cast<LPARAM>(button));
@@ -143,6 +186,7 @@ int wmain(int argc, wchar_t** argv) {
         const auto duplicate = CreateWindowW(L"BUTTON", L"Other", WS_CHILD | WS_VISIBLE, input.right + 45, input.top, 28, input.bottom - input.top, page, nullptr, klass.hInstance, nullptr);
         require(!mpc::settings_button(combo), "ambiguous layout was accepted");
         DestroyWindow(duplicate); DestroyWindow(root);
+        DeleteObject(test_dark_brush);
         std::cout << "MPC settings integration: discovery, repeated disable, modal click, active graph, detach, reselect, shutdown and ambiguous layout passed.\n";
     } catch (const std::exception& error) { std::cerr << error.what() << '\n'; result = 1; }
     OleUninitialize(); return result;

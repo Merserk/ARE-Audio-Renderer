@@ -1,6 +1,7 @@
-param([switch]$NoSettings, [switch]$NoMpcIntegration)
+param([switch]$NoSettings, [switch]$NoMpcIntegration, [switch]$NoMpcConfiguration, [string]$MpcHcPath = '')
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'Install-Support.ps1')
+. (Join-Path $PSScriptRoot 'MpcHc-Compatibility.ps1')
 $binaryNames = @('ARE-Audio-Renderer.dll', 'ARE-Audio-Renderer-Settings.exe', 'ARE-Audio-Renderer-Control.exe')
 foreach ($name in $binaryNames) {
     if (!(Test-Path -LiteralPath (Join-Path $PSScriptRoot $name) -PathType Leaf)) { throw 'Run this script from a complete extracted release folder.' }
@@ -9,6 +10,7 @@ $dll = Join-Path $PSScriptRoot $binaryNames[0]
 $architecture = Get-AreArchitecture $dll
 $version = (Get-Item -LiteralPath $dll).VersionInfo.ProductVersion
 if ($version -notmatch '^\d+\.\d+\.\d+\.\d+$') { throw 'Invalid renderer version.' }
+if (!$NoMpcConfiguration) { Assert-AreMpcClosed }
 
 function Test-Payload([string]$Folder) {
     foreach ($name in $binaryNames) {
@@ -33,7 +35,7 @@ if ((Test-Path -LiteralPath $versionRoot) -and !(Test-Payload $versionRoot)) {
 }
 Stop-AreIntegration $architecture
 New-Item -ItemType Directory -Force -Path $target | Out-Null
-foreach ($name in @($binaryNames) + @('README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'Uninstall.ps1', 'Uninstall.bat', 'Install-Support.ps1')) {
+foreach ($name in @($binaryNames) + @('README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'Uninstall.ps1', 'Uninstall.bat', 'Install-Support.ps1', 'MpcHc-Compatibility.ps1')) {
     $sourceFile = Join-Path $PSScriptRoot $name
     if (Test-Path -LiteralPath $sourceFile) { Copy-AreFile $sourceFile (Join-Path $target $name) }
 }
@@ -48,6 +50,7 @@ $installedTool = Join-Path $target 'ARE-Audio-Renderer-Control.exe'
 if ($LASTEXITCODE -ne 0) { throw 'Renderer registration failed.' }
 & $installedTool --verify-installed
 if ($LASTEXITCODE -ne 0) { throw 'Renderer verification failed.' }
+if (!$NoMpcConfiguration) { Set-AreMpcCompatibility $MpcHcPath }
 $runKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
 $runName = "ARE Audio Renderer MPC-HC $architecture"
 if ($NoMpcIntegration) {
@@ -56,9 +59,9 @@ if ($NoMpcIntegration) {
     if (!(Test-Path -LiteralPath $runKey)) { New-Item -Path $runKey -Force | Out-Null }
     $installedHelper = Join-Path $target 'ARE-Audio-Renderer-Settings.exe'
     New-ItemProperty -LiteralPath $runKey -Name $runName -Value ('"' + $installedHelper + '" --mpc-integration') -PropertyType String -Force | Out-Null
-    $watcher = Start-Process -FilePath $installedHelper -ArgumentList '--mpc-integration' -WindowStyle Hidden -PassThru
+    $watcher = Start-Process -FilePath $installedHelper -WorkingDirectory $target -ArgumentList '--mpc-integration' -WindowStyle Hidden -PassThru
     Start-Sleep -Milliseconds 250
     if ($watcher.HasExited) { throw 'MPC-HC settings integration could not start.' }
 }
 Write-Host "Installed $architecture renderer at $target. Restart MPC-HC to load this version."
-if (!$NoSettings) { & (Join-Path $target 'ARE-Audio-Renderer-Settings.exe') }
+if (!$NoSettings) { Start-Process -FilePath (Join-Path $target 'ARE-Audio-Renderer-Settings.exe') -WorkingDirectory $target -Wait }

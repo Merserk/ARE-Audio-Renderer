@@ -1,3 +1,0 @@
-x64: identical DLL lock and uninstall/reinstall passed.
-x64: changed same-version binary with the old DLL locked passed.
-x64: CMD flag forwarding, hidden helper startup, real process exit and installed-folder uninstall passed.

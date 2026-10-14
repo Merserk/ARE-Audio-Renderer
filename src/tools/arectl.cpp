@@ -58,9 +58,12 @@ int show_settings() {
     ComPtr<IBaseFilter> filter;
     auto hr = CoCreateInstance(clsid_renderer, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(filter.GetAddressOf()));
     if (FAILED(hr)) return report(hr, L"Install ARE Audio Renderer before opening settings");
-    IUnknown* object = filter.Get();
-    auto page_clsid = clsid_settings_page;
-    hr = OleCreatePropertyFrame(nullptr, 0, 0, renderer_name, 1, &object, 1, &page_clsid, 0, 0, nullptr);
+    wchar_t path[32768]{}; GetModuleFileNameW(nullptr,path,DWORD(std::size(path)));
+    const auto dll=std::filesystem::path(path).parent_path()/L"ARE-Audio-Renderer.dll";
+    Library library(dll.c_str());
+    using Show=HRESULT(WINAPI*)(HWND,IUnknown*);
+    const auto show=library.module ? reinterpret_cast<Show>(GetProcAddress(library.module,"AREShowSettings")) : nullptr;
+    hr=show ? show(nullptr,filter.Get()) : E_NOINTERFACE;
     return report(hr, L"Could not open settings");
 }
 void print_status(const EngineStatus& s) {
@@ -69,7 +72,7 @@ void print_status(const EngineStatus& s) {
         s.output_latency_frames, s.delivered_frames, s.underruns, s.overloads, s.detail);
 }
 void help() {
-    std::wcout << LR"(ARE Audio Renderer 3.1.1
+    std::wcout << LR"(ARE Audio Renderer 0.3.1
   ARE-Audio-Renderer-Control.exe --devices
   ARE-Audio-Renderer-Control.exe --settings
   ARE-Audio-Renderer-Control.exe --install <absolute DLL path>

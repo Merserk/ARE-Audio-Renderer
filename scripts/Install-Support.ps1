@@ -35,7 +35,7 @@ function Stop-AreIntegration([string]$Architecture) {
         # The known 3.1.0 parser bug can leave a hidden configuration process
         # whose MainWindowHandle is also zero. It does not own the helper event.
         $helperVersion = [version](Get-Item -LiteralPath $item.ExecutablePath).VersionInfo.ProductVersion
-        if ($helperVersion -lt [version]'3.1.1.0' -and $item.CommandLine -notmatch '\s--mpc-integration$') { continue }
+        if ($helperVersion -eq [version]'3.1.0.0' -and $item.CommandLine -notmatch '\s--mpc-integration$') { continue }
         $process = $null
         try { $process = [Diagnostics.Process]::GetProcessById([int]$item.ProcessId) }
         catch [ArgumentException] { continue }

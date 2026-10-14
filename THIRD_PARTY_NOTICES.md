@@ -16,7 +16,6 @@ include the third-party license texts and copyright notices in `licenses/`.
 | r8brain-free-src 7.6, Aleksey Vaneev / Voxengo | `cb2abb9977efe2471979b380ed95daa56ab4fdb9` | MIT; `third_party/r8brain/LICENSE` |
 | libsoxr 0.1.3, Rob Sykes | `945b592b70470e29f917f4de89b4281fbbd540c0` | LGPL-2.1-or-later; `third_party/soxr/COPYING.LGPL` and `LICENCE` |
 | Ooura FFT / PFFFT / FFTPACK | Upstream sources retained above | Notices in `third_party/r8brain/OOURA-FFT-NOTICE.txt` and `third_party/soxr-build/FFT-NOTICES.txt` |
-| MPC-HC compatibility patch | MPC-HC 2.8.2, `a84d0cf38a1866f3518bb819c901300dacff5a9b` | GPL-3.0-or-later; `integration/mpc-hc/README.md`; full GPL text in `third_party/ASIO-GPL-3.0.txt` |
 
 The current CMake adapter builds libsoxr without modifying its DSP sources.
 Source for the statically linked library and the renderer is included so users

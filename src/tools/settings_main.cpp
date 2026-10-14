@@ -3,6 +3,7 @@
 #include <shellapi.h>
 #include "tools/mpc_watcher.hpp"
 #include <string_view>
+#include <filesystem>
 
 using namespace are::win;
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int) {
@@ -23,8 +24,13 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int) {
         ComPtr<IBaseFilter> filter;
         result = CoCreateInstance(clsid_renderer,nullptr,CLSCTX_INPROC_SERVER,IID_PPV_ARGS(filter.GetAddressOf()));
         if (SUCCEEDED(result)) {
-            IUnknown* object = filter.Get(); auto page = clsid_settings_page;
-            result = OleCreatePropertyFrame(nullptr,0,0,renderer_name,1,&object,1,&page,0,0,nullptr);
+            wchar_t path[32768]{}; GetModuleFileNameW(nullptr,path,DWORD(std::size(path)));
+            const auto dll=std::filesystem::path(path).parent_path()/L"ARE-Audio-Renderer.dll";
+            const auto module=LoadLibraryExW(dll.c_str(),nullptr,LOAD_WITH_ALTERED_SEARCH_PATH);
+            using Show=HRESULT(WINAPI*)(HWND,IUnknown*);
+            const auto show=module ? reinterpret_cast<Show>(GetProcAddress(module,"AREShowSettings")) : nullptr;
+            result=show ? show(nullptr,filter.Get()) : E_NOINTERFACE;
+            if (module) FreeLibrary(module);
         }
         if (FAILED(result)) MessageBoxW(nullptr,L"Could not open settings. Install ARE Audio Renderer for this player architecture first.",renderer_name,MB_OK);
     }

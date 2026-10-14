@@ -1,1 +1,0 @@
-Installer lifecycle: clean install, same-version x64 reinstall with unchanged x86 helper PID, x86 uninstall/startup cleanup, renderer-only opt-out, and restoring both helpers passed.

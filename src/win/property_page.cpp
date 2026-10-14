@@ -150,7 +150,7 @@ void SettingsPage::refresh_status() {
     else if (status.playing) state = L"Playing";
     else state = L"Starting";
     if (status.opened) state += std::format(L" \u00b7 {:g}\u00d7",speed);
-    if (status.opened && live.settings_pending && status.driver_name[0]) state += std::format(L" \u00b7 {}",status.driver_name);
+    if (status.opened && status.driver_name[0]) state += std::format(L" \u00b7 {}",status.driver_name);
     status_text(window_, IDC_PLAYBACK, state);
     status_text(window_, IDC_INPUT_FORMAT, format_text(live.input));
     status_text(window_, IDC_OUTPUT_FORMAT, live.mixed_output ? L"Mixed formats" : conversion.pcm_bits && conversion.pcm_bits!=live.output.valid_bits
@@ -180,7 +180,7 @@ void SettingsPage::refresh_status() {
     if (FAILED(status.error)) text = std::format(L"Error 0x{:08X}: {}", UINT(status.error), status.detail);
     else if (!apply_message_.empty() && apply_message_ != L"Settings saved.") text = apply_message_;
     else if (live.settings_pending) text = L"Settings saved. Click Apply to restart the audio engine.";
-    else if (!live.in_graph) text = L"Open settings during playback in MPC-HC to see output details.";
+    else if (!live.in_graph) text = L"No active ARE playback. If media is playing, select ARE output and disable MPC-HC's internal Audio Switcher.";
     else if (!status.opened) text = L"Start playback to see output details.";
     else if (!signal_available) text=L"Processing status unavailable.";
     else {
@@ -258,10 +258,13 @@ INT_PTR CALLBACK SettingsPage::dialog_proc(HWND window, UINT message, WPARAM wp,
     auto* page = reinterpret_cast<SettingsPage*>(GetWindowLongPtrW(window, GWLP_USERDATA));
     if (message == WM_INITDIALOG) {
         page = reinterpret_cast<SettingsPage*>(lp); page->window_ = window; SetWindowLongPtrW(window, GWLP_USERDATA, lp);
+        page->theme_=std::make_unique<DialogTheme>(dialog_is_dark(GetParent(window)));
+        page->theme_->initialize(window);
         try { page->initialize(); SetTimer(window, 1, 500, nullptr); } catch (...) { SetDlgItemTextW(window, IDC_STATUS, L"Could not enumerate ASIO devices."); }
         return TRUE;
     }
     if (!page) return FALSE;
+    if (page->theme_) if (const auto handled=page->theme_->message(window,message,wp,lp)) return *handled;
     try {
         if (message == WM_TIMER) { page->refresh_status(); return TRUE; }
         if (message == WM_COMMAND) {

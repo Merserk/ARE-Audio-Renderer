@@ -56,7 +56,7 @@ for arch in (("x64", "x86") if options.architecture == "both" else (options.arch
         raise RuntimeError(f"Missing staged renderer: {package}")
     names = ("ARE-Audio-Renderer.dll", "ARE-Audio-Renderer-Settings.exe",
              "ARE-Audio-Renderer-Control.exe", "Install.cmd", "Install.ps1",
-             "Uninstall.ps1", "Uninstall.bat", "Install-Support.ps1", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md")
+             "Uninstall.ps1", "Uninstall.bat", "Install-Support.ps1", "MpcHc-Compatibility.ps1", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md")
     sources = [package / name for name in names]
     sources.extend(sorted((package / "licenses").glob("*")))
     if any(not p.is_file() for p in sources) or not (package / "licenses").is_dir():
@@ -66,13 +66,12 @@ for arch in (("x64", "x86") if options.architecture == "both" else (options.arch
     archive(f"ARE-Audio-Renderer-{version}-{arch}.zip", files)
 
 if options.include_source:
-    names = ("CMakeLists.txt", "CMakePresets.json", "README.md", "CHANGELOG.md",
-             "VALIDATION.md", "SOURCE.txt", "LICENSE", "THIRD_PARTY_NOTICES.md",
+    names = ("CMakeLists.txt", "CMakePresets.json", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md",
              ".gitignore", ".editorconfig")
     sources = [root / name for name in names if (root / name).is_file()]
-    for directory in ("src", "resources", "scripts", "tests", "third_party", "integration", "docs", ".github"):
+    for directory in ("src", "resources", "scripts", "tests", "third_party", ".github"):
         sources.extend(sorted(p for p in (root / directory).rglob("*")
-                              if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"))
+                              if p.is_file() and "__pycache__" not in p.parts and "results" not in p.relative_to(root).parts and p.suffix != ".pyc"))
     files = [(p, f"ARE-Audio-Renderer-{version}-source/" + p.relative_to(root).as_posix()) for p in sources]
     archive(f"ARE-Audio-Renderer-{version}-source.zip", files)
 

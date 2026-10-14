@@ -1,11 +1,15 @@
 #include "win/mpc_integration.hpp"
 #include "win/mpc_ui.hpp"
 #include "win/filter.hpp"
+#include "win/settings_frame.hpp"
+#include "win/dialog_theme.hpp"
+#include "win/mpc_diagnostics.hpp"
 #include <commctrl.h>
 #include <mutex>
 #include <vector>
 
 namespace are::win {
+void write_mpc_diagnostic(DWORD caller) noexcept;
 namespace {
 std::mutex renderers_mutex;
 std::vector<Renderer*> renderers;
@@ -82,9 +86,7 @@ LRESULT CALLBACK page_proc(HWND window, UINT message, WPARAM wp, LPARAM lp, UINT
             try {
                 auto filter = settings_renderer();
                 if (!filter) filter.Attach(new Renderer);
-                IUnknown* object = filter.Get(); auto page = clsid_settings_page;
-                result = OleCreatePropertyFrame(GetAncestor(window, GA_ROOT), 0, 0,
-                    renderer_name, 1, &object, 1, &page, 0, 0, nullptr);
+                result = show_settings_frame(GetAncestor(window, GA_ROOT),filter.Get(),dialog_is_dark(window));
             } catch (...) { result = E_OUTOFMEMORY; }
             OleUninitialize();
         }
@@ -137,6 +139,12 @@ ComPtr<IBaseFilter> settings_renderer() {
 extern "C" LRESULT CALLBACK AREMpcSettingsHook(int code, WPARAM wp, LPARAM lp) {
     if (code == HC_ACTION && lp) {
         const auto& message = *reinterpret_cast<const CWPSTRUCT*>(lp);
+        if (message.message==RegisterWindowMessageW(are::win::mpc::diagnostic_message)) {
+            wchar_t path[32768]{}; GetModuleFileNameW(nullptr,path,DWORD(std::size(path)));
+            const auto* name=wcsrchr(path,L'\\'); name=name ? name+1 : path;
+            if (!_wcsicmp(name,L"mpc-hc64.exe") || !_wcsicmp(name,L"mpc-hc.exe"))
+                are::win::write_mpc_diagnostic(DWORD(message.wParam));
+        }
         if (message.message == RegisterWindowMessageW(are::win::mpc::attach_message) && message.lParam) {
             wchar_t path[32768]{}; GetModuleFileNameW(nullptr, path, DWORD(std::size(path)));
             const auto* name = wcsrchr(path, L'\\'); name = name ? name + 1 : path;

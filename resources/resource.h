@@ -1,5 +1,7 @@
 #pragma once
 #define IDD_SETTINGS 101
+#define IDD_SETTINGS_FRAME 102
+#define ID_APPLY 100
 #define IDC_DEVICE 1001
 #define IDC_CHANNEL 1002
 #define IDC_BUFFER 1003

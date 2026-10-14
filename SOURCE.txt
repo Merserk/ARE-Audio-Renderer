@@ -1,4 +1,0 @@
-Renderer source is maintained in this project (src/, resources/, scripts/, tests/, and third_party/).
-Binary release ZIPs contain the renderer, settings tools, installers, documentation, and licenses.
-The 3.1.1 source ZIP also includes complete buildable source, vendored dependencies, settings-button integration, historical player patches, and text validation evidence.
-MPC-HC is distributed separately; see integration/mpc-hc/README.md for version-independent settings integration and archived host builds.

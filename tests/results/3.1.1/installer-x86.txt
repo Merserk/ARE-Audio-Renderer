@@ -1,3 +1,0 @@
-x86: identical DLL lock and uninstall/reinstall passed.
-x86: changed same-version binary with the old DLL locked passed.
-x86: CMD flag forwarding, hidden helper startup, real process exit and installed-folder uninstall passed.

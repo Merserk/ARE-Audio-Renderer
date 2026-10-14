@@ -2,7 +2,6 @@
 from pathlib import Path
 import argparse
 import hashlib
-import json
 import os
 import re
 import struct
@@ -17,7 +16,7 @@ version = re.search(r"project\(ASIORenderEngine VERSION (\d+\.\d+\.\d+)",
                     (root / "CMakeLists.txt").read_text(encoding="utf-8")).group(1)
 release = args.output_dir or root / "dist" / version
 staging = args.staging_dir or root / "out" / "package"
-records = []
+verified = set()
 for line in (release / "SHA256SUMS.txt").read_text(encoding="ascii").splitlines():
     digest, name = line.split("  ", 1)
     assert Path(name).name == name and name.startswith(f"ARE-Audio-Renderer-{version}-"), name
@@ -47,27 +46,22 @@ for line in (release / "SHA256SUMS.txt").read_text(encoding="ascii").splitlines(
                 assert struct.unpack_from("<H", data, offset + 4)[0] == (0x8664 if architecture == "x64" else 0x014c), relative
                 assert (version + ".0").encode("utf-16-le") in data, relative
         if architecture == "source":
-            required = ("CMakeLists.txt", "README.md", "CHANGELOG.md", "VALIDATION.md", "SOURCE.txt",
+            required = ("CMakeLists.txt", "CMakePresets.json", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md",
                         "src/win/filter.cpp", "src/win/interfaces.hpp", "src/win/property_page.cpp",
-                        "tests/filter_tests.cpp", "tests/live_reconfigure_smoke.cpp",
+                        "tests/filter_tests.cpp", "tests/installer_tests.ps1",
                         "third_party/asio/common/asio.h", "third_party/r8brain/CDSPResampler.h",
                         "third_party/soxr/src/soxr.c", "third_party/soxr-build/CMakeLists.txt")
             assert all(prefix + item in entries for item in required), name
         else:
             required = ("ARE-Audio-Renderer.dll", "ARE-Audio-Renderer-Settings.exe", "ARE-Audio-Renderer-Control.exe",
-                        "Install.cmd", "Install.ps1", "Uninstall.bat", "Uninstall.ps1", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md")
+                        "Install.cmd", "Install.ps1", "Install-Support.ps1", "MpcHc-Compatibility.ps1",
+                        "Uninstall.bat", "Uninstall.ps1", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md",
+                        "licenses/ARE-MIT.txt", "licenses/ASIO-SDK.txt", "licenses/r8brain-MIT.txt",
+                        "licenses/OOURA-FFT-NOTICE.txt", "licenses/SoX-LGPL-2.1.txt", "licenses/LICENCE", "licenses/FFT-NOTICES.txt")
             assert all(prefix + item in entries for item in required), name
             assert "GNU GENERAL PUBLIC LICENSE" in archive.read(prefix + "LICENSE").decode(), name
             assert version in archive.read(prefix + "README.md").decode(), name
-        records.append({"file": name, "sha256": digest, "bytes": path.stat().st_size,
-                        "entries": len(entries), "checks_passed": True})
+        verified.add(name)
     print(f"{name}: SHA-256, CRC, contents, architecture and version verified.")
-assert len(records) == 3 and {record["file"] for record in records} == {
+assert verified == {
     f"ARE-Audio-Renderer-{version}-{architecture}.zip" for architecture in ("x64", "x86", "source")}
-report = {"version": version, "all_passed": True, "archives": records}
-evidence = root / "tests" / "results" / version / "release-validation.json"
-if evidence.is_file():
-    validation = json.loads(evidence.read_text(encoding="utf-8"))
-    assert validation["version"] == version and validation["all_passed"], "Release tests failed"
-    report["release_validation"] = validation
-(release / f"VERIFIED-{version}.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

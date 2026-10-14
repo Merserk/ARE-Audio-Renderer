@@ -1,6 +1,7 @@
 #pragma once
 #include "win/devices.hpp"
 #include "win/interfaces.hpp"
+#include "win/dialog_theme.hpp"
 
 namespace are::win {
 class SettingsPage final : public IPropertyPage {
@@ -41,5 +42,6 @@ private:
     HWND window_{};
     bool dirty_{};
     bool loading_{};
+    std::unique_ptr<DialogTheme> theme_;
 };
 } // namespace are::win
