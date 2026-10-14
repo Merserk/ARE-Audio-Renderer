@@ -13,10 +13,16 @@
 using namespace are::win;
 void require(bool value, const char* reason) { if (!value) throw std::runtime_error(reason); }
 int forwarded{}, modal_count{};
+void idle_update(HWND button) {
+    // MPC-HC's command UI handler targets its audio gear's resource ID. An
+    // external renderer command has no internal update handler.
+    if (GetDlgCtrlID(button) == 9854) EnableWindow(button, FALSE);
+}
 std::wstring modal_playback;
 bool test_dark{}, modal_dark{};
 HBRUSH test_dark_brush{};
 COLORREF modal_background{};
+HWND destroy_page_during_modal{};
 void save_dialog(HWND window,const wchar_t* filename) {
     RECT rect{}; GetWindowRect(window,&rect);
     const auto width=rect.right-rect.left, height=rect.bottom-rect.top;
@@ -57,13 +63,14 @@ BOOL CALLBACK close_modal(HWND window, LPARAM owner) {
         const auto background=reinterpret_cast<HBRUSH>(SendMessageW(window,WM_CTLCOLORDLG,reinterpret_cast<WPARAM>(dc),reinterpret_cast<LPARAM>(window)));
         if (background && GetObjectW(background,sizeof(brush),&brush)) modal_background=brush.lbColor;
         ReleaseDC(window,dc);
+        if (destroy_page_during_modal) DestroyWindow(std::exchange(destroy_page_during_modal, nullptr));
         PostMessageW(window, WM_COMMAND, IDCANCEL, 0);
     }
     return TRUE;
 }
 LRESULT CALLBACK fixture_proc(HWND window, UINT message, WPARAM wp, LPARAM lp) {
     if (message==WM_CTLCOLORDLG) return reinterpret_cast<LRESULT>(test_dark ? test_dark_brush : GetSysColorBrush(COLOR_3DFACE));
-    if (message == WM_COMMAND) ++forwarded;
+    if (message == WM_COMMAND && HIWORD(wp) == BN_CLICKED) ++forwarded;
     if (message == WM_TIMER) EnumThreadWindows(GetCurrentThreadId(), close_modal, reinterpret_cast<LPARAM>(window));
     return DefWindowProcW(window, message, wp, lp);
 }
@@ -115,6 +122,26 @@ struct Watcher {
         if (process.hProcess) { WaitForSingleObject(process.hProcess, 7000); CloseHandle(process.hProcess); CloseHandle(process.hThread); }
     }
 };
+DWORD WINAPI small_stack_hook(void* data) {
+    const auto library = static_cast<HMODULE>(data);
+    const auto callback = reinterpret_cast<HOOKPROC>(GetProcAddress(library, "AREMpcSettingsHook"));
+    if (!callback) return ERROR_PROC_NOT_FOUND;
+    const auto window = CreateWindowW(L"STATIC", L"", 0, 0, 0, 0, 0, HWND_MESSAGE, nullptr, GetModuleHandleW(nullptr), nullptr);
+    if (!window) return ERROR_INVALID_WINDOW_HANDLE;
+    const auto hook = SetWindowsHookExW(WH_CALLWNDPROC, callback, library, GetCurrentThreadId());
+    if (!hook) { DestroyWindow(window); return ERROR_INVALID_HOOK_HANDLE; }
+    for (int i = 0; i < 100; ++i) SendMessageW(window, WM_NULL, 0, 0);
+    UnhookWindowsHookEx(hook); DestroyWindow(window);
+    return ERROR_SUCCESS;
+}
+void check_hook_stack(HMODULE library) {
+    // The 0.3.1 hook reserved over 64 KiB even for unrelated messages. Exercise
+    // the real Windows callback on a UI thread with only a 64 KiB reservation.
+    Handle thread(CreateThread(nullptr, 64 * 1024, small_stack_hook, library, STACK_SIZE_PARAM_IS_A_RESERVATION, nullptr));
+    require(thread && WaitForSingleObject(thread.get(), 10000) == WAIT_OBJECT_0, "small-stack hook thread failed");
+    DWORD result{};
+    require(GetExitCodeThread(thread.get(), &result) && result == ERROR_SUCCESS, "small-stack hook callback failed");
+}
 int wmain(int argc, wchar_t** argv) {
     if (argc != 3) return 2;
     if (FAILED(OleInitialize(nullptr))) return 1;
@@ -125,6 +152,7 @@ int wmain(int argc, wchar_t** argv) {
         require(!running, "Stop the installed ARE MPC integration helper before running this UI fixture");
         Registration registration(argv[1]);
         const INITCOMMONCONTROLSEX controls{sizeof(controls), ICC_STANDARD_CLASSES}; InitCommonControlsEx(&controls);
+        check_hook_stack(registration.library);
         test_dark_brush=CreateSolidBrush(RGB(32,32,32));
         WNDCLASSW klass{}; klass.lpfnWndProc = fixture_proc; klass.hInstance = GetModuleHandleW(nullptr); klass.lpszClassName = L"ARE.MPC.Test";
         require(RegisterClassW(&klass) != 0, "fixture class failed");
@@ -142,11 +170,11 @@ int wmain(int argc, wchar_t** argv) {
         {
             Watcher watcher(argv[2]);
             pump_until([&] { return IsWindowEnabled(button) && GetPropW(page, mpc::binding_property); }, "disabled gear was not enabled");
-            for (int i = 0; i < 10; ++i) EnableWindow(button, FALSE);
+            for (int i = 0; i < 10; ++i) idle_update(button);
             require(IsWindowEnabled(button) != FALSE, "MPC command updates disabled ARE gear again");
             SetTimer(root, 1, 100, nullptr);
             SendMessageW(button, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(5, 5));
-            for (int i = 0; i < 10; ++i) EnableWindow(button, FALSE);
+            for (int i = 0; i < 10; ++i) idle_update(button);
             require(modal_count == 0, "idle disable completed an unfinished mouse press");
             SendMessageW(button, WM_LBUTTONUP, 0, MAKELPARAM(5, 5));
             if (modal_count != 1 || modal_playback != L"No playback" || forwarded != 0)
@@ -162,6 +190,8 @@ int wmain(int argc, wchar_t** argv) {
             require(modal_count == 2 && modal_playback == L"No audio", "gear opened a separate instance instead of the active graph renderer");
             require(SUCCEEDED(graph->RemoveFilter(filter.Get())), "graph detach failed");
             filter.Reset(); graph.Reset();
+            SendMessageW(button, WM_KEYDOWN, VK_SPACE, 0);
+            for (int i = 0; i < 10; ++i) idle_update(button);
             SendMessageW(button, WM_KEYUP, VK_SPACE, 0);
             require(modal_count == 3 && modal_playback == L"No playback", "gear retained a stale graph instance");
             require(!modal_dark,"light player opened dark settings");
@@ -171,7 +201,15 @@ int wmain(int argc, wchar_t** argv) {
             test_dark=false;
             SendMessageW(button,BM_CLICK,0,0);
             require(modal_count==5 && !modal_dark,"theme changes were not followed on reopen");
-            SendMessageW(combo, CB_SETCURSEL, 1, 0); EnableWindow(button, FALSE);
+            SendMessageW(button, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(5, 5));
+            for (int i = 0; i < 100; ++i) idle_update(button);
+            SendMessageW(button, WM_CANCELMODE, 0, 0);
+            require(GetCapture() != button && !(SendMessageW(button, BM_GETSTATE, 0, 0) & BST_PUSHED), "native press was not cancelled");
+            SendMessageW(button, WM_LBUTTONUP, 0, MAKELPARAM(-10, -10));
+            require(modal_count == 5, "native click cancellation was bypassed");
+            SendMessageW(combo, CB_SETCURSEL, 1, 0);
+            SendMessageW(page, WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(combo), CBN_SELCHANGE), reinterpret_cast<LPARAM>(combo));
+            idle_update(button);
             require(!IsWindowEnabled(button), "integration changed another renderer's gear");
             SendMessageW(page, WM_COMMAND, MAKEWPARAM(9854, BN_CLICKED), reinterpret_cast<LPARAM>(button));
             require(forwarded == 1, "another renderer's click was intercepted");
@@ -185,9 +223,17 @@ int wmain(int argc, wchar_t** argv) {
         // Future/ambiguous layouts must be left alone instead of choosing a wrong button.
         const auto duplicate = CreateWindowW(L"BUTTON", L"Other", WS_CHILD | WS_VISIBLE, input.right + 45, input.top, 28, input.bottom - input.top, page, nullptr, klass.hInstance, nullptr);
         require(!mpc::settings_button(combo), "ambiguous layout was accepted");
-        DestroyWindow(duplicate); DestroyWindow(root);
+        DestroyWindow(duplicate);
+        {
+            Watcher watcher(argv[2]);
+            pump_until([&] { return GetPropW(page, mpc::binding_property) != nullptr; }, "reopening integration failed");
+            destroy_page_during_modal = page;
+            SendMessageW(button, BM_CLICK, 0, 0);
+            require(!IsWindow(page) && modal_count == 6, "destroying the Output page during properties failed");
+        }
+        DestroyWindow(root);
         DeleteObject(test_dark_brush);
-        std::cout << "MPC settings integration: discovery, repeated disable, modal click, active graph, detach, reselect, shutdown and ambiguous layout passed.\n";
+        std::cout << "MPC settings integration: small hook stack, native mouse/keyboard clicks, idle updates, modal page, active graph, theme, detach, reselect, shutdown and ambiguous layout passed.\n";
     } catch (const std::exception& error) { std::cerr << error.what() << '\n'; result = 1; }
     OleUninitialize(); return result;
 }

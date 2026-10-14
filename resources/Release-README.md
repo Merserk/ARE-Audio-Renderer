@@ -1,4 +1,4 @@
-# ARE Audio Renderer 0.3.1
+# ARE Audio Renderer 0.3.2
 
 1. Extract the ZIP matching your player: x64 for mpc-hc64.exe, x86 for mpc-hc.exe.
 2. Close MPC-HC and run Install.cmd. Select your ASIO device in the settings.
@@ -20,6 +20,10 @@ ARE properties follow the player's actual dark/light dialog colours. Standalone
 settings use MPC-HC's saved MPCTheme preference. During playback the gear opens
 the active renderer; standalone settings configure the next opened instance.
 Apply in the active page restarts audio while preserving position and paused state.
+
+Version 0.3.2 fixes the Options crash caused by the integration hook's large
+stack frame. The gear uses native button clicks and avoids recursive enable
+updates during the player's idle processing.
 
 Install.cmd and Uninstall.bat work with Windows PowerShell. Identical loaded
 files are reused; changed binaries are staged elsewhere, avoiding DLL overwrite
