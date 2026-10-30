@@ -1,4 +1,55 @@
 # Shared by install/uninstall. Compatible with Windows PowerShell 5.1.
+function Get-AreIntegrationTaskName([string]$Architecture) {
+    $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+    return "ARE Audio Renderer MPC-HC $Architecture $sid"
+}
+
+function Remove-AreIntegrationTask([string]$Architecture) {
+    $scheduler = New-Object -ComObject Schedule.Service
+    $scheduler.Connect()
+    $folder = $scheduler.GetFolder('\')
+    $name = Get-AreIntegrationTaskName $Architecture
+    $task = $null
+    try { $task = $folder.GetTask($name) }
+    catch { if ($_.Exception.HResult -ne -2147024894) { throw }; return } # file not found
+    # Disable first so a recovery trigger cannot race uninstall/reinstall.
+    $task.Enabled = $false
+    $folder.DeleteTask($name, 0)
+}
+
+function Register-AreIntegrationTask([string]$Architecture, [string]$HelperPath) {
+    $scheduler = New-Object -ComObject Schedule.Service
+    $scheduler.Connect()
+    $task = $scheduler.NewTask(0)
+    $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+    $task.RegistrationInfo.Description = 'Keep the ARE settings gear available after player updates and recover if the settings helper exits.'
+    $task.Principal.UserId = $sid
+    $task.Principal.LogonType = 3 # interactive token; no stored password or elevation
+    $task.Principal.RunLevel = 0
+    $task.Settings.MultipleInstances = 2 # ignore new while already running
+    $task.Settings.DisallowStartIfOnBatteries = $false
+    $task.Settings.StopIfGoingOnBatteries = $false
+    $task.Settings.ExecutionTimeLimit = 'PT0S'
+    $task.Settings.StartWhenAvailable = $true
+    $task.Settings.AllowDemandStart = $true
+    $task.Settings.RestartInterval = 'PT1M'
+    $task.Settings.RestartCount = 3
+    $task.Settings.Hidden = $false # keep the recovery task visible/manageable
+    $logon = $task.Triggers.Create(9)
+    $logon.UserId = $sid
+    # Run entries only start at sign-in and provide no recovery when an updater
+    # or another process closes the helper. Retry without depending on any
+    # player path, version, resource ID or executable modification.
+    $retry = $task.Triggers.Create(1)
+    $retry.StartBoundary = (Get-Date).AddMinutes(1).ToString('yyyy-MM-ddTHH:mm:ss')
+    $retry.Repetition.Interval = 'PT1M'
+    $action = $task.Actions.Create(0)
+    $action.Path = $HelperPath
+    $action.Arguments = '--mpc-integration'
+    $action.WorkingDirectory = Split-Path -Parent $HelperPath
+    $scheduler.GetFolder('\').RegisterTaskDefinition((Get-AreIntegrationTaskName $Architecture), $task, 6, $sid, $null, 3) | Out-Null
+}
+
 function Get-AreArchitecture([string]$DllPath) {
     $stream = [IO.File]::OpenRead($DllPath)
     try {

@@ -12,17 +12,19 @@
 
 using namespace are::win;
 void require(bool value, const char* reason) { if (!value) throw std::runtime_error(reason); }
-int forwarded{}, modal_count{};
+int forwarded{}, modal_count{}, idle_button_id{9854};
 void idle_update(HWND button) {
     // MPC-HC's command UI handler targets its audio gear's resource ID. An
     // external renderer command has no internal update handler.
-    if (GetDlgCtrlID(button) == 9854) EnableWindow(button, FALSE);
+    if (GetDlgCtrlID(button) == idle_button_id) EnableWindow(button, FALSE);
 }
 std::wstring modal_playback;
 bool test_dark{}, modal_dark{};
 HBRUSH test_dark_brush{};
 COLORREF modal_background{};
 HWND destroy_page_during_modal{};
+HWND latency_page{}, latency_button{};
+bool painted_disabled{};
 void save_dialog(HWND window,const wchar_t* filename) {
     RECT rect{}; GetWindowRect(window,&rect);
     const auto width=rect.right-rect.left, height=rect.bottom-rect.top;
@@ -69,6 +71,8 @@ BOOL CALLBACK close_modal(HWND window, LPARAM owner) {
     return TRUE;
 }
 LRESULT CALLBACK fixture_proc(HWND window, UINT message, WPARAM wp, LPARAM lp) {
+    if (message == WM_PAINT && window == latency_page &&
+        (!IsWindowEnabled(latency_button) || !GetPropW(window, mpc::binding_property))) painted_disabled = true;
     if (message==WM_CTLCOLORDLG) return reinterpret_cast<LRESULT>(test_dark ? test_dark_brush : GetSysColorBrush(COLOR_3DFACE));
     if (message == WM_COMMAND && HIWORD(wp) == BN_CLICKED) ++forwarded;
     if (message == WM_TIMER) EnumThreadWindows(GetCurrentThreadId(), close_modal, reinterpret_cast<LPARAM>(window));
@@ -130,7 +134,11 @@ DWORD WINAPI small_stack_hook(void* data) {
     if (!window) return ERROR_INVALID_WINDOW_HANDLE;
     const auto hook = SetWindowsHookExW(WH_CALLWNDPROC, callback, library, GetCurrentThreadId());
     if (!hook) { DestroyWindow(window); return ERROR_INVALID_HOOK_HANDLE; }
+    const auto returned = reinterpret_cast<HOOKPROC>(GetProcAddress(library, "AREMpcSettingsReturnHook"));
+    const auto return_hook = returned ? SetWindowsHookExW(WH_CALLWNDPROCRET, returned, library, GetCurrentThreadId()) : nullptr;
+    if (returned && !return_hook) { UnhookWindowsHookEx(hook); DestroyWindow(window); return ERROR_INVALID_HOOK_HANDLE; }
     for (int i = 0; i < 100; ++i) SendMessageW(window, WM_NULL, 0, 0);
+    if (return_hook) UnhookWindowsHookEx(return_hook);
     UnhookWindowsHookEx(hook); DestroyWindow(window);
     return ERROR_SUCCESS;
 }
@@ -142,7 +150,55 @@ void check_hook_stack(HMODULE library) {
     DWORD result{};
     require(GetExitCodeThread(thread.get(), &result) && result == ERROR_SUCCESS, "small-stack hook callback failed");
 }
+int discovery_child() {
+    try {
+        const INITCOMMONCONTROLSEX controls{sizeof(controls), ICC_STANDARD_CLASSES}; InitCommonControlsEx(&controls);
+        WNDCLASSW klass{}; klass.lpfnWndProc = fixture_proc; klass.hInstance = GetModuleHandleW(nullptr);
+        klass.lpszClassName = L"ARE.MPC.ColdStart.Test";
+        require(RegisterClassW(&klass) != 0, "cold-start fixture class failed");
+        const auto start = GetTickCount64();
+        const auto root = CreateWindowW(klass.lpszClassName, L"New player discovery", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+            100, 100, 720, 400, nullptr, nullptr, klass.hInstance, nullptr);
+        require(root != nullptr, "cold-start root failed");
+        pump_until([&] { return GetPropW(root, mpc::watching_property) != nullptr; }, "new player was not discovered");
+        // No second helper is launched in this process. The running helper must
+        // find a genuinely new PID/thread through its Windows event listener.
+        const auto elapsed = GetTickCount64() - start;
+        require(elapsed < 700, "new-player discovery still waits for periodic scanning");
+        const auto page = CreateWindowW(klass.lpszClassName, L"Output", WS_CHILD, 0, 0, 680, 300,
+            root, nullptr, klass.hInstance, nullptr);
+        const auto combo = CreateWindowW(L"COMBOBOX", L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
+            30, 110, 500, 150, page, reinterpret_cast<HMENU>(120), klass.hInstance, nullptr);
+        SendMessageW(combo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(renderer_name));
+        SendMessageW(combo, CB_SETCURSEL, 0, 0);
+        RECT input{}; GetWindowRect(combo, &input); MapWindowPoints(nullptr, page, reinterpret_cast<POINT*>(&input), 2);
+        const auto button = CreateWindowW(L"BUTTON", L"", WS_CHILD | WS_VISIBLE | WS_DISABLED | BS_PUSHBUTTON,
+            input.right + 12, input.top, 28, input.bottom - input.top, page, reinterpret_cast<HMENU>(121), klass.hInstance, nullptr);
+        latency_page = page; latency_button = button;
+        ShowWindow(page, SW_SHOWNOACTIVATE);
+        require(IsWindowEnabled(button) && GetPropW(page, mpc::binding_property), "new player's first Output page waited for polling");
+        InvalidateRect(page, nullptr, FALSE); UpdateWindow(page);
+        require(!painted_disabled, "new player's first Output paint had a disabled gear");
+        DestroyWindow(root);
+        return 0;
+    } catch (const std::exception& error) { std::cerr << error.what() << '\n'; return 1; }
+}
+void check_new_player() {
+    std::wstring path(32768, L'\0');
+    const auto length = GetModuleFileNameW(nullptr, path.data(), DWORD(path.size()));
+    require(length && length < path.size(), "fixture executable path unavailable"); path.resize(length);
+    auto command = L"\"" + path + L"\" --discovery-child";
+    STARTUPINFOW startup{}; startup.cb = sizeof(startup);
+    PROCESS_INFORMATION child{};
+    require(CreateProcessW(path.c_str(), command.data(), nullptr, nullptr, FALSE, CREATE_NO_WINDOW,
+        nullptr, nullptr, &startup, &child) != FALSE, "new-player fixture launch failed");
+    Handle process(child.hProcess), thread(child.hThread);
+    pump_until([&] { return WaitForSingleObject(process.get(), 0) == WAIT_OBJECT_0; }, "new-player fixture did not finish");
+    DWORD result{};
+    require(GetExitCodeProcess(process.get(), &result) && result == 0, "new-player event discovery/first-paint regression failed");
+}
 int wmain(int argc, wchar_t** argv) {
+    if (argc == 2 && !wcscmp(argv[1], L"--discovery-child")) return discovery_child();
     if (argc != 3) return 2;
     if (FAILED(OleInitialize(nullptr))) return 1;
     int result{};
@@ -215,7 +271,8 @@ int wmain(int argc, wchar_t** argv) {
             require(forwarded == 1, "another renderer's click was intercepted");
             pump_until([&] { return !GetPropW(page, mpc::binding_property); }, "selection change did not detach integration");
             SendMessageW(combo, CB_SETCURSEL, 0, 0);
-            pump_until([&] { return GetPropW(page, mpc::binding_property) != nullptr; }, "reselecting ARE did not restore gear");
+            require(GetPropW(page, mpc::binding_property) != nullptr && IsWindowEnabled(button),
+                "reselecting ARE still waits for the helper discovery interval");
             Handle stop(OpenEventW(EVENT_MODIFY_STATE, FALSE, mpc::stop_name)); require(stop && SetEvent(stop.get()), "stop event unavailable");
             pump_until([&] { return WaitForSingleObject(watcher.process.hProcess, 0) == WAIT_OBJECT_0; }, "helper shutdown failed");
             require(!GetPropW(page, mpc::binding_property) && !IsWindowEnabled(button), "shutdown did not restore original gear state");
@@ -230,10 +287,55 @@ int wmain(int argc, wchar_t** argv) {
             destroy_page_during_modal = page;
             SendMessageW(button, BM_CLICK, 0, 0);
             require(!IsWindow(page) && modal_count == 6, "destroying the Output page during properties failed");
+            // Recreate the Output controls with the IDs used by a later player
+            // release while the helper remains running. No version/ID table
+            // may be required to rediscover or open the new settings gear.
+            const auto sheet = CreateWindowW(klass.lpszClassName, L"Options", WS_CHILD,
+                0, 0, 680, 300, root, nullptr, klass.hInstance, nullptr);
+            const auto replacement = CreateWindowW(klass.lpszClassName, L"Ausgabe", WS_CHILD | WS_VISIBLE,
+                0, 0, 680, 300, sheet, nullptr, klass.hInstance, nullptr);
+            const auto new_combo = CreateWindowW(L"COMBOBOX", L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
+                30, 110, 500, 150, replacement, reinterpret_cast<HMENU>(22063), klass.hInstance, nullptr);
+            SendMessageW(new_combo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(renderer_name));
+            SendMessageW(new_combo, CB_SETCURSEL, 0, 0);
+            RECT new_input{}; GetWindowRect(new_combo, &new_input);
+            MapWindowPoints(nullptr, replacement, reinterpret_cast<POINT*>(&new_input), 2);
+            idle_button_id = 11121;
+            const auto new_button = CreateWindowW(L"BUTTON", L"", WS_CHILD | WS_VISIBLE | WS_DISABLED | BS_PUSHBUTTON,
+                new_input.right + 12, new_input.top, 28, new_input.bottom - new_input.top,
+                replacement, reinterpret_cast<HMENU>(INT_PTR(idle_button_id)), klass.hInstance, nullptr);
+            // Simulate a binding owned by a retained older DLL, using a pointer
+            // that must never be dereferenced or detached by the new module.
+            SetPropW(replacement, mpc::binding_property, reinterpret_cast<HANDLE>(1));
+            ShowWindow(sheet, SW_SHOWNOACTIVATE);
+            require(!IsWindowEnabled(new_button) && GetPropW(replacement, mpc::binding_property) == reinterpret_cast<HANDLE>(1),
+                "integration replaced or dereferenced another DLL's binding");
+            RemovePropW(replacement, mpc::binding_property);
+            ShowWindow(sheet, SW_HIDE);
+            latency_page = replacement; latency_button = new_button; painted_disabled = false;
+            LARGE_INTEGER start{}, finish{}, frequency{};
+            QueryPerformanceFrequency(&frequency); QueryPerformanceCounter(&start);
+            ShowWindow(sheet, SW_SHOWNOACTIVATE);
+            QueryPerformanceCounter(&finish);
+            // Do not pump messages or wait for a helper scan. The gear must be
+            // usable before ShowWindow returns and before the first paint.
+            require(IsWindowEnabled(new_button) && GetPropW(replacement, mpc::binding_property),
+                "the gear still waits for helper polling after Output is shown");
+            InvalidateRect(replacement, nullptr, FALSE); UpdateWindow(replacement);
+            require(!painted_disabled, "the first Output paint displayed a disabled gear");
+            std::cout << "Output show + synchronous gear attachment: "
+                << 1000.0 * double(finish.QuadPart - start.QuadPart) / double(frequency.QuadPart) << " ms (no polling wait).\n";
+            for (int i = 0; i < 10; ++i) idle_update(new_button);
+            require(IsWindowEnabled(new_button) != FALSE, "changed control ID disabled the new gear");
+            SendMessageW(new_button, BM_CLICK, 0, 0);
+            require(modal_count == 7, "settings failed after Output controls were recreated with changed IDs");
+            latency_page = nullptr; latency_button = nullptr;
+            DestroyWindow(sheet);
+            check_new_player();
         }
         DestroyWindow(root);
         DeleteObject(test_dark_brush);
-        std::cout << "MPC settings integration: small hook stack, native mouse/keyboard clicks, idle updates, modal page, active graph, theme, detach, reselect, shutdown and ambiguous layout passed.\n";
+        std::cout << "MPC settings integration: small hook stack, native mouse/keyboard clicks, idle updates, modal page, active graph, theme, detach, reselect, shutdown, recreated controls, changed IDs and ambiguous layout passed.\n";
     } catch (const std::exception& error) { std::cerr << error.what() << '\n'; result = 1; }
     OleUninitialize(); return result;
 }

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(ASIORenderEngine VERSION 0.3.2 LANGUAGES C CXX)
+project(ASIORenderEngine VERSION 0.3.4 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -99,10 +99,20 @@ if(BUILD_TESTING)
     endif()
     set_target_properties(mpc_integration_tests PROPERTIES OUTPUT_NAME ${mpc_fixture_name}
       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/mpc-integration-fixture")
-    add_test(NAME mpc_settings_button_integration COMMAND mpc_integration_tests $<TARGET_FILE:ASIORenderEngine> $<TARGET_FILE:ASIORenderSettings>)
+    add_test(NAME mpc_settings_button_integration COMMAND powershell.exe -NoProfile -ExecutionPolicy Bypass
+      -File "${CMAKE_CURRENT_SOURCE_DIR}/tests/run_mpc_integration_tests.ps1"
+      -Fixture $<TARGET_FILE:mpc_integration_tests> -Dll $<TARGET_FILE:ASIORenderEngine> -Helper $<TARGET_FILE:ASIORenderSettings>)
     set_tests_properties(mpc_settings_button_integration PROPERTIES TIMEOUT 40 RUN_SERIAL TRUE)
     add_test(NAME mpc_hc_profile_compatibility COMMAND powershell.exe -NoProfile -ExecutionPolicy Bypass -File "${CMAKE_CURRENT_SOURCE_DIR}/tests/mpc_compatibility_tests.ps1" -TestDirectory "${CMAKE_CURRENT_BINARY_DIR}/compatibility-tests")
     set_tests_properties(mpc_hc_profile_compatibility PROPERTIES TIMEOUT 30)
+    add_test(NAME stage_installer_test_package COMMAND ${CMAKE_COMMAND} --install "${CMAKE_CURRENT_BINARY_DIR}"
+      --config $<CONFIG> --prefix "${CMAKE_CURRENT_BINARY_DIR}/installer-package")
+    set_tests_properties(stage_installer_test_package PROPERTIES FIXTURES_SETUP installer_package)
+    add_test(NAME mpc_helper_recovery_installation COMMAND powershell.exe -NoProfile -ExecutionPolicy Bypass
+      -File "${CMAKE_CURRENT_SOURCE_DIR}/tests/installer_tests.ps1"
+      -PackageDirectory "${CMAKE_CURRENT_BINARY_DIR}/installer-package"
+      -TestDirectory "${CMAKE_CURRENT_BINARY_DIR}/installer-tests")
+    set_tests_properties(mpc_helper_recovery_installation PROPERTIES FIXTURES_REQUIRED installer_package TIMEOUT 180 RUN_SERIAL TRUE)
     add_executable(mpc_live_probe tests/mpc_live_probe.cpp)
     target_link_libraries(mpc_live_probe PRIVATE are_platform)
     add_test(NAME directshow_filter_contract COMMAND filter_tests $<TARGET_FILE:ASIORenderEngine> $<TARGET_FILE:fake_asio_driver>)

@@ -5,4 +5,5 @@ EXPORTS
     DllRegisterServer PRIVATE
     DllUnregisterServer PRIVATE
     AREMpcSettingsHook PRIVATE
+    AREMpcSettingsReturnHook PRIVATE
     AREShowSettings PRIVATE

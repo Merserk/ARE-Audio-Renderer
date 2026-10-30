@@ -33,6 +33,7 @@ if ((Test-Path -LiteralPath $versionRoot) -and !(Test-Payload $versionRoot)) {
         $target = Join-Path $versionRoot ('build-' + $payloadId.Substring(0,16) + '-' + [guid]::NewGuid().ToString('N'))
     }
 }
+Remove-AreIntegrationTask $architecture
 Stop-AreIntegration $architecture
 New-Item -ItemType Directory -Force -Path $target | Out-Null
 foreach ($name in @($binaryNames) + @('README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'Uninstall.ps1', 'Uninstall.bat', 'Install-Support.ps1', 'MpcHc-Compatibility.ps1')) {
@@ -58,6 +59,7 @@ if ($NoMpcIntegration) {
 } else {
     if (!(Test-Path -LiteralPath $runKey)) { New-Item -Path $runKey -Force | Out-Null }
     $installedHelper = Join-Path $target 'ARE-Audio-Renderer-Settings.exe'
+    Register-AreIntegrationTask $architecture $installedHelper
     New-ItemProperty -LiteralPath $runKey -Name $runName -Value ('"' + $installedHelper + '" --mpc-integration') -PropertyType String -Force | Out-Null
     $watcher = Start-Process -FilePath $installedHelper -WorkingDirectory $target -ArgumentList '--mpc-integration' -WindowStyle Hidden -PassThru
     Start-Sleep -Milliseconds 250

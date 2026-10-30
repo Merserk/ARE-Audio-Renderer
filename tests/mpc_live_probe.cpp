@@ -1,8 +1,26 @@
 #include "win/mpc_diagnostics.hpp"
+#include "win/mpc_ui.hpp"
 #include <iostream>
 #include <filesystem>
 using namespace are::win;
 struct Target { DWORD pid{}; HWND window{}; DWORD thread{}; };
+BOOL CALLBACK dump_window(HWND window, LPARAM data) {
+    DWORD process{}; const auto thread = GetWindowThreadProcessId(window, &process);
+    if (process != DWORD(data)) return TRUE;
+    wchar_t name[128]{}; GetClassNameW(window, name, 128);
+    const bool combo = mpc::class_is(window, L"ComboBox");
+    if (!GetParent(window) || combo || mpc::class_is(window, L"Button") || mpc::class_is(window, L"#32770"))
+        std::wcout << std::format(L"window={:X} parent={:X} thread={} class={} visible={} enabled={} watching={} binding={} owner={:X} selected={} gear={:X}\n",
+            UINT_PTR(window), UINT_PTR(GetParent(window)), thread, name, IsWindowVisible(window) != FALSE, IsWindowEnabled(window) != FALSE,
+            GetPropW(window, mpc::watching_property) != nullptr, GetPropW(window, mpc::binding_property) != nullptr,
+            UINT_PTR(GetPropW(window, mpc::binding_owner_property)), combo && mpc::selected(window), UINT_PTR(combo ? mpc::settings_button(window) : nullptr));
+    return TRUE;
+}
+BOOL CALLBACK dump_player(HWND window, LPARAM data) {
+    DWORD process{}; GetWindowThreadProcessId(window, &process);
+    if (process == DWORD(data)) { dump_window(window, data); EnumChildWindows(window, dump_window, data); }
+    return TRUE;
+}
 BOOL CALLBACK find_player(HWND window,LPARAM data) {
     auto& target=*reinterpret_cast<Target*>(data); DWORD pid{};
     const auto thread=GetWindowThreadProcessId(window,&pid);
@@ -12,6 +30,7 @@ BOOL CALLBACK find_player(HWND window,LPARAM data) {
 }
 int wmain(int argc,wchar_t** argv) {
     if (argc<3) return 2;
+    if (!wcscmp(argv[1], L"--windows")) { EnumWindows(dump_player, std::wcstoul(argv[2], nullptr, 10)); return 0; }
     Target target{std::wcstoul(argv[1],nullptr,10)}; EnumWindows(find_player,reinterpret_cast<LPARAM>(&target));
     if (!target.window) { std::wcerr << L"Player main window not found.\n"; return 1; }
     const auto dll=LoadLibraryExW(argv[2],nullptr,LOAD_WITH_ALTERED_SEARCH_PATH);

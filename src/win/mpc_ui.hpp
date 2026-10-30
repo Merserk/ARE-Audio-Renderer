@@ -6,6 +6,9 @@
 namespace are::win::mpc {
 inline constexpr wchar_t attach_message[] = L"ARE.AudioRenderer.MPC.Settings.Attach.v1";
 inline constexpr wchar_t binding_property[] = L"ARE.AudioRenderer.MPC.Settings.Binding.v1";
+inline constexpr wchar_t binding_owner_property[] = L"ARE.AudioRenderer.MPC.Settings.BindingOwner.v1";
+inline constexpr wchar_t discover_message[] = L"ARE.AudioRenderer.MPC.Settings.Discover.v1";
+inline constexpr wchar_t watching_property[] = L"ARE.AudioRenderer.MPC.Settings.Watching.v1";
 #ifdef _WIN64
 inline constexpr wchar_t mutex_name[] = L"Local\\ARE.AudioRenderer.MPC.Integration.x64";
 inline constexpr wchar_t stop_name[] = L"Local\\ARE.AudioRenderer.MPC.Integration.Stop.x64";

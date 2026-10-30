@@ -6,6 +6,7 @@ $tool = Join-Path $PSScriptRoot 'ARE-Audio-Renderer-Control.exe'
 $dll = Join-Path $PSScriptRoot 'ARE-Audio-Renderer.dll'
 if (!(Test-Path -LiteralPath $tool) -or !(Test-Path -LiteralPath $dll)) { throw 'Run this script from the installed or extracted release folder.' }
 $architecture = Get-AreArchitecture $dll
+Remove-AreIntegrationTask $architecture
 Stop-AreIntegration $architecture
 $runKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
 if (Test-Path -LiteralPath $runKey) {
