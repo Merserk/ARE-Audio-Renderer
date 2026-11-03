@@ -34,14 +34,6 @@ You need **Windows**, **MPC-HC**, and an **ASIO driver** matching the architectu
 3. Select your ASIO device in the renderer settings and click **Apply**.
 4. Restart MPC-HC, then select **ARE Audio Renderer** under **Options → Playback → Output → Audio Renderer**.
 
-**Version 3.1.0 restores the settings gear after MPC-HC updates.** Click the gear
-next to the selected renderer to open ARE settings. The installer starts a
-per-user helper and registers it for Windows sign-in. It uses the existing
-Windows controls without replacing MPC-HC or checking its release version.
-Allow about one second after opening Output or selecting ARE for the gear to
-activate. During playback the gear opens the active renderer for live status
-and Apply; before playback it configures defaults.
-
 The helper runs silently as `ARE-Audio-Renderer-Settings.exe --mpc-integration`,
 independently for x64 and x86. Use `Install.ps1 -NoMpcIntegration` to omit it.
 Run MPC-HC without administrator elevation so the helper can reach its controls.
@@ -52,12 +44,6 @@ During playback, open the renderer settings from **Play → Filters → ARE Audi
 
 To unregister the renderer, stop its helper and remove its Windows startup
 entry, run `Uninstall.bat` from the installed or extracted folder.
-
-**Version 3.1.1 fixes install/uninstall under Windows PowerShell.** Reinstall
-reuses identical loaded files and stages changed binaries separately, so an
-open player or settings window does not cause a DLL overwrite error. Restart
-MPC-HC and close older settings windows to use the updated version. Uninstall
-waits for hidden helpers to exit and retains saved device preferences.
 
 ## Audio behavior
 
